@@ -1,0 +1,23 @@
+application: endpoint-project-1076
+version: 1
+runtime: python27
+threadsafe: true
+api_version: 1
+
+handlers:
+# Endpoints handler
+- url: /js
+  static_dir: static/js
+- url: /bootstrap
+  static_dir: static/bootstrap
+- url: /
+  static_files: templates/index.html
+  upload: templates/index\.html
+- url: /_ah/spi/.*
+  script: helloworld_api.APPLICATION
+
+libraries:
+- name: pycrypto
+  version: latest
+- name: endpoints
+  version: 1.0
