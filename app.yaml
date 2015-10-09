@@ -13,6 +13,15 @@ handlers:
 - url: /
   static_files: templates/index.html
   upload: templates/index\.html
+- url: /match
+  static_files: templates/match.html
+  upload: templates/match\.html
+- url: /correlate
+  static_files: templates/correlate.html
+  upload: templates/correlate\.html
+- url: /oddmanout
+  static_files: templates/oddmanout.html
+  upload: templates/oddmanout\.html
 - url: /_ah/spi/.*
   script: helloworld_api.APPLICATION
 
