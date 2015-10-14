@@ -8,6 +8,10 @@ import endpoints
 from protorpc import messages
 from protorpc import message_types
 from protorpc import remote
+from google.appengine.ext import ndb
+
+# import pprint
+from apiclient.discovery import build
 
 WEB_CLIENT_ID = '141815902829-9brrjl3uhogcqhnl111uvm9u556op701.apps.googleusercontent.com'
 ANDROID_CLIENT_ID = '141815902829-g950g3rrmjef0v5op1ggj5aq9oauuoj2.apps.googleusercontent.com'
@@ -15,6 +19,19 @@ IOS_CLIENT_ID = 'replace this with your iOS client ID'
 ANDROID_AUDIENCE = WEB_CLIENT_ID
 
 package = 'Hello'
+
+# Build a service object for interacting with the API. Visit
+  # the Google APIs Console <http://code.google.com/apis/console>
+  # to get an API key for your own application.
+service = build("customsearch", "v1",
+          developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
+
+# Image model which has a title, whether it is the correct answer or not, and the image
+class Image(ndb.Model):
+    """Sub model for representing an author."""
+    identity = ndb.StringProperty(indexed=False)
+    correct = ndb.BooleanProperty()
+    image = ndb.BlobProperty()
 
 class Greeting(messages.Message):
 	"""Greeting that stores a message"""

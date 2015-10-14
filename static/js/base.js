@@ -89,6 +89,7 @@ google.appengine.samples.hello.getGreeting = function(id) {
       function(resp) {
         if (!resp.code) {
           google.appengine.samples.hello.print(resp);
+          // console.log("Inside getGreeting in base.js!");
         }
       });
 };
