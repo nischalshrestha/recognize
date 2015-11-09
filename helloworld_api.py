@@ -20,11 +20,32 @@ ANDROID_AUDIENCE = WEB_CLIENT_ID
 
 package = 'Hello'
 
-# Build a service object for interacting with the API. Visit
+# Insert function to create a Game
+
+# Function to perform query, parse JSON, retrieve distinct Image and storing into a Level
+def queryM():
+  # Build a service object for interacting with the API. Visit
   # the Google APIs Console <http://code.google.com/apis/console>
   # to get an API key for your own application.
-service = build("customsearch", "v1",
-          developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
+  service = build("customsearch", "v1",
+            developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
+  res = service.cse().list(
+        q='cat',
+        cx='008947772147471846402:fdhywbjbitw',
+        num='3',
+        imgColorType='color',
+        imgSize='medium', 
+        safe='high'
+        rights='cc_publicdomain'
+      ).execute()
+
+    # TODO: parse JSON, create Level with the Image(s)
+
+# Game model which contains Level models
+# class Game(ndb.Model):
+
+# Level model which has Image models
+# class Level(ndb.Model):
 
 # Image model which has a title, whether it is the correct answer or not, and the image
 class Image(ndb.Model):
@@ -33,13 +54,14 @@ class Image(ndb.Model):
     correct = ndb.BooleanProperty()
     image = ndb.BlobProperty()
 
+# Tutorial stuff below
 class Greeting(messages.Message):
 	"""Greeting that stores a message"""
 	message = messages.StringField(1)
 
 class GreetingCollection(messages.Message):
 	"""Collection of Greetings."""
-	items = messages.MessageField(Greeting, 1, repeated=True)
+	items = messages.MessageField(Greeting, 1, repeated=True) 
 
 STORED_GREETINGS = GreetingCollection(items=[
 	Greeting(message='hello world!'),
@@ -95,6 +117,5 @@ class HelloWorldApi(remote.Service):
     return Greeting(message='hello %s' % (email,))
 
 APPLICATION = endpoints.api_server([HelloWorldApi])
-
 
 
