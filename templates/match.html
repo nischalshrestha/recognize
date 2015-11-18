@@ -47,11 +47,26 @@
             <div>
               <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
+                <li><a href="/admin">Admin</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Curate<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
                     <li class="active"><a href="/match">Match</a></li>
                     <li><a href="/correlate">Correlate</a></li>
                     <li><a href="/oddmanout">Odd Man Out</a></li>
+                  </ul>
+                </li>
               </ul>
             </div>
+            <!-- <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button> -->
+            <!-- <a class="brand" href="#">Hello Endpoints!</a> -->
+            <!-- <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
+            <!-- <div class="nav-collapse collapse pull-right">
+                <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a>
+            </div> -->
         </div>
     <!-- </div> -->
 </nav>
@@ -59,12 +74,29 @@
 
     <output id="outputLog"></output>
 
-    <h2>Match game</h2>
-
-    <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a>
-
     <!-- Add a from with submit button to generate 4 distinct images -->
+    
+    <!-- <form onsubmit="return false;">
+        <h2>Get Greeting</h2>
+        <div><label for="id">Greeting ID:</label><input id="id" /></div>
+        <div><input id="getGreeting" type="submit" class="btn btn-small" value="Submit"></div>
+    </form>
 
+    <form onsubmit="return false;">
+        <h2>List Greetings</h2>
+        <div><input id="listGreeting" type="submit" class="btn btn-small" value="Submit"></div>
+    </form>
+
+    <form onsubmit="return false;">
+        <h2>Multiply Greetings</h2>
+        <div><label for="greeting">Greeting:</label><input id="greeting" /></div>
+        <div><label for="count">Count:</label><input id="count" /></div>
+        <div><input id="multiplyGreetings" type="submit" class="btn btn-small" value="Submit"></div>
+    </form>
+    <form onsubmit="return false;">
+        <h2>Authenticated Greeting</h2>
+        <div><input id="authedGreeting" type="submit" class="btn btn-small" disabled value="Submit"></div>
+    </form> -->
     <script>
         function init() {
             google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');

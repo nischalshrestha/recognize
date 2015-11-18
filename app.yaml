@@ -5,6 +5,7 @@ threadsafe: true
 api_version: 1
 
 handlers:
+# Endpoints handler
 - url: /js
   static_dir: static/js
 - url: /bootstrap
@@ -12,6 +13,9 @@ handlers:
 - url: /
   static_files: templates/index.html
   upload: templates/index\.html
+- url: /admin
+  static_files: templates/admin.html
+  upload: templates/admin\.html
 - url: /match
   static_files: templates/match.html
   upload: templates/match\.html
@@ -21,7 +25,6 @@ handlers:
 - url: /oddmanout
   static_files: templates/oddmanout.html
   upload: templates/oddmanout\.html
-  # Endpoints handler
 - url: /_ah/spi/.*
   script: helloworld_api.APPLICATION
 

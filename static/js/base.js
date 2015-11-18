@@ -159,6 +159,7 @@ google.appengine.samples.hello.enableButtons = function() {
   authedGreeting.addEventListener('click',
       google.appengine.samples.hello.authedGreeting);
 
+  
   var signinButton = document.querySelector('#signinButton');
   signinButton.addEventListener('click', google.appengine.samples.hello.auth);
 };
@@ -178,7 +179,7 @@ google.appengine.samples.hello.init = function(apiRoot) {
     }
   }
 
-  apisToLoad = 2; // must match number of calls to gapi.client.load()
+  apisToLoad = 1; // must match number of calls to gapi.client.load()
   gapi.client.load('helloworld', 'v1', callback, apiRoot);
   gapi.client.load('oauth2', 'v2', callback);
 };

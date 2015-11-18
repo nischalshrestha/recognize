@@ -23,21 +23,12 @@ package = 'Hello'
 # Insert function to create a Game
 
 # Function to perform query, parse JSON, retrieve distinct Image and storing into a Level
-def queryM():
+# def queryM():
   # Build a service object for interacting with the API. Visit
   # the Google APIs Console <http://code.google.com/apis/console>
   # to get an API key for your own application.
-  service = build("customsearch", "v1",
-            developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
-  res = service.cse().list(
-        q='cat',
-        cx='008947772147471846402:fdhywbjbitw',
-        num='3',
-        imgColorType='color',
-        imgSize='medium', 
-        safe='high'
-        rights='cc_publicdomain'
-      ).execute()
+  # service = build("customsearch", "v1",
+  #           developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
 
     # TODO: parse JSON, create Level with the Image(s)
 
@@ -48,11 +39,11 @@ def queryM():
 # class Level(ndb.Model):
 
 # Image model which has a title, whether it is the correct answer or not, and the image
-class Image(ndb.Model):
-    """Sub model for representing an author."""
-    identity = ndb.StringProperty(indexed=False)
-    correct = ndb.BooleanProperty()
-    image = ndb.BlobProperty()
+# class Image(ndb.Model):
+#     """Sub model for representing an author."""
+#     identity = ndb.StringProperty(indexed=False)
+#     correct = ndb.BooleanProperty()
+#     image = ndb.BlobProperty()
 
 # Tutorial stuff below
 class Greeting(messages.Message):
