@@ -75,6 +75,17 @@
     <output id="outputLog"></output>
 
     <!-- Add a from with submit button to generate 4 distinct images -->
+    <h2>Album Images</h2>
+    <p>Upload 3 images:</p>
+    <br>
+    <form action="/upload?%s" enctype="multipart/form-data" method="post">
+        <div><input id="album_image_1" type="file" name="img_1"/></div><br>
+        <div><input id="album_image_2" type="file" name="img_2"/></div><br>
+        <div><input id="album_image_3" type="file" name="img_3"/></div><br>
+        <div><input id="upload_image" type="submit" value="Upload"></div>
+    </form>
+
+
     
     <!-- <form onsubmit="return false;">
         <h2>Get Greeting</h2>
@@ -103,6 +114,20 @@
         }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <!--<script type="text/javascript">
+    //     $("input").change(function(e) {
+    //         for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+    //             var file = e.originalEvent.srcElement.files[i];            
+    //             var img = document.createElement("img");
+    //             var reader = new FileReader();
+    //             reader.onloadend = function() {
+    //                  img.src = reader.result;
+    //             }
+    //             reader.readAsDataURL(file);
+    //             $("input").after(img);
+    //         }
+    //     });
+    </script>
 </div>
 </body>
 </html>

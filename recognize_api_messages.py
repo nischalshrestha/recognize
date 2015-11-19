@@ -27,3 +27,9 @@ class Image(messages.Message):
     """Sub model for representing an author."""
     # correct = messages.BooleanField()
     image_url = messages.StringField(1)
+
+# class ImageResponseMessage(messages.Message):
+# 	"""ProtoRPC message definition to represent an score that is to be stored."""
+# 	id = messages.IntegerField(1)
+# 	title = messages.StringField(1)
+

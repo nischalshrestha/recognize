@@ -96,6 +96,21 @@ google.appengine.samples.hello.getGreeting = function(id) {
 };
 
 /**
+ * Gets a numbered greeting via the API.
+ * @param {string} id ID of the greeting.
+ */
+google.appengine.samples.hello.uploadImage = function(image) {
+  gapi.client.recognize.greetings.uploadImages({'image': image}).execute(
+      function(resp) {
+        if (!resp.code) {
+          google.appengine.samples.hello.print(image);
+          // google.appengine.samples.hello.showImage(resp.image_url, 250, 250, "Test Image");
+          // console.log("Inside getGreeting in base.js!");
+        }
+      });
+};
+
+/**
 * Displays an image
 */
 google.appengine.samples.hello.showImage = function(src, width, height, alt) {
@@ -157,6 +172,12 @@ google.appengine.samples.hello.enableButtons = function() {
     google.appengine.samples.hello.getGreeting(
         document.querySelector('#searchTerm').value);
   });
+
+  var getImage = document.querySelector('#upload_image');
+  getImage.addEventListener('click', function(e){
+    google.appengine.samples.hello.uploadImage(
+      document.querySelector('#album_image').value)
+  })
 
   var listGreeting = document.querySelector('#listGreeting');
   listGreeting.addEventListener('click',

@@ -37,8 +37,9 @@ def query_image(exp):
   res = service.cse().list(
         q=exp,
         cx='008947772147471846402:fdhywbjbitw',
+        cref='https://cse.google.com:443/cse/publicurl?cx=008947772147471846402:fdhywbjbitw',
         num='1',
-        imgColorType='color',
+        imgColorType='mono',
         # imgSize='medium', #Let's not restrict size; we can resize later.
         safe='high',
         rights='cc_publicdomain'
@@ -109,5 +110,3 @@ class RecognizeApi(remote.Service):
     return Greeting(message='hello %s' % (email,))
 
 APPLICATION = endpoints.api_server([RecognizeApi])
-
-

@@ -13,6 +13,8 @@ handlers:
 - url: /
   static_files: templates/index.html
   upload: templates/index\.html
+- url: /upload
+  script: recognize.app
 - url: /admin
   static_files: templates/admin.html
   upload: templates/admin\.html
@@ -29,6 +31,8 @@ handlers:
   script: recognize_api.APPLICATION
 
 libraries:
+- name: webapp2
+  version: latest
 - name: pycrypto
   version: latest
 - name: endpoints
