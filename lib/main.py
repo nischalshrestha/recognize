@@ -23,6 +23,7 @@ Command-line application that does a search.
 __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 
 import pprint
+import json
 
 from apiclient.discovery import build
 
@@ -32,18 +33,19 @@ def main():
   # to get an API key for your own application.
   service = build("customsearch", "v1",
             developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
-
   res = service.cse().list(
       q='cat',
       cx='008947772147471846402:fdhywbjbitw',
-      num='5',
+      num='1',
       imgColorType='color',
       imgSize='medium',
       safe='high'
-      # rights='cc_publicdomain'
+      rights='cc_publicdomain'
     ).execute()
-
-  pprint.pprint(res)
+  parsed_res = json.dumps(res)
+  json_res = json.loads(parsed_res)
+  image_url = json_res['items'][0]['pagemap']['cse_image'][0]['src']
+  # pprint.pprint(res)
 
 if __name__ == '__main__':
   main()

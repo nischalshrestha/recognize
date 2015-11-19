@@ -82,12 +82,12 @@
 
     <output id="outputLog"></output>
 
-    <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a>
-    
-<!--     <form onsubmit="return false;">
-        <h2>Get Greeting</h2>
-        <div><label for="id">Greeting ID:</label><input id="id" /></div>
-        <div><input id="getGreeting" type="submit" class="btn btn-small" value="Submit"></div>
+    <!-- <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
+
+    <form class=".form-search" onsubmit="return false;">
+        <h3>Search Image</h3>
+        <input  id="searchTerm" type="text" class="input-medium .search-query">
+        <button id="getGreeting" type="submit" class="btn btn-small">Go</button>
     </form>
 
     <form onsubmit="return false;">
@@ -95,7 +95,7 @@
         <div><input id="listGreeting" type="submit" class="btn btn-small" value="Submit"></div>
     </form>
 
-    <form onsubmit="return false;">
+    <!-- <form onsubmit="return false;">
         <h2>Multiply Greetings</h2>
         <div><label for="greeting">Greeting:</label><input id="greeting" /></div>
         <div><label for="count">Count:</label><input id="count" /></div>
@@ -112,6 +112,16 @@
         }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <!-- (function() {
+        var cx = '008947772147471846402:fdhywbjbitw';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+            '//cse.google.com/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+    })(); -->
 </div>
 </body>
 </html>

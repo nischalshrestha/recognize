@@ -85,20 +85,34 @@ google.appengine.samples.hello.print = function(greeting) {
  * @param {string} id ID of the greeting.
  */
 google.appengine.samples.hello.getGreeting = function(id) {
-  gapi.client.helloworld.greetings.getGreeting({'id': id}).execute(
+  gapi.client.recognize.greetings.getImages({'id': id}).execute(
       function(resp) {
         if (!resp.code) {
-          google.appengine.samples.hello.print(resp);
+          // google.appengine.samples.hello.print(resp);
+          google.appengine.samples.hello.showImage(resp.image_url, 250, 250, "Test Image");
           // console.log("Inside getGreeting in base.js!");
         }
       });
 };
 
 /**
+* Displays an image
+*/
+google.appengine.samples.hello.showImage = function(src, width, height, alt) {
+    var img = document.createElement("img");
+    img.src = src;
+    img.width = width;
+    img.height = height;
+    img.alt = alt;
+    img.setAttribute("style","margin: 20px 20px 20px 20px");
+    document.body.appendChild(img);
+};
+
+/**
  * Lists greetings via the API.
  */
 google.appengine.samples.hello.listGreeting = function() {
-  gapi.client.helloworld.greetings.listGreeting().execute(
+  gapi.client.recognize.greetings.listGreeting().execute(
       function(resp) {
         if (!resp.code) {
           resp.items = resp.items || [];
@@ -141,7 +155,7 @@ google.appengine.samples.hello.enableButtons = function() {
   var getGreeting = document.querySelector('#getGreeting');
   getGreeting.addEventListener('click', function(e) {
     google.appengine.samples.hello.getGreeting(
-        document.querySelector('#id').value);
+        document.querySelector('#searchTerm').value);
   });
 
   var listGreeting = document.querySelector('#listGreeting');
@@ -180,6 +194,6 @@ google.appengine.samples.hello.init = function(apiRoot) {
   }
 
   apisToLoad = 1; // must match number of calls to gapi.client.load()
-  gapi.client.load('helloworld', 'v1', callback, apiRoot);
+  gapi.client.load('recognize', 'v1', callback, apiRoot);
   gapi.client.load('oauth2', 'v2', callback);
 };
