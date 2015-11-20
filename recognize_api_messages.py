@@ -23,13 +23,8 @@ class ImageRequest(messages.Message):
   search_exp = messages.StringField(1)
 
 # Image model which has a title, whether it is the correct answer or not, and the image
-class Image(messages.Message):
+class ImageMessage(messages.Message):
     """Sub model for representing an author."""
     # correct = messages.BooleanField()
     image_url = messages.StringField(1)
-
-# class ImageResponseMessage(messages.Message):
-# 	"""ProtoRPC message definition to represent an score that is to be stored."""
-# 	id = messages.IntegerField(1)
-# 	title = messages.StringField(1)
 

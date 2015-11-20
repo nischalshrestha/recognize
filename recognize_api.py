@@ -1,4 +1,4 @@
-"""Hello World API implemented using Google Cloud Endpoints.
+"""Recognize API implemented using Google Cloud Endpoints.
 
 Defined here are the ProtoRPC messages needed to define Schemas for methods
 as well as those methods defined in an API.
@@ -10,7 +10,7 @@ from protorpc import message_types
 from recognize_api_messages import Greeting
 from recognize_api_messages import GreetingCollection
 from recognize_api_messages import ImageRequest
-from recognize_api_messages import Image
+from recognize_api_messages import ImageMessage
 
 from protorpc import remote
 from google.appengine.ext import ndb
@@ -37,9 +37,8 @@ def query_image(exp):
   res = service.cse().list(
         q=exp,
         cx='008947772147471846402:fdhywbjbitw',
-        cref='https://cse.google.com:443/cse/publicurl?cx=008947772147471846402:fdhywbjbitw',
         num='1',
-        imgColorType='mono',
+        imgColorType='color',
         # imgSize='medium', #Let's not restrict size; we can resize later.
         safe='high',
         rights='cc_publicdomain'
@@ -62,7 +61,7 @@ STORED_GREETINGS = GreetingCollection(items=[
                audiences=[ANDROID_AUDIENCE],
                scopes=[endpoints.EMAIL_SCOPE])
 class RecognizeApi(remote.Service):
-  """Helloworld API v1."""
+  """Recognize API v1."""
 
   @endpoints.method(message_types.VoidMessage, GreetingCollection,
                     path='hellogreeting', http_method='GET',
@@ -89,11 +88,11 @@ class RecognizeApi(remote.Service):
       ImageRequest,
       id=messages.StringField(1, required=True))
 
-  @endpoints.method(ID_RESOURCE, Image,
+  @endpoints.method(ID_RESOURCE, ImageMessage,
                     path='hellogreeting/{id}', http_method='GET',
                     name='greetings.getImages')
   def greeting_get(self, request):
-    return Image(image_url=query_image(request.id))
+    return ImageMessage(image_url=query_image(request.id))
     # try:
     #   return STORED_GREETINGS.items[request.id]
     # except (IndexError, TypeError):

@@ -12,3 +12,7 @@ class Image(ndb.Model):
 class Album(ndb.Model):
 	title = ndb.StringProperty()
 	images = ndb.StructuredProperty(Image, repeated=True)
+
+class Game(ndb.Model):
+	title = ndb.StringProperty()
+	albums = ndb.StructuredProperty(Album)

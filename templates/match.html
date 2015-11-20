@@ -57,16 +57,6 @@
                 </li>
               </ul>
             </div>
-            <!-- <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button> -->
-            <!-- <a class="brand" href="#">Hello Endpoints!</a> -->
-            <!-- <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
-            <!-- <div class="nav-collapse collapse pull-right">
-                <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a>
-            </div> -->
         </div>
     <!-- </div> -->
 </nav>
@@ -78,22 +68,21 @@
     <h2>Album Images</h2>
     <p>Upload 3 images:</p>
     <br>
-    <form action="/upload?%s" enctype="multipart/form-data" method="post">
+    <form action="/upload" enctype="multipart/form-data" method="post">
         <div><input id="album_image_1" type="file" name="img_1"/></div><br>
         <div><input id="album_image_2" type="file" name="img_2"/></div><br>
         <div><input id="album_image_3" type="file" name="img_3"/></div><br>
-        <div><input id="upload_image" type="submit" value="Upload"></div>
+        <!-- <div><input id="upload_image" type="submit" value="Upload"></div> -->
+        <button id="upload_image" type="submit" class="btn btn-default">Upload</button>
     </form>
 
-
+    <!-- <form onsubmit="return false;">
+        <h2>New Name</h2>
+        <div><label for="id">Title:</label><input id="id" /></div>
+        <div><input id="getGreeting" type="submit" class="btn btn-small" value="Submit"></div>
+    </form> -->
     
     <!-- <form onsubmit="return false;">
-        <h2>Get Greeting</h2>
-        <div><label for="id">Greeting ID:</label><input id="id" /></div>
-        <div><input id="getGreeting" type="submit" class="btn btn-small" value="Submit"></div>
-    </form>
-
-    <form onsubmit="return false;">
         <h2>List Greetings</h2>
         <div><input id="listGreeting" type="submit" class="btn btn-small" value="Submit"></div>
     </form>
@@ -114,20 +103,6 @@
         }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
-    <!--<script type="text/javascript">
-    //     $("input").change(function(e) {
-    //         for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
-    //             var file = e.originalEvent.srcElement.files[i];            
-    //             var img = document.createElement("img");
-    //             var reader = new FileReader();
-    //             reader.onloadend = function() {
-    //                  img.src = reader.result;
-    //             }
-    //             reader.readAsDataURL(file);
-    //             $("input").after(img);
-    //         }
-    //     });
-    </script>
 </div>
 </body>
 </html>
