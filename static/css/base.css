@@ -1,0 +1,60 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+#signin {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  display: box;
+  box-orient: horizontal;
+  padding: 1em;
+  background-color: whiteSmoke;
+  border-bottom: 1pt solid #E5E5E5;
+}
+
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
+/* Signin styles */
+#signinStatusContainer {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+}
+
+#signinStatusContainer > :not(.visible) {
+  display: none;
+}
+
+blockquote {
+    margin-bottom: 10px;
+    border-left-color: #bbb;
+}
+
+form {
+    margin-top: 10px;
+}
+
+form label {
+  width: 90px;
+  display: inline-block;
+}
+
+.form-signin input[type="text"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+}
+
+.row {
+    margin-left: 0px;
+    margin-top: 10px;
+    overflow: scroll;
+}

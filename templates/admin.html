@@ -6,6 +6,8 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
     <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <script type="text/javascript" src="/js/render.js"></script>
     <!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css"> -->
     <style>
         body {
@@ -13,51 +15,29 @@
             padding-bottom: 40px;
             background-color: #f5f5f5;
         }
-        blockquote {
-            margin-bottom: 10px;
-            border-left-color: #bbb;
-        }
-        form {
-            margin-top: 10px;
-        }
-        form label {
-          width: 90px;
-          display: inline-block;
-        }
-        .form-signin input[type="text"] {
-            font-size: 16px;
-            height: auto;
-            margin-bottom: 15px;
-            padding: 7px 9px;
-        }
-        .row {
-            margin-left: 0px;
-            margin-top: 10px;
-            overflow: scroll;
-        }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <!-- <div class="navbar-inner"> -->
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Recognize</a>
-            </div>
-            <div>
-              <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li class="active"><a href="/admin">Admin</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Curate<span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="/match">Match</a></li>
-                    <li><a href="/correlate">Correlate</a></li>
-                    <li><a href="/oddmanout">Odd Man Out</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Recognize</a>
         </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/admin">Admin</a></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Curate<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/match">Match</a></li>
+                <li><a href="/correlate">Correlate</a></li>
+                <li><a href="/oddmanout">Odd Man Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    </div>
     <!-- </div> -->
 </nav>
 <!-- <div class="nav-collapse collapse pull-right">
@@ -66,7 +46,18 @@
 <div class="container">
 
     <output id="outputLog"></output>
-    <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a>
+<!--     <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
+
+    <div id="signin">
+        <div id="signinStatusContainer">
+          <!-- Need an extra container since G+ overrides CSS on the actual button -->
+          <div id="signinButtonContainer" class="visible">
+            <div id="signinButton"></div>
+          </div>
+          <a href="#" onclick="google.appengine.samples.hello.signout();" id="signedInStatus">Sign Out</a>
+        </div>
+        <span id="userLabel">(not signed in)</span>
+    </div>
 
     <form class=".form-search" onsubmit="return false;">
         <h3>Search Image</h3>
@@ -95,14 +86,13 @@
     <form onsubmit="return false;">
         <h2>Authenticated Greeting</h2>
         <div><input id="authedGreeting" type="submit" class="btn btn-small" disabled value="Submit"></div>
-    </form> -->
-
+    </form> 
     <script>
         function init() {
             google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
         }
     </script>
-    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>-->
 </div>
 </body>
 </html>
