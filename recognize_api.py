@@ -41,10 +41,13 @@ def query_image(exp):
         num=4,
         searchType="image",
         imgColorType='color',
+        siteSearchFilter='e',
+        siteSearch='https://pixabay.com',
         # imgSize='medium', #Let's not restrict size; we can resize later.
         imgType='photo',
         safe='high',
-        rights='cc_publicdomain'
+        rights='cc_publicdomain',
+        filter='1'
       ).execute()
   parsed_res = json.dumps(res)
   json_res = json.loads(parsed_res)

@@ -34,20 +34,23 @@ def main():
   service = build("customsearch", "v1",
             developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
   res = service.cse().list(
-      q='cat',
+      q='bat',
       cx='008947772147471846402:fdhywbjbitw',
-      num='1',
+      num=4,
       searchType="image",
       imgColorType='color',
+      siteSearchFilter='e',
+      siteSearch='https://pixabay.com',
       # imgSize='medium', #Let's not restrict size; we can resize later.
       imgType='photo',
       safe='high',
-      rights='cc_publicdomain'
+      rights='cc_publicdomain',
+      filter='1'
     ).execute()
   parsed_res = json.dumps(res)
   json_res = json.loads(parsed_res)
   # image_url = json_res['items'][0]['pagemap']['cse_image'][0]['src']
-  image_url = json_res['items'][0]['link']
+  image_url = json_res['items'][1]['link']
   pprint.pprint(image_url)
 
 if __name__ == '__main__':
