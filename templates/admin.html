@@ -10,44 +10,33 @@
     <link rel="stylesheet" href="/css/base.css">
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/render.js"></script>
-    <!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css"> -->
-    <style>
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
-        }
-    </style>
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#"><font color="#20BB35">Recognize</font></a>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><font color="#20BB35">Recognize</font></a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="/admin">Admin</a></li>
+                <li><a href="/match">Match</a></li>
+                <li><a href="/correlate">Correlate</a></li>
+                <li><a href="/oddmanout">Odd Man Out</a></li>
+              </ul>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="main-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li class="active"><a href="/admin">Admin</a></li>
-            <li><a href="/match">Match</a></li>
-            <li><a href="/correlate">Correlate</a></li>
-            <li><a href="/oddmanout">Odd Man Out</a></li>
-          </ul>
-        </div>
-    </div>
-</nav>
-<div class="container">
-
+    </nav>
     <output id="outputLog"></output>
 <!--     <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
-
-    <div id="signin">
+    <div class="container" id="signin">
         <div id="signinStatusContainer">
           <!-- Need an extra container since G+ overrides CSS on the actual button -->
           <div id="signinButtonContainer" class="visible">
@@ -58,13 +47,14 @@
         <span id="userLabel">(not signed in)</span>
     </div>
     <br>
-    <p>Experiment with Custom Search Engine</p>
-    <form class=".form-search" onsubmit="return false;">
-        <h3>Search Image</h3>
-        <input  id="searchTerm" type="text" class="input-medium .search-query">
-        <button id="getGreeting" type="submit" class="btn btn-default">Go</button>
-    </form>
-    
+    <div class="container">
+        <p>Experiment with Custom Search Engine</p>
+        <form class=".form-search" onsubmit="return false;">
+            <h3>Search Image</h3>
+            <input  id="searchTerm" type="text" class="input-medium .search-query">
+            <button id="getGreeting" type="submit" class="btn btn-default">Go</button>
+        </form>
+    </div>
     <!--
     <form onsubmit="return false;">
         <h2>Get Greeting</h2>
@@ -93,6 +83,6 @@
         }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>-->
-</div>
+<!-- </div> -->
 </body>
 </html>

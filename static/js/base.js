@@ -228,7 +228,7 @@ google.appengine.samples.hello.init = function(apiRoot, tokenEmail) {
       //     google.appengine.samples.hello.userAuthed);
   //   }
   // }
-   var callback = function() {
+  var callback = function() {
     google.appengine.samples.hello.enableButtons();
     google.appengine.samples.hello.signedIn = true;
     if(tokenEmail != ""){
