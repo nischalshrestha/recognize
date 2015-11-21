@@ -1,6 +1,8 @@
-# Sample Application using Google App Engine
+# Recognize
 
-This is a sample application I'm writing to learn how to write a Google App Engine web application that the Android client can connect to and receive/send data.
+Recognize is a visual recognition game based purely on images. This is a web application running on Google App Engine and specifically makes use of the Google Cloud Endpoints API to serve as a backend to an existing mobile app. 
+
+The purpose of the web app is to manage and curate content in the easiest way possible.
 
 ## Requirements
 
