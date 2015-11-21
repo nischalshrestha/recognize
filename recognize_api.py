@@ -10,6 +10,7 @@ from protorpc import message_types
 from recognize_api_messages import Greeting
 from recognize_api_messages import GreetingCollection
 from recognize_api_messages import ImageRequest
+from recognize_api_messages import ImageCollection
 from recognize_api_messages import ImageMessage
 
 from protorpc import remote
@@ -37,18 +38,21 @@ def query_image(exp):
   res = service.cse().list(
         q=exp,
         cx='008947772147471846402:fdhywbjbitw',
-        num='1',
+        num=4,
+        searchType="image",
         imgColorType='color',
         # imgSize='medium', #Let's not restrict size; we can resize later.
+        imgType='photo',
         safe='high',
         rights='cc_publicdomain'
       ).execute()
   parsed_res = json.dumps(res)
   json_res = json.loads(parsed_res)
-  # This isn't consistently delivering images, look into the dict elements:
   # https://developers.google.com/custom-search/json-api/v1/reference/cse/list
-  image_url = json_res['items'][0]['pagemap']['cse_image'][0]['src']
-  return image_url
+  items = []
+  for i in range(4):
+    items.append(ImageMessage(image_url=json_res['items'][i]['link']))
+  return items
 
 STORED_GREETINGS = GreetingCollection(items=[
 	Greeting(message='hello world!'),
@@ -88,11 +92,11 @@ class RecognizeApi(remote.Service):
       ImageRequest,
       id=messages.StringField(1, required=True))
 
-  @endpoints.method(ID_RESOURCE, ImageMessage,
+  @endpoints.method(ID_RESOURCE, ImageCollection,
                     path='hellogreeting/{id}', http_method='GET',
                     name='greetings.getImages')
   def greeting_get(self, request):
-    return ImageMessage(image_url=query_image(request.id))
+    return ImageCollection(items=query_image(request.id))
     # try:
     #   return STORED_GREETINGS.items[request.id]
     # except (IndexError, TypeError):

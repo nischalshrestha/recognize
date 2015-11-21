@@ -3,11 +3,10 @@
     <head>
         <title>Recognize Web App</title>
         <script type="text/javascript" src="/js/base.js"></script>
-        // <script src="js/jquery-1.11.3.min.js"></script>
+        <script src="js/jquery-1.11.3.min.js"></script>
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-        <!-- <link rel="stylesheet" href="/css/base.css"> -->
+        <link rel="stylesheet" href="/css/base.css">
         <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/js/render.js"></script>
         <!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css"> -->
     </head>
 <body>
@@ -46,7 +45,7 @@
     <output id="outputLog"></output>
     <!-- <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
 
-<!--     <form onsubmit="return false;">
+<!--<form onsubmit="return false;">
         <h2>List Greetings</h2>
         <div><input id="listGreeting" type="submit" class="btn btn-small" value="Submit"></div>
     </form> -->
@@ -63,7 +62,7 @@
     </form>   -->
     <script>
         function init() {
-            google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
+            google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api', "");
         }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>

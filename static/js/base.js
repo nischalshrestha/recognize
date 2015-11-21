@@ -100,8 +100,10 @@ google.appengine.samples.hello.getGreeting = function(id) {
       function(resp) {
         if (!resp.code) {
           // google.appengine.samples.hello.print(resp);
-          google.appengine.samples.hello.showImage(resp.image_url, 250, 250, "Test Image");
-          // console.log("Inside getGreeting in base.js!");
+          resp.items = resp.items || [];
+          for (var i = 0; i < resp.items.length; i++) {
+            google.appengine.samples.hello.showImage(resp.items[i].image_url, 250, 250, "test query");
+          }
         }
       });
 };
@@ -178,11 +180,12 @@ google.appengine.samples.hello.authedGreeting = function(id) {
  * Enables the button callbacks in the UI.
  */
 google.appengine.samples.hello.enableButtons = function() {
-  // var getGreeting = document.querySelector('#getGreeting');
-  // getGreeting.addEventListener('click', function(e) {
-  //   google.appengine.samples.hello.getGreeting(
-  //       document.querySelector('#searchTerm').value);
-  // });
+
+  var getGreeting = document.querySelector('#getGreeting');
+  getGreeting.addEventListener('click', function(e) {
+    google.appengine.samples.hello.getGreeting(
+        document.querySelector('#searchTerm').value);
+  });
 
   // var getImage = document.querySelector('#upload_image');
   // getImage.addEventListener('click', function(e){
@@ -219,7 +222,6 @@ google.appengine.samples.hello.init = function(apiRoot, tokenEmail) {
   // var apisToLoad;
   // var callback = function() {
   //   if (--apisToLoad == 0) {
-      // google.appengine.samples.hello.enableButtons();
       // google.appengine.samples.hello.signedIn = true;
       // document.getElementById('userLabel').innerHTML = tokenEmail;
       // google.appengine.samples.hello.signin(true,
@@ -227,8 +229,11 @@ google.appengine.samples.hello.init = function(apiRoot, tokenEmail) {
   //   }
   // }
    var callback = function() {
+    google.appengine.samples.hello.enableButtons();
     google.appengine.samples.hello.signedIn = true;
-    document.getElementById('userLabel').innerHTML = tokenEmail;
+    if(tokenEmail != ""){
+      document.getElementById('userLabel').innerHTML = tokenEmail;
+    }
   }
 
   // apisToLoad = 1; // must match number of calls to gapi.client.load()

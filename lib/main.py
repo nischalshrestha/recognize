@@ -37,15 +37,18 @@ def main():
       q='cat',
       cx='008947772147471846402:fdhywbjbitw',
       num='1',
+      searchType="image",
       imgColorType='color',
-      imgSize='medium',
-      safe='high'
+      # imgSize='medium', #Let's not restrict size; we can resize later.
+      imgType='photo',
+      safe='high',
       rights='cc_publicdomain'
     ).execute()
   parsed_res = json.dumps(res)
   json_res = json.loads(parsed_res)
-  image_url = json_res['items'][0]['pagemap']['cse_image'][0]['src']
-  # pprint.pprint(res)
+  # image_url = json_res['items'][0]['pagemap']['cse_image'][0]['src']
+  image_url = json_res['items'][0]['link']
+  pprint.pprint(image_url)
 
 if __name__ == '__main__':
   main()

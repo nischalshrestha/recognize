@@ -11,7 +11,7 @@ class Greeting(messages.Message):
 
 class GreetingCollection(messages.Message):
 	"""Collection of Greetings."""
-	items = messages.MessageField(Greeting, 1, repeated=True) 
+	items = messages.MessageField(Greeting, 1, repeated=True)
 
 # Game model which contains Level models
 # class Game(messages.Message):
@@ -20,7 +20,7 @@ class GreetingCollection(messages.Message):
 # class Level(messages.Message):
 
 class ImageRequest(messages.Message):
-  search_exp = messages.StringField(1)
+	search_exp = messages.StringField(1)
 
 # Image model which has a title, whether it is the correct answer or not, and the image
 class ImageMessage(messages.Message):
@@ -28,3 +28,6 @@ class ImageMessage(messages.Message):
     # correct = messages.BooleanField()
     image_url = messages.StringField(1)
 
+# Collection of ImageMessages (i.e. collection of image urls)
+class ImageCollection(messages.Message):
+	items = messages.MessageField(ImageMessage, 1, repeated=True)
