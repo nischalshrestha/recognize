@@ -6,6 +6,9 @@ api_version: 1
 
 handlers:
 # Endpoints handler
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
 - url: /js
   static_dir: static/js
 - url: /css
