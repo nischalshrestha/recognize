@@ -42,8 +42,8 @@ def query_image(exp):
         searchType="image",
         imgColorType='color',
         siteSearchFilter='e',
-        siteSearch='https://pixabay.com',
-        # imgSize='medium', #Let's not restrict size; we can resize later.
+        siteSearch='https://pixabay.com', # Sites like these don't allow URLs on external sites
+        # imgSize='medium', #Let's not restrict size for now
         imgType='photo',
         safe='high',
         rights='cc_publicdomain',

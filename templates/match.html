@@ -7,7 +7,7 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <script src="js/bootstrap.min.js"></script>
-    <!-- <link rel="stylesheet" href="/css/base.css"> -->
+    <link rel="stylesheet" href="/css/base.css">
     <!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css"> -->
     <style>
         body {
@@ -45,15 +45,48 @@
 
     <output id="outputLog"></output>
 
-    <h2>Album Images</h2>
-    <!-- Add a from with submit button to generate 4 distinct images -->
-    <p>Upload 3 images:</p>
+    <!-- Insert a table displaying recently created games, perhaps with pagination to show more -->
+
+    <h2>Create a new game!</h2>
     <br>
+    <!-- Add a from with submit button to generate 4 distinct images -->
     <form action="/upload" enctype="multipart/form-data" method="post">
-        <div><input id="album_image_1" type="file" name="img_1"/></div><br>
-        <div><input id="album_image_2" type="file" name="img_2"/></div><br>
-        <div><input id="album_image_3" type="file" name="img_3"/></div><br>
-        <!-- <div><input id="upload_image" type="submit" value="Upload"></div> -->
+        <label for="gameTitle">Title</label>
+        <div class="form-group">
+            <input class="form-control" type="text" id="gameTitle" placeholder="Awesome Game">
+        </div>
+        <label for="album_image_1">Choice 1</label>
+        <div class="form-inline">
+            <input class="form-control" id="album_image_1" type="file" name="img_1"/>
+            <label class="checkbox-inline">
+                <input id="correct_answer" type="checkbox"> Correct Answer
+            </label>
+        </div>
+        <br>
+        <label for="album_image_2">Choice 2</label>
+        <div class="form-inline">
+            <input class="form-control" id="album_image_2" type="file" name="img_2"/>
+            <label class="checkbox-inline">
+                <input id="correct_answer" type="checkbox"> Correct Answer
+            </label>
+        </div>
+        <br>
+        <label for="album_image_3">Choice 3</label>
+        <div class="form-inline">
+            <input class="form-control" id="album_image_3" type="file" name="img_3"/>
+            <label class="checkbox-inline">
+                <input id="correct_answer" type="checkbox"> Correct Answer
+            </label>
+        </div>
+        <br>
+        <label for="album_image_4">Choice 4</label>
+        <div class="form-inline">
+            <input class="form-control" id="album_image_4" type="file" name="img_4"/>
+            <label class="checkbox-inline">
+                <input id="correct_answer" type="checkbox"> Correct Answer
+            </label>
+        </div>
+        <br>
         <button id="upload_image" type="submit" class="btn btn-default">Upload</button>
     </form>
 
