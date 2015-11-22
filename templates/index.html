@@ -33,7 +33,8 @@
             </div>
         </div>
     </nav>
-    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <!-- Main jumbotron for a primary marketing message or call to action; insert background later-->
+    <div class="bg"></div>
     <div class="jumbotron">
         <div class="container">
             <h1>Welcome!</h1>
@@ -42,30 +43,96 @@
         </div>
     </div>
     <div class="container">
-    <output id="outputLog"></output>
-    <!-- <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
+        <output id="outputLog"></output>
+        <!-- <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
 
-<!--<form onsubmit="return false;">
-        <h2>List Greetings</h2>
-        <div><input id="listGreeting" type="submit" class="btn btn-small" value="Submit"></div>
-    </form> -->
+    <!--<form onsubmit="return false;">
+            <h2>List Greetings</h2>
+            <div><input id="listGreeting" type="submit" class="btn btn-small" value="Submit"></div>
+        </form> -->
 
-     <!-- <form onsubmit="return false;">
-        <h2>Multiply Greetings</h2>
-        <div><label for="greeting">Greeting:</label><input id="greeting" /></div>
-        <div><label for="count">Count:</label><input id="count" /></div>
-        <div><input id="multiplyGreetings" type="submit" class="btn btn-small" value="Submit"></div>
-    </form>
-    <form onsubmit="return false;">
-        <h2>Authenticated Greeting</h2>
-        <div><input id="authedGreeting" type="submit" class="btn btn-small" disabled value="Submit"></div>
-    </form>   -->
-    <script>
-        function init() {
-            google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api', "");
-        }
-    </script>
-    <script src="https://apis.google.com/js/client.js?onload=init"></script>
-</div>
+         <!-- <form onsubmit="return false;">
+            <h2>Multiply Greetings</h2>
+            <div><label for="greeting">Greeting:</label><input id="greeting" /></div>
+            <div><label for="count">Count:</label><input id="count" /></div>
+            <div><input id="multiplyGreetings" type="submit" class="btn btn-small" value="Submit"></div>
+        </form>
+        <form onsubmit="return false;">
+            <h2>Authenticated Greeting</h2>
+            <div><input id="authedGreeting" type="submit" class="btn btn-small" disabled value="Submit"></div>
+        </form>   -->
+        <script>
+            function init() {
+                google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api', "");
+            }
+        </script>
+        <script src="https://apis.google.com/js/client.js?onload=init"></script>
+        <script type="text/javascript">
+                var jumboHeight = $('.jumbotron').outerHeight();
+                function parallax(){
+                    var scrolled = $(window).scrollTop();
+                    $('.bg').css('height', (jumboHeight-scrolled) + 'px');
+                }
+                $(window).scroll(function(e){
+                    parallax();
+                });
+        </script>
+    </div>
+    <div class="container">
+      <div class="row">
+        <h2>Page Content</h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+        Aliquam in felis sit amet augue.
+        <br>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+        Aliquam in felis sit amet augue.
+        <br>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+        Aliquam in felis sit amet augue.
+        <br>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+        Aliquam in felis sit amet augue.
+      </div>
+      <hr>
+      <div class="row">
+        <h2>Page Content</h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+        Aliquam in felis sit amet augue.
+        <h2>Page Content</h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+        Aliquam in felis sit amet augue.
+        <h2>Page Content</h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+        Aliquam in felis sit amet augue.
+      </div>
+      <hr>
+      <div class="row">
+        <h2>Page Content</h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+        Aliquam in felis sit amet augue.
+      </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center"><p>The End.</p></div>
+        </div>
+    </div>
 </body>
 </html>

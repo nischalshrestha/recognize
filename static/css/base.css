@@ -12,6 +12,34 @@
   border-bottom: 1pt solid #E5E5E5;
 }
 
+.bg {
+  /* Image source: https://www.pinterest.com/lyneroussel/patchwork/ */
+  background: linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('/images/patterns.jpg') repeat;
+  position: fixed;
+  width: 100%;
+  height: 350px; /*same height as jumbotron */
+  top:0;
+  left:0;
+  z-index: -1;
+
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+.jumbotron {
+  margin-bottom: 0px;
+  height: 350px;
+  color: white;
+  background:transparent;
+}
+
+.jumbotron p {
+  font-size: 30px;
+}
+
 body {
     padding-top: 40px;
     padding-bottom: 40px;
