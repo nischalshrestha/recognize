@@ -4,15 +4,11 @@
     <head>
         <meta charset="utf-8" />
         <title>Recognize: A Visual Recognition Game</title>
-        <script type="text/javascript" src="/js/base.js"></script>
+        <script type="text/javascript" src="js/base.js"></script>
         <script src="js/jquery-1.11.3.min.js"></script>
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
         <script src="js/bootstrap.min.js"></script>
-        <!-- Wonderful scripts for smooth scrolling from Greensock-->
-        <script src="/js/TweenMax.min.js"></script>
-        <script src="/js/ScrollToPlugin.min.js"></script>
-        <script src="/js/smoothPageScroll.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
@@ -38,12 +34,12 @@
                 </div>
             </div>
         </nav>
-        <div class="bg"></div>
+        <!-- <div class="bg"></div> -->
         <!-- Main jumbotron for a primary marketing message or call to action; insert background later-->
         <div class="jumbotron">
             <div class="container">
                 <h1>Welcome!</h1>
-                <p>Recognize is a new visual recognition game based purely on images! Quiz yourself in various topics with three different games: Match, Correlate, and Odd Man Out.</p>
+                <p>Recognize is a visual recognition game based purely on images! Quiz yourself in various topics with three different games: Match, Correlate, and Odd Man Out.</p>
                 <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
             </div>
         </div>
@@ -69,6 +65,7 @@
                 }
             </script>
             <script src="https://apis.google.com/js/client.js?onload=init"></script>
+            <!--
             <script type="text/javascript">
                 var jumboHeight = $('.jumbotron').outerHeight();
                 function parallax(){
@@ -78,11 +75,11 @@
                 $(window).scroll(function(e){
                     parallax();
                 });
-            </script>
+            </script>-->
         </div>
         <div class="container">
           <div class="row">
-            <h2>Page Content</h2>
+            <h2>Match</h2>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
             Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
             dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
@@ -105,7 +102,7 @@
           </div>
           <hr>
           <div class="row">
-            <h2>Page Content</h2>
+            <h2>Correlate</h2>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
             Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
             dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
@@ -123,7 +120,7 @@
           </div>
           <hr>
           <div class="row">
-            <h2>Page Content</h2>
+            <h2>Odd Man Out</h2>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
             Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
             dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
