@@ -1,4 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 /* Jumbotron */
 
@@ -52,6 +51,10 @@ body {
 blockquote {
     margin-bottom: 10px;
     border-left-color: #bbb;
+}
+
+.navbar-brand {
+  color: green;
 }
 
 /* Table */
