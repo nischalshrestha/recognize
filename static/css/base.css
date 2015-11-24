@@ -37,7 +37,7 @@
 }
 
 .jumbotron p {
-  font-size: 28px;
+  font-size: 20px;
 }
 
 body {
@@ -75,7 +75,7 @@ form label {
 }
 
 .form-control {
-    width: 20%;
+    max-width: 50%;
 }
 
 .form-signin input[type="text"] {
