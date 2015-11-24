@@ -36,7 +36,31 @@
     <div class="container">
         <output id="outputLog"></output>
         <!-- Insert a table displaying recently created games, perhaps with pagination to show more -->
-        
+        <br>
+        <h2>Recently Added Games</h2>
+        <br>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Orange Tabbies!</td>
+                    <td>Jill Smith</td> 
+                    <td>Cats</td>
+                </tr>
+                <tr>
+                    <td>German Shepherds!</td>
+                    <td>Eve Jackson</td> 
+                    <td>Dogs</td>
+                </tr>
+            </tbody>
+        </table> 
+        <hr>
         <!-- Add a from with submit button to generate 4 distinct images -->
         <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game">
             <h2>Create a new game</h2>
@@ -80,7 +104,14 @@
             <br>
             <button id="upload_image" type="submit" class="btn btn-default">Upload</button>
         </form>
-
+        <!--
+        <script type="text/javascript">
+            $('.bordered tr').mouseover(function(){
+                $(this).addClass('highlight');
+                }).mouseout(function(){
+                    $(this).removeClass('highlight');
+                });
+        </script>-->
         <!-- <form onsubmit="return false;">
             <h2>New Name</h2>
             <div><label for="id">Title:</label><input id="id" /></div>

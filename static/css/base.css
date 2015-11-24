@@ -1,16 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
-#signin {
-  display: -webkit-box;
-  -webkit-box-orient: horizontal;
-  display: -moz-box;
-  -moz-box-orient: horizontal;
-  display: box;
-  box-orient: horizontal;
-  padding: 1em;
-  background-color: whiteSmoke;
-  border-bottom: 1pt solid #E5E5E5;
-}
+/* Jumbotron */
 
 .bg {
   /* Image source: https://www.pinterest.com/lyneroussel/patchwork/ */
@@ -37,16 +27,23 @@
 }
 
 .jumbotron p {
-  font-size: 20px;
+  font-size: 25px;
 }
 
-body {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
+/* Signin */
+
+#signin {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  display: box;
+  box-orient: horizontal;
+  padding: 1em;
+  background-color: whiteSmoke;
+  border-bottom: 1pt solid #E5E5E5;
 }
 
-/* Signin styles */
 #signinStatusContainer {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -60,10 +57,47 @@ body {
   display: none;
 }
 
+/* Body */
+
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
 blockquote {
     margin-bottom: 10px;
     border-left-color: #bbb;
 }
+
+/* Table */
+
+.table-hover {
+    max-width: 60%;
+    border-collapse: collapse;
+    border-radius: 3px;
+    border-style: hidden; /* hide standard table (collapsed) border */
+    box-shadow: 0 0 0 1px #666; /* this draws the table border  */ 
+}
+
+.table-hover th {
+    background-color: green;
+    color: white;
+}
+
+.table-hover th:first-child {
+    border-radius: 3px 0 0 0;
+}
+
+.table-hover th:last-child {
+    border-radius: 0 3px 0 0;
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: #fbf8e9;
+}
+
+/* Forms */
 
 form {
     margin-top: 10px;
@@ -84,6 +118,8 @@ form label {
     margin-bottom: 15px;
     padding: 7px 9px;
 }
+
+/* Rows */
 
 .row {
     margin-left: 0px;
