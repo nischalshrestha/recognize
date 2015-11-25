@@ -6,6 +6,8 @@ The purpose of the web app is to manage and curate content in the easiest way po
 
 ## Requirements
 
-- Google App Engine Python SDK
-- Python v2.7
+- Google App Engine Python SDK: https://cloud.google.com/appengine/downloads?hl=en
+- Python v2.7: https://www.python.org/download/releases/2.7/
 - Google Account (For project creation and restricted methods in backend)
+- DataTable: https://datatables.net
+- Bootstrap: http://getbootstrap.com
