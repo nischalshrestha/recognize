@@ -27,8 +27,7 @@ handlers:
   static_files: templates/admin.html
   upload: templates/admin\.html
 - url: /match
-  static_files: templates/match.html
-  upload: templates/match\.html
+  script: recognize.app
 - url: /correlate
   static_files: templates/correlate.html
   upload: templates/correlate\.html
@@ -45,3 +44,5 @@ libraries:
   version: latest
 - name: endpoints
   version: 1.0
+- name: jinja2
+  version: latest

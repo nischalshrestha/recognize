@@ -2,7 +2,7 @@
 /* Jumbotron */
 
 .jumbotron {
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/blur_patterns.jpg') no-repeat;
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/images/blur_patterns.jpg') no-repeat;
   background-size: 100%;
   margin-bottom: 0px;
   height: 300px;
@@ -60,7 +60,7 @@ blockquote {
 /* Table */
 
 .table-hover {
-    max-width: 60%;
+    max-width: 40%;
     border-collapse: collapse;
     border-radius: 3px;
     border-style: hidden; /* hide standard table (collapsed) border */
