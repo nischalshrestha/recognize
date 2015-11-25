@@ -60,24 +60,23 @@ blockquote {
 /* Table */
 
 .table-hover {
-    max-width: 40%;
-    border-collapse: collapse;
-    border-radius: 3px;
-    border-style: hidden; /* hide standard table (collapsed) border */
-    box-shadow: 0 0 0 1px #666; /* this draws the table border  */ 
+  max-width: 100%;
+  border-collapse: collapse;
+  border-radius: 1px;
+  border-style: hidden;  /*hide standard table (collapsed) border */
 }
 
 .table-hover th {
-    background-color: green;
-    color: white;
+  background-color: green;
+  color: white;
 }
 
 .table-hover th:first-child {
-    border-radius: 3px 0 0 0;
+  border-radius: 3px 0 0 0;
 }
 
 .table-hover th:last-child {
-    border-radius: 0 3px 0 0;
+  border-radius: 0 3px 0 0;
 }
 
 .table-hover > tbody > tr:hover {
@@ -87,7 +86,7 @@ blockquote {
 /* Forms */
 
 form {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 form label {
@@ -96,20 +95,20 @@ form label {
 }
 
 .form-control {
-    max-width: 50%;
+  max-width: 50%;
 }
 
 .form-signin input[type="text"] {
-    font-size: 16px;
-    height: auto;
-    margin-bottom: 15px;
-    padding: 7px 9px;
+  font-size: 16px;
+  height: auto;
+  margin-bottom: 15px;
+  padding: 7px 9px;
 }
 
 /* Rows */
 
 .row {
-    margin-left: 0px;
-    margin-top: 10px;
-    overflow: scroll;
+  margin-left: 0px;
+  margin-top: 10px;
+  overflow: scroll;
 }

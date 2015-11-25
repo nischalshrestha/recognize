@@ -6,6 +6,7 @@
         <title>Recognize: Match Games</title>
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
+        <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
@@ -37,23 +38,23 @@
             <br>
             <h2>Games</h2>
             <br>
-            <table class="table table-bordered table-hover">
+            <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Category</th>
+                        <th>Date Added</th>
                     </tr>
                 </thead>
                 <tbody>
                 <!-- TODO: Use Jinja to iterate a list passed in by MainPage handler to populate table -->
+                {% for image in image_store %}
                     <tr>
-                        <td><a href="/match">{{ title1 }}</a></td>
-                        <td>{{ category1 }}</td>
+                        <td><a href="/match">{{ image.title }}</a></td>
+                        <td>{{ image.category }}</td>
+                        <td>{{ image.date }}</td>
                     </tr>
-                    <tr>
-                        <td><a href="/match">{{ title2 }}</a></td>
-                        <td>{{ category2 }}</td>
-                    </tr>
+                {% endfor %}
                 </tbody>
             </table> 
             <hr>
@@ -63,7 +64,7 @@
                 <br>
                 <label for="gameTitle">Title</label>
                 <div class="form-group">
-                    <input class="form-control" type="text" id="gameTitle" placeholder="Awesome Game">
+                    <input class="form-control" type="text" id="gameTitle" name="game" placeholder="Awesome Game">
                 </div>
                 <br>
                 <h4>Level 1:</h4>
@@ -85,7 +86,7 @@
                     </label>
                 </div>
                 <br>
-                <label for="album_image_3">Choice 3</label>
+                <!-- <label for="album_image_3">Choice 3</label>
                 <div class="form-inline">
                     <input class="form-control" id="album_image_3" type="file" name="img_3"/>
                     <label class="checkbox-inline">
@@ -100,7 +101,7 @@
                         <input name="correct_answer_4" type="checkbox"> Correct Answer
                     </label>
                 </div>
-                <br>
+                <br> -->
                 <button id="upload_image" type="submit" class="btn btn-default">Upload</button>
             </form>
             <!--
@@ -142,6 +143,12 @@
         <script async src="/js/base.js"></script>
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#game_list').DataTable();
+            });
+        </script>
     </body>
 </html>
 {% endautoescape %}

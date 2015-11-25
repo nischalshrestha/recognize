@@ -5,6 +5,7 @@
     <title>Recognize: Correlate Games</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -33,7 +34,29 @@
     <div class="container">
         <output id="outputLog"></output>        
         <!-- Insert a table displaying recently created games, perhaps with pagination to show more -->
-
+        <br>
+            <h2>Games</h2>
+            <br>
+            <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Date Added</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <!-- TODO: Use Jinja to iterate a list passed in by MainPage handler to populate table -->
+              <!--   {% for image in image_store %}
+                    <tr>
+                        <td><a href="/match">{{ image.title }}</a></td>
+                        <td>{{ image.category }}</td>
+                        <td>{{ image.date }}</td>
+                    </tr>
+                {% endfor %} -->
+                </tbody>
+            </table> 
+        <hr>
         <!-- Add a from with submit button to generate 4 distinct images -->
         <form action="/upload" enctype="multipart/form-data" method="post" id="correlate_new_game">
             <h2>Create a new game</h2>
@@ -116,6 +139,12 @@
         <script async src="/js/base.js"></script>
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#game_list').DataTable();
+            });
+        </script>
     </div>
 </body>
 </html>
