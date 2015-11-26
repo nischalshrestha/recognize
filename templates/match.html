@@ -66,14 +66,13 @@
                 <div class="form-group">
                     <input class="form-control" type="text" id="gameTitle" name="game" placeholder="Awesome Game">
                 </div>
-                <br>
-                <h4>Level 1:</h4>
+                <!-- <h4>Level 1:</h4> -->
                 <br>
                 <p>Please choose ONE correct answer.</p>
                 <label for="album_image_1">Choice 1</label>
                 <div class="form-inline">
                     <input class="form-control" id="album_image_1" type="file" name="img_1"/>
-                    <label class="checkbox-inline">
+                    <label for="album_image_1" class="checkbox-inline">
                         <input name="correct_answer_1" type="checkbox"> Correct answer
                     </label>
                 </div>
@@ -86,7 +85,7 @@
                     </label>
                 </div>
                 <br>
-                <!-- <label for="album_image_3">Choice 3</label>
+                <label for="album_image_3">Choice 3</label>
                 <div class="form-inline">
                     <input class="form-control" id="album_image_3" type="file" name="img_3"/>
                     <label class="checkbox-inline">
@@ -101,9 +100,16 @@
                         <input name="correct_answer_4" type="checkbox"> Correct Answer
                     </label>
                 </div>
-                <br> -->
-                <button id="upload_image" type="submit" class="btn btn-default">Upload</button>
+                <br>
+                <!---->
+                <button type="button" class="btn btn-default btn-m">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Create Level
+                </button>
+                <br>
+                <br>
+                <button id="upload_image" type="submit" class="btn btn-default">Submit</button>
             </form>
+            
             <!--
             <script type="text/javascript">
                 $('.bordered tr').mouseover(function(){

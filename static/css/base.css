@@ -91,11 +91,11 @@ form {
 
 form label {
   width: 90px;
-  display: inline-block;
+  /*display: inline-block;*/
 }
 
 .form-control {
-  max-width: 50%;
+  max-width: 45%;
 }
 
 .form-signin input[type="text"] {

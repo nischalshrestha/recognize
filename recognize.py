@@ -4,7 +4,8 @@ import os
 import time
 import jinja2
 
-from models import Album
+from models import Game
+from models import Question
 from models import Image
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -14,6 +15,9 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class ImageStore(webapp2.RequestHandler):
     def post(self):
+    	# game = Game()
+    	# album = Album()
+
 		img1 = Image()
 		img1.image = self.request.get('img_1')
 		img1.category = self.request.get('game')
