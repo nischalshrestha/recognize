@@ -15,48 +15,30 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class ImageStore(webapp2.RequestHandler):
     def post(self):
-    	# game = Game()
-    	# album = Album()
+    	game = Game()
+    	album = Question()
 
-		img1 = Image()
-		img1.image = self.request.get('img_1')
-		img1.category = self.request.get('game')
-		if self.request.get("correct_answer_1"): #TODO make this process a loop
-			img1.title = "correct_answer_1"
-			img1.correct = True
-		else:
-			img1.title = "incorrect_answer_1"
-			img1.correct = False
+    	for i in range(4):
+    		img = Image()
+    		img.image = self.request.get('img_'+str(i))
+    		if self.request.get("correct_answer_"+str(i)):
+    			img.title = "correct_answer_"+str(i)
+    			img.correct = True
+    		else:
+    			img.title = "incorrect_answer_"+str(i)
+    			img.correct = False
+    		img.put()
 
-		img2 = Image()
-		img2.image = self.request.get('img_2')
-		img2.category = self.request.get('game')
-		if self.request.get("correct_answer_2"):
-			img2.title = "correct_answer_2"
-			img2.correct = True
-		else:
-			img2.title = "incorrect_answer_2"
-			img2.correct = False
-
-		# img3 = Image(image=self.request.get('img_3'), title=self.request.title)
-		# album = Album(title="Cats", images=[img1, img2, img3])
-		# album.put()
-		# album.put()
-		img1_key = img1.put()
-		img2_key = img2.put()
-		# img3.put()
-		# self.response.out.write("key1: "+str(img1_key.id())+" title: "+img1.title+" correct? "+self.request.get("correct_answer_1")+
-		# 						"\nkey2: "+str(img2_key.id())+" title: "+img2.title+" correct? "+self.request.get("correct_answer_2"))
+		# self.response.out.write("key1: "+str(img1_key.id())+" title: "+img1.title+" correct? "+self.request.get("correct_answer_1"))
 		time.sleep(0.1)
 		self.redirect('/match')
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-    	# TODO: Eventually query the list of Games, and their Albums to dynamically populate page
+    	# TODO: Eventually query the list of Games, and their Questions to dynamically populate page
 
     	image = Image.query().order(-Image.date) # Order by recently added
 
-    	# self.response.write(image2.title)
     	template_values = {	
     		'image_store': image
         }

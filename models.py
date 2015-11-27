@@ -9,7 +9,6 @@ class Image(ndb.Model):
 	correct = ndb.BooleanProperty()
 	title = ndb.StringProperty()
 	image = ndb.BlobProperty()
-	category = ndb.StringProperty()
 	date = ndb.DateTimeProperty(auto_now_add=True)
 
 class Question(ndb.Model):
