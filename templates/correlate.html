@@ -41,7 +41,6 @@
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Category</th>
                         <th>Date Added</th>
                     </tr>
                 </thead>
@@ -142,7 +141,13 @@
         <script src="js/jquery.dataTables.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#game_list').DataTable();
+                $('#game_list').DataTable( {
+                    "order": [[1, "desc"]],
+                    "language": {
+                        "emptyTable": "No games created yet!",
+                        "infoEmpty": "Create a new game!"
+                    }
+                });
             });
         </script>
     </div>

@@ -23,11 +23,13 @@ handlers:
   secure: always
 - url: /upload
   script: recognize.app
+- url: /match.*
+  script: recognize.app
+- url: /create
+  script: recognize.app
 - url: /admin
   static_files: templates/admin.html
   upload: templates/admin\.html
-- url: /match
-  script: recognize.app
 - url: /correlate
   static_files: templates/correlate.html
   upload: templates/correlate\.html

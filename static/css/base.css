@@ -57,6 +57,16 @@ blockquote {
   color: green;
 }
 
+/* Links */
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #20BB35;
+}
+
 /* Table */
 
 .table-hover {

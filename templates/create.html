@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Recognize: Match Games</title>
+        <title>Recognize: Create Match Game</title>
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
         <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
@@ -35,10 +35,59 @@
         <div class="container">
             <output id="outputLog"></output>
             <!-- Insert a table displaying recently created games, perhaps with pagination to show more -->
+            
+            <!-- <hr>
+            <button type="button" class="btn btn-default btn-m">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Add Game
+            </button> -->
+            <!-- Add a from with submit button to generate 4 distinct images -->
+            <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game">
+                <h2>Create a new game</h2>
+                <br>
+                <label for="gameTitle">Title</label>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="gameTitle" name="game" placeholder="Awesome Game" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                </div>
+                <br>
+                <h4>New Question</h4>
+                <p>Please choose ONE correct answer.</p>
+                <label for="album_image_1">Choice 1</label>
+                <div class="form-inline">
+                    <input class="form-control" id="album_image_1" type="file" name="img_0"/>
+                    <label class="checkbox-inline">
+                        <input name="correct_answer_0" type="checkbox"> Correct answer
+                    </label>
+                </div>
+                <br>
+                <label for="album_image_2">Choice 2</label>
+                <div class="form-inline">
+                    <input class="form-control" id="album_image_2" type="file" name="img_1"/>
+                    <label class="checkbox-inline">
+                        <input name="correct_answer_1" type="checkbox"> Correct Answer
+                    </label>
+                </div>
+                <br>
+                <label for="album_image_3">Choice 3</label>
+                <div class="form-inline">
+                    <input class="form-control" id="album_image_3" type="file" name="img_2"/>
+                    <label class="checkbox-inline">
+                        <input name="correct_answer_2" type="checkbox"> Correct Answer
+                    </label>
+                </div>
+                <br>
+                <label for="album_image_4">Choice 4</label>
+                <div class="form-inline">
+                    <input class="form-control" id="album_image_4" type="file" name="img_3"/>
+                    <label class="checkbox-inline">
+                        <input name="correct_answer_3" type="checkbox"> Correct Answer
+                    </label>
+                </div>
+                <br>
+                <button id="upload_image" type="submit" class="btn btn-default btn-m">Save Game</button>
+            </form>
             <br>
-            <h2>Games</h2>
+            <h3>All Questions</h3>
             <br>
-            <div class="table">
             <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
                 <thead>
                     <tr>
@@ -56,10 +105,18 @@
                 {% endfor %}
                 </tbody>
             </table>
-            </div>
-            <a href="create" class="btn btn-default">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Add Game
-            </a>
+            <br>
+            <button action="button" class="btn btn-default btn-m" type="submit">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Add Question
+            </button>
+            <!--
+            <script type="text/javascript">
+                $('.bordered tr').mouseover(function(){
+                    $(this).addClass('highlight');
+                    }).mouseout(function(){
+                        $(this).removeClass('highlight');
+                    });
+            </script>-->
             <!-- <form onsubmit="return false;">
                 <h2>New Name</h2>
                 <div><label for="id">Title:</label><input id="id" /></div>
@@ -97,8 +154,8 @@
                 $('#game_list').DataTable( {
                     "order": [[1, "desc"]],
                     "language": {
-                        "emptyTable": "No games created yet!",
-                        "infoEmpty": "Create a new game!"
+                        "emptyTable": "No questions created yet!",
+                        "infoEmpty": "Create a new question above!"
                     }
                 });
             });
