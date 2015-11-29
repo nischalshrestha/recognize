@@ -15,28 +15,32 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class ImageStore(webapp2.RequestHandler):
     def post(self):
-    	game = Game()
-    	title = self.request.get('game')
-    	question = Question()
+    	game = Game(title=self.request.get('game'))
+    	question = Question(title=self.request.get('question'))
+    	answer = self.request.POST.get('correct_answer')
+    	images = self.request.get('image', allow_multiple=True)
     	image_list = []
-
+    	question_list = []
+    	# self.response.out.write("title: "+game.title+" question: "+question.title+"\nanswers: "+str(answer)
+    	# 	+ " images: "+str(len(images)))
     	for i in range(4):
     		img = Image()
-    		img.image = self.request.get('img_'+str(i))
-    		if self.request.get("correct_answer_"+str(i)):
+    		img.image = images[i]
+    		if int(answer) == i:
     			img.title = "correct_answer_"+str(i)
     			img.correct = True
     		else:
     			img.title = "incorrect_answer_"+str(i)
     			img.correct = False
-    		image_list.append(img)
-		question.title = title
-		question.images = image_list
-		game.title = title
-		game.questions.append(question)
+    		question.images.append(img)
+
+		# TODO: ancestor query for Game since we can't have repeated Question(s)
+		game.questions = question
 		game.put()
 
-		# self.response.out.write("key1: "+str(img1_key.id())+" title: "+img1.title+" correct? "+self.request.get("correct_answer_1"))
+		# TODO: redirect to create i.e. redirect back to /create to refresh that page with the newly created 
+		# game with its titles, and list of questions 
+
 		time.sleep(0.1)
 		self.redirect('/match')
 
@@ -52,9 +56,8 @@ class DisplayGame(webapp2.RequestHandler):
 
 class CreateGame(webapp2.RequestHandler):
 	def get(self):
-		# TODO: Eventually query the list of Games, and their Questions to dynamically populate page
-
 		# TODO: Query and pass in the Game, which has a list of Questions, which has a list of Images
+		# TODO: Need to look at the particular id of the game
 		game = Game.query().order(-Game.date) # Order by recently added
 		template_values = {	
 			'game_store': game

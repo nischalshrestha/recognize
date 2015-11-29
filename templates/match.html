@@ -48,10 +48,10 @@
                 </thead>
                 <tbody>
                 <!-- TODO: Use Jinja to iterate a list passed in by MainPage handler to populate table -->
-                {% for question in game_store %}
+                {% for game in game_store %}
                     <tr>
-                        <td><a href="match/view?id={{question.image.key.id()}}">{{ question.image.title }}</a></td>
-                        <td>{{ question.image.date }}</td>
+                        <td><a href="match/view?id={{game.key.id()}}">{{ game.title }}</a></td>
+                        <td>{{ game.date }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
