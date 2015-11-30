@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Recognize: Create Match Game</title>
+        <title>Recognize: Create Match Question</title>
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
         <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
@@ -36,41 +36,52 @@
             <output id="outputLog"></output>
             <!-- TODO: Vary this same page or create new pages according to what type of game is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
-            <!-- <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game"> -->
-            <form action="/upload" method="post" id="match_new_game">
-                <h3>New game</h3>
+            <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game">
+            <!-- <form action="/upload" method="post" id="match_new_game"> -->
+                <h3>New Question</h3>
                 <hr>
-                <!-- <div class="form-group"> -->
+                <div class="form-group">
+                    <label for="questionTitle">Title</label>
+                    <input class="form-control" type="text" id="questionTitle" name="game" placeholder="Awesome Question" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                </div>
+                <p>Please choose ONE correct answer.</p>
+                <label for="album_image_1">Choice 1</label>
                 <div class="form-inline">
-                    <div class="form-group">
-                        <label for="gameTitle">Title</label>
-                        <input class="form-control" type="text" id="gameTitle" name="game" placeholder="Game" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
-                    </div>
-                    <div class="form-group">
-                        <label for="categoryTitle">Category</label>
-                        <input class="form-control" type="text" id="categoryTitle" name="category" placeholder="Category" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
-                    </div>
-                 </div>
+                    <input class="form-control" id="album_image_1" type="file" name="image"/>
+                    <label class="checkbox-inline">
+                        <input name="correct_answer" type="checkbox" value="0"> Correct answer
+                    </label>
+                </div>
+                <br>
+                <label for="album_image_2">Choice 2</label>
+                <div class="form-inline">
+                    <input class="form-control" id="album_image_2" type="file" name="image"/>
+                    <label class="checkbox-inline">
+                        <input name="correct_answer" type="checkbox" value="1"> Correct Answer
+                    </label>
+                </div>
+                <br>
+                <label for="album_image_3">Choice 3</label>
+                <div class="form-inline">
+                    <input class="form-control" id="album_image_3" type="file" name="image"/>
+                    <label class="checkbox-inline">
+                        <input name="correct_answer" type="checkbox" value="2"> Correct Answer
+                    </label>
+                </div>
+                <br>
+                <label for="album_image_4">Choice 4</label>
+                <div class="form-inline">
+                    <input class="form-control" id="album_image_4" type="file" name="image"/>
+                    <label class="checkbox-inline">
+                        <input name="correct_answer" type="checkbox" value="3"> Correct Answer
+                    </label>
+                </div>
+                <button id="upload_image" type="submit" class="btn btn-success btn-lg">Save Question</button>
             </form>
-            <hr>
-            <label for="game_list">Questions</label>
-            <br><br>
-            <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Date Added</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- TODO: This page should refresh and show the newly added questions -->
-                </tbody>
-            </table>
             <!-- <div class="container"> -->
-            <a id="add_question" href="question" class="btn btn-default btn-m" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
+               <!--  <button id="add_question" action="button" class="btn btn-default btn-sm" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</button> -->
             <!-- </div> -->
             <!-- <div class="container"> -->
-            <button id="upload_image" type="submit" class="btn btn-success btn-lg">Save Game</button>
             <!-- </div> -->
             <!--
             <script type="text/javascript">

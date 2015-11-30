@@ -17,5 +17,6 @@ class Question(ndb.Model):
 
 class Game(ndb.Model):
 	title = ndb.StringProperty()
-	questions = ndb.StructuredProperty(Question)
+	category = ndb.StringProperty()
+	# questions = ndb.StructuredProperty(Question)
 	date = ndb.DateTimeProperty(auto_now_add=True)

@@ -15,12 +15,11 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class ImageStore(webapp2.RequestHandler):
     def post(self):
-    	game = Game(title=self.request.get('game'))
-    	question = Question(title=self.request.get('question'))
+    	game = Game(title=self.request.get('game'), category=self.request.get('category'))
+    	question = Question(title=self.request.get('question'), parent=game)
     	answer = self.request.POST.get('correct_answer')
     	images = self.request.get('image', allow_multiple=True)
     	image_list = []
-    	question_list = []
     	# self.response.out.write("title: "+game.title+" question: "+question.title+"\nanswers: "+str(answer)
     	# 	+ " images: "+str(len(images)))
     	for i in range(4):
@@ -34,9 +33,8 @@ class ImageStore(webapp2.RequestHandler):
     			img.correct = False
     		question.images.append(img)
 
-		# TODO: ancestor query for Game since we can't have repeated Question(s)
-		game.questions = question
 		game.put()
+		question.put()
 
 		# TODO: redirect to create i.e. redirect back to /create to refresh that page with the newly created 
 		# game with its titles, and list of questions 
@@ -46,17 +44,6 @@ class ImageStore(webapp2.RequestHandler):
 
 class DisplayGame(webapp2.RequestHandler):
 	def get(self):
-		# TODO: Eventually query the list of Games, and their Questions to dynamically populate page
-		# image = Image.query().order(-Image.date) # Order by recently added
-		# template_values = {	
-		# 	'image_store': image
-		# }
-		# template = JINJA_ENVIRONMENT.get_template('match.html')
-		self.response.write("id: "+self.request.GET['id'])
-
-class CreateGame(webapp2.RequestHandler):
-	def get(self):
-		# TODO: Query and pass in the Game, which has a list of Questions, which has a list of Images
 		# TODO: Need to look at the particular id of the game
 		game = Game.query().order(-Game.date) # Order by recently added
 		template_values = {	
@@ -64,6 +51,25 @@ class CreateGame(webapp2.RequestHandler):
 		}
 		template = JINJA_ENVIRONMENT.get_template('create.html')
 		# self.response.write("id: "+self.request.GET['id'])
+		self.response.write(template.render(template_values))
+
+class CreateQuestion(webapp2.RequestHandler):
+	def get(self):
+		game = Game.query().order(-Game.date) # Order by recently added
+		template_values = {	
+			'game_store': game
+		}
+		template = JINJA_ENVIRONMENT.get_template('question.html')
+		# self.response.write("id: "+self.request.GET['id'])
+		self.response.write(template.render(template_values))
+
+class CreateGame(webapp2.RequestHandler):
+	def get(self):
+		games = Game.query().order(-Game.date) # Order by recently added
+		template_values = {	
+			'game_store': games
+		}
+		template = JINJA_ENVIRONMENT.get_template('create.html')
 		self.response.write(template.render(template_values))
 
 
@@ -80,5 +86,6 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/upload', ImageStore),
 							   ('/match', MainPage),
 							   ('/match/view', DisplayGame), # TODO: Combine Display and Create
-							   ('/create', CreateGame)],
+							   ('/create', CreateGame),
+							   ('/question', CreateQuestion)],
 								debug=True)
