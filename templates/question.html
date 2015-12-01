@@ -36,44 +36,44 @@
             <output id="outputLog"></output>
             <!-- TODO: Vary this same page or create new pages according to what type of game is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
-            <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game">
+            <form action="/uploadq" enctype="multipart/form-data" method="post" id="match_new_game">
             <!-- <form action="/upload" method="post" id="match_new_game"> -->
                 <h3>New Question</h3>
                 <hr>
                 <div class="form-group">
                     <label for="questionTitle">Title</label>
-                    <input required = "true" class="form-control" type="text" id="questionTitle" name="game" placeholder="Question" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                    <input required = "true" class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="{{ game.title }}">
                 </div>
                 <p>Please choose ONE correct answer.</p>
                 <label for="album_image_1">Choice 1</label>
                 <div class="form-inline">
-                    <input class="form-control" id="album_image_1" type="file" name="image"/>
+                    <input required = "true" class="form-control" id="album_image_1" type="file" name="image"/>
                     <label class="checkbox-inline">
-                        <input name="correct_answer" type="checkbox" value="0"> Correct answer
+                        <input required = "true" name="correct_answer" type="checkbox" value="0"> Correct answer
                     </label>
                 </div>
                 <br>
                 <label for="album_image_2">Choice 2</label>
                 <div class="form-inline">
-                    <input class="form-control" id="album_image_2" type="file" name="image"/>
+                    <input required = "true" class="form-control" id="album_image_2" type="file" name="image"/>
                     <label class="checkbox-inline">
-                        <input name="correct_answer" type="checkbox" value="1"> Correct Answer
+                        <input required = "true" name="correct_answer" type="checkbox" value="1"> Correct Answer
                     </label>
                 </div>
                 <br>
                 <label for="album_image_3">Choice 3</label>
                 <div class="form-inline">
-                    <input class="form-control" id="album_image_3" type="file" name="image"/>
+                    <input required = "true" class="form-control" id="album_image_3" type="file" name="image"/>
                     <label class="checkbox-inline">
-                        <input name="correct_answer" type="checkbox" value="2"> Correct Answer
+                        <input required = "true" name="correct_answer" type="checkbox" value="2"> Correct Answer
                     </label>
                 </div>
                 <br>
                 <label for="album_image_4">Choice 4</label>
                 <div class="form-inline">
-                    <input class="form-control" id="album_image_4" type="file" name="image"/>
+                    <input required = "true" class="form-control" id="album_image_4" type="file" name="image"/>
                     <label class="checkbox-inline">
-                        <input name="correct_answer" type="checkbox" value="3"> Correct Answer
+                        <input required = "true" name="correct_answer" type="checkbox" value="3"> Correct Answer
                     </label>
                 </div>
                 <div id="submit" class="row">
@@ -143,7 +143,7 @@
             form.addEventListener('submit', function(event) { // listen for form submitting
                     if (!event.target.checkValidity()) {
                         event.preventDefault(); // dismiss the default functionality
-                        alert('But you haven\'t filled the form yet! :('); // error message
+                        alert('You haven\'t filled out the form!'); // error message
                     }
                 }, false);
         </script>

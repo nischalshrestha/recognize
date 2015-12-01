@@ -8,6 +8,12 @@
         <link rel="stylesheet" href="/css/base.css">
         <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style type="text/css">
+            .dataTables_filter input { 
+              position: relative;
+              right: 90px;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -44,17 +50,24 @@
                 <div class="form-inline">
                     <div class="form-group">
                         <label for="gameTitle">Title</label>
-                        <input required="true" class="form-control" type="text" id="gameTitle" name="game" placeholder="Title" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                        <input required="true" class="form-control" type="text" id="gameTitle" name="game" placeholder="Title" 
+                        {% if game.title %}
+                            value = "{{ game.title}}"
+                        {% endif %}>
                     </div>
                     <div class="form-group">
                         <label for="categoryTitle">Category</label>
-                        <input required="true" class="form-control" type="text" id="categoryTitle" name="category" placeholder="Category" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                        <input required="true" class="form-control" type="text" id="categoryTitle" name="category" placeholder="Category"
+                        {% if game.category %}
+                            value = "{{ game.category}}"
+                        {% endif %}>    <!--This might do for inserting previous title-->
                     </div>
                  </div>
-            </form>
+            <!-- </form> -->
             <hr>
+            <!-- <div class="row"> -->
             <label for="game_list">Questions</label>
-            <br><br>
+            <!-- <div class="table"> -->
             <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
                 <thead>
                     <tr>
@@ -64,16 +77,18 @@
                 </thead>
                 <tbody>
                     <!-- TODO: This page should refresh and show the newly added questions -->
-
                 </tbody>
             </table>
+            <!-- </div> -->
             <!-- <div class="container"> -->
             <a id="add_question" href="question" class="btn btn-default btn-m" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
             <!-- </div> -->
-            <div id="submit" class="row">
-                <button id="upload_image" type="submit" class="btn btn-success btn-lg">Save</button>
-                <a id="cancel" href="match" class="btn btn-danger btn-m" type="submit">Cancel</a>
-            </div>
+            <!-- <form method="post" action="/uploadq" id="save_game"> -->
+                <div id="submit" class="row">                    
+                    <button id="upload_image" type="submit" class="btn btn-success btn-lg" onsubmit="setFormSubmitting()">Save</button>
+                    <a id="cancel" href="match" class="btn btn-danger btn-m" type="submit">Cancel</a>
+                </div>
+            </form>
             <!--
             <script type="text/javascript">
                 $('.bordered tr').mouseover(function(){
@@ -121,7 +136,7 @@
                     "language": {
                         "emptyTable": "No questions added yet!",
                         "infoEmpty": "Add a new question!"
-                    }
+                    },
                 });
             });
         </script>
@@ -131,7 +146,7 @@
             form.addEventListener('submit', function(event) { // listen for form submitting
                     if (!event.target.checkValidity()) {
                         event.preventDefault(); // dismiss the default functionality
-                        alert('But you haven\'t filled the form yet! :('); // error message
+                        alert('You haven\'t filled out the form!'); // error message
                     }
                 }, false);
         </script>
