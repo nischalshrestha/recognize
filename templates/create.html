@@ -44,11 +44,11 @@
                 <div class="form-inline">
                     <div class="form-group">
                         <label for="gameTitle">Title</label>
-                        <input class="form-control" type="text" id="gameTitle" name="game" placeholder="Title" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                        <input required="true" class="form-control" type="text" id="gameTitle" name="game" placeholder="Title" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
                     </div>
                     <div class="form-group">
                         <label for="categoryTitle">Category</label>
-                        <input class="form-control" type="text" id="categoryTitle" name="category" placeholder="Category" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                        <input required="true" class="form-control" type="text" id="categoryTitle" name="category" placeholder="Category" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
                     </div>
                  </div>
             </form>
@@ -71,8 +71,8 @@
             <a id="add_question" href="question" class="btn btn-default btn-m" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
             <!-- </div> -->
             <div id="submit" class="row">
-                <a id="cancel" href="match" class="btn btn-default btn-lg" type="submit">Cancel</a>
                 <button id="upload_image" type="submit" class="btn btn-success btn-lg">Save</button>
+                <a id="cancel" href="match" class="btn btn-danger btn-m" type="submit">Cancel</a>
             </div>
             <!--
             <script type="text/javascript">
@@ -124,6 +124,16 @@
                     }
                 });
             });
+        </script>
+        <script type="text/javascript">
+            var form = document.getElementById('match_new_game'); // form has to have ID: <form id="formID">
+            form.noValidate = true;
+            form.addEventListener('submit', function(event) { // listen for form submitting
+                    if (!event.target.checkValidity()) {
+                        event.preventDefault(); // dismiss the default functionality
+                        alert('But you haven\'t filled the form yet! :('); // error message
+                    }
+                }, false);
         </script>
         <!-- Nifty function to uncheck other checkboxes: 
             http://stackoverflow.com/questions/9709209/html-select-only-one-checkbox-in-a-group 

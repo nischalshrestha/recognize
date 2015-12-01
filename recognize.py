@@ -85,4 +85,4 @@ app = webapp2.WSGIApplication([('/upload', ImageStore),
 							   ('/match/view', DisplayGame), # TODO: Combine Display and Create
 							   ('/create', CreateGame),
 							   ('/question', CreateQuestion)],
-								debug=True)
+								debug=False)
