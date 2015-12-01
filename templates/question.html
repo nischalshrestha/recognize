@@ -42,7 +42,7 @@
                 <hr>
                 <div class="form-group">
                     <label for="questionTitle">Title</label>
-                    <input class="form-control" type="text" id="questionTitle" name="game" placeholder="Awesome Question" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                    <input class="form-control" type="text" id="questionTitle" name="game" placeholder="Question" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
                 </div>
                 <p>Please choose ONE correct answer.</p>
                 <label for="album_image_1">Choice 1</label>
@@ -76,7 +76,10 @@
                         <input name="correct_answer" type="checkbox" value="3"> Correct Answer
                     </label>
                 </div>
-                <button id="upload_image" type="submit" class="btn btn-success btn-lg">Save</button>
+                <div id="submit" class="row">
+                    <a id="cancel" href="create" class="btn btn-default btn-lg" type="submit">Cancel</a>
+                    <button id="upload_image" type="submit" class="btn btn-success btn-lg">Save</button>
+                </div>
             </form>
             <!-- <div class="container"> -->
                <!--  <button id="add_question" action="button" class="btn btn-default btn-sm" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</button> -->

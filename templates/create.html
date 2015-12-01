@@ -44,7 +44,7 @@
                 <div class="form-inline">
                     <div class="form-group">
                         <label for="gameTitle">Title</label>
-                        <input class="form-control" type="text" id="gameTitle" name="game" placeholder="Game" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
+                        <input class="form-control" type="text" id="gameTitle" name="game" placeholder="Title" value="{{ game_store.title}}"> <!--This might do for inserting previous title-->
                     </div>
                     <div class="form-group">
                         <label for="categoryTitle">Category</label>
@@ -70,9 +70,10 @@
             <!-- <div class="container"> -->
             <a id="add_question" href="question" class="btn btn-default btn-m" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
             <!-- </div> -->
-            <!-- <div class="container"> -->
-            <button id="upload_image" type="submit" class="btn btn-success btn-lg">Save</button>
-            <!-- </div> -->
+            <div id="submit" class="row">
+                <a id="cancel" href="match" class="btn btn-default btn-lg" type="submit">Cancel</a>
+                <button id="upload_image" type="submit" class="btn btn-success btn-lg">Save</button>
+            </div>
             <!--
             <script type="text/javascript">
                 $('.bordered tr').mouseover(function(){
