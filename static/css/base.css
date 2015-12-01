@@ -1,4 +1,44 @@
 
+/* Navbar */
+
+/* navbar */
+.navbar-default {
+    background-color: #F8F8F8;
+    border-color: #E7E7E7;
+}
+
+/* link */
+.navbar-default .navbar-nav > li > a {
+    color: #777;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #222;
+}
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus {
+    color: white;
+    background-color: #0f7f12;
+}
+.navbar-default .navbar-nav > .open > a, 
+.navbar-default .navbar-nav > .open > a:hover, 
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #555;
+    background-color: #0f7f12;
+}
+
+/* brand */
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #0f7f12;
+}
+
+/* title */
+.navbar-header .navbar-brand {
+    color: #0f7f12;
+}
+
 /* Jumbotron */
 
 .jumbotron {
@@ -45,16 +85,13 @@
 body {
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #f5f5f5;
+    background-color: #eaeaea;
+    /*background-color: #82a8d5;*/
 }
 
 blockquote {
     margin-bottom: 10px;
     border-left-color: #bbb;
-}
-
-.navbar-brand {
-  color: green;
 }
 
 /* Links */
