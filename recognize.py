@@ -34,21 +34,35 @@ class MainPage(webapp2.RequestHandler):
 		self.response.write(template.render(template_values))
 		
 
-class DisplayGame(webapp2.RequestHandler):
-	def get(self):
-		# TODO: Examine particular id of the game, and retrieve the Game
-		# game = Game.query().order(-Game.date) # Order by recently added
-		# template_values = {	
-		# 	'game_store': game
-		# }
-		# template = JINJA_ENVIRONMENT.get_template('create.html')
-		self.response.write("id: "+self.request.GET['id'])
+# class DisplayGame(webapp2.RequestHandler):
+# 	def get(self):
+# 		# TODO: Examine particular id of the game, and retrieve the Game
+# 		# game = Game.query().order(-Game.date) # Order by recently added
+# 		# template_values = {	
+# 		# 	'game_store': game
+# 		# }
+# 		# template = JINJA_ENVIRONMENT.get_template('create.html')
+# 		# self.response.write("id: "+self.request.GET['id'])
+# 		urlstring = self.request.GET['id']
+# 		game_key = ndb.Key(urlsafe=urlstring)
+# 		game = game_key.get()
+# 		questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
+
+# 		template_values = {
+# 			'game': game,
+# 			'questions': questions
+# 		}
+# 		template = JINJA_ENVIRONMENT.get_template('view.html')
+# 		self.response.write(template.render(template_values))
+
 		# self.response.write(template.render(template_values))
 
 class CreateGame(webapp2.RequestHandler):
 	def get(self):
 		game = ""
 		new = 1
+		edit = 0
+		retrieve = 0
 	
 		if self.request.GET.get('new'):
 			game = Game()
@@ -58,14 +72,16 @@ class CreateGame(webapp2.RequestHandler):
 			game_key = ndb.Key(urlsafe=urlstring)
 			game = game_key.get()
 			new = 0
-			# self.response.write("hello")
+			retrieve = 1
 
 		template_values = {
-			'game': game,
-			'new': new
+				'game': game,
+				'new': new,
+				'edit': edit,
+				'retrieve': retrieve
 		}
-
 		template = JINJA_ENVIRONMENT.get_template('create.html')
+		time.sleep(0.1)
 		self.response.write(template.render(template_values))
 
 class EditGame(webapp2.RequestHandler):
@@ -77,9 +93,14 @@ class EditGame(webapp2.RequestHandler):
 
 		questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
 		# self.response.write("question: "+str(questions))
+		edit = 1
+		retrieve = 0
+
 		template_values = {
 			'game': game,
-			'questions': questions
+			'questions': questions,
+			'edit': edit,
+			'retrieve': retrieve
 		}
 		template = JINJA_ENVIRONMENT.get_template('create.html')
 		self.response.write(template.render(template_values))
@@ -115,7 +136,7 @@ class StoreQuestion(webapp2.RequestHandler):
 		image_list = []
 		# self.response.out.write("title: "+game.title+" question: "+question.title+"\nanswers: "+str(answer) 
 		#	+ " images: "+str(len(images)))
-		for i in range(1):
+		for i in range(4):
 			img = Image()
 			img.image = images[i]
 			if int(answer) == i:
@@ -140,13 +161,13 @@ class StoreGame(webapp2.RequestHandler):
 		game.category = self.request.POST['categoryTitle']
 		game.put()
 
-		# time.sleep(0.1)
+		time.sleep(0.1)
 		self.redirect('/match')
 
 app = webapp2.WSGIApplication([('/upload', StoreGame),
 							   ('/uploadq', StoreQuestion),
 							   ('/match', MainPage),
-							   ('/match/view', DisplayGame), # TODO: Combine Display and Create
+							   # ('/match/view', DisplayGame), # TODO: Combine Display and Create
 							   ('/create', CreateGame),
 							   ('/edit', EditGame),
 							   ('/question', CreateQuestion)],

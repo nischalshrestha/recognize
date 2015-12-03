@@ -23,11 +23,11 @@
             }
         </script>
     </head>
-    {% if game and not new %}
+    {% if game and retrieve %}
         <body onload="retrieve();">
     {% else %}
         <body>
-    {% endif %}
+    {% endif %} 
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -55,14 +55,15 @@
             <!-- TODO: Vary this same page or create new pages according to what type of game is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
             <!-- <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game"> -->
-            <form action="upload" method="post" id="match_new_game">
-                <h3>
-                {% if game and not new %}
+            <h3>
+                {% if game and edit %}
                     Edit game
                 {% else %}
                     New game
                 {% endif %}</h3>
-                <hr>
+            <hr>
+            <form action="upload" method="post" id="match_new_game">
+                
                 <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
                 <!-- <div class="form-group"> -->
                 <div class="form-inline">
@@ -151,7 +152,7 @@
                 <div id="submit" class="row">       
                     <button id="upload_image" type="submit" class="btn btn-success btn-lg" onsubmit="setFormSubmitting()">Save</button>
                     <a id="cancel" 
-                    {% if game %}
+                    {% if game and not edit %}
                         href= "match?cancel={{ game.key.urlsafe() }}"
                     {% else %}
                         href="match?cancel="

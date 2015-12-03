@@ -43,40 +43,40 @@
                 <hr>
                 <div class="form-group">
                     <label for="questionTitle">Title</label>
-                    <input required = "true" class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="">
+                    <input class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="">
                 </div>
                 <p>Please choose ONE correct answer.</p>
                 <label for="album_image_1">Choice 1</label>
                 <div class="form-inline">
-                    <input required = "true" class="form-control" id="album_image_1" type="file" name="image"/>
+                    <input required="true" class="form-control" id="album_image_1" type="file" name="image"/>
                     <label class="checkbox-inline">
                         <input name="correct_answer" type="checkbox" value="0"> Correct answer
                     </label>
                 </div>
-<!--                 <br>
+                <br>
                 <label for="album_image_2">Choice 2</label>
                 <div class="form-inline">
-                    <input required = "true" class="form-control" id="album_image_2" type="file" name="image"/>
+                    <input required="true" class="form-control" id="album_image_2" type="file" name="image"/>
                     <label class="checkbox-inline">
                         <input name="correct_answer" type="checkbox" value="1"> Correct Answer
                     </label>
-                </div> -->
-                <!-- <br>
+                </div>
+                <br>
                 <label for="album_image_3">Choice 3</label>
                 <div class="form-inline">
-                    <input required = "true" class="form-control" id="album_image_3" type="file" name="image"/>
+                    <input required="true" class="form-control" id="album_image_3" type="file" name="image"/>
                     <label class="checkbox-inline">
-                        <input required = "true" name="correct_answer" type="checkbox" value="2"> Correct Answer
+                        <input name="correct_answer" type="checkbox" value="2"> Correct Answer
                     </label>
                 </div>
                 <br>
                 <label for="album_image_4">Choice 4</label>
                 <div class="form-inline">
-                    <input required = "true" class="form-control" id="album_image_4" type="file" name="image"/>
+                    <input required="true" class="form-control" id="album_image_4" type="file" name="image"/>
                     <label class="checkbox-inline">
-                        <input required = "true" name="correct_answer" type="checkbox" value="3"> Correct Answer
+                        <input name="correct_answer" type="checkbox" value="3"> Correct Answer
                     </label>
-                </div> -->
+                </div>
                 <div id="submit" class="row">
                     <button id="upload_image" type="submit" class="btn btn-success btn-lg" onsubmit="setFormSubmitting()">Save</button>
                     <a id="cancel" href="create?cancel={{ game.key.urlsafe() }}" class="btn btn-danger btn-m" type="submit">Cancel</a>
