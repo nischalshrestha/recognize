@@ -14,8 +14,20 @@
               right: 90px;
             }
         </style>
+        <script type="text/javascript">
+            function retrieve(){
+                var title=localStorage.getItem('title_text'); // retrieve
+                document.getElementById('gameTitle').value = title; // display
+                title = localStorage.getItem('category_text');
+                document.getElementById('categoryTitle').value = title;
+            }
+        </script>
     </head>
-    <body>
+    {% if game and not new %}
+        <body onload="retrieve();">
+    {% else %}
+        <body>
+    {% endif %}
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -43,50 +55,107 @@
             <!-- TODO: Vary this same page or create new pages according to what type of game is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
             <!-- <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game"> -->
-            <form action="/upload" method="post" id="match_new_game">
-                <h3>New game</h3>
+            <form action="upload" method="post" id="match_new_game">
+                <h3>
+                {% if game and not new %}
+                    Edit game
+                {% else %}
+                    New game
+                {% endif %}</h3>
                 <hr>
+                <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
                 <!-- <div class="form-group"> -->
                 <div class="form-inline">
                     <div class="form-group">
                         <label for="gameTitle">Title</label>
-                        <input required="true" class="form-control" type="text" id="gameTitle" name="game" placeholder="Title" 
-                        {% if game.title %}
-                            value = "{{ game.title}}"
-                        {% endif %}>
+                        <input required="true" class="form-control" type="text" id="gameTitle" name="gameTitle" placeholder="Title"
+                        {% if game and game.title %}
+                            value = "{{ game.title }}"
+                        {% endif %}/>
                     </div>
                     <div class="form-group">
                         <label for="categoryTitle">Category</label>
-                        <input required="true" class="form-control" type="text" id="categoryTitle" name="category" placeholder="Category"
-                        {% if game.category %}
-                            value = "{{ game.category}}"
-                        {% endif %}>    <!--This might do for inserting previous title-->
+                        <input required="true" class="form-control" type="text" id="categoryTitle" name="categoryTitle" placeholder="Category"
+                        {% if game and game.category %}
+                            value = "{{ game.category }}"
+                        {% endif %}/>
                     </div>
                  </div>
             <!-- </form> -->
-            <hr>
             <!-- <div class="row"> -->
-            <label for="game_list">Questions</label>
-            <!-- <div class="table"> -->
-            <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Date Added</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- TODO: This page should refresh and show the newly added questions -->
-                </tbody>
-            </table>
-            <!-- </div> -->
-            <!-- <div class="container"> -->
-            <a id="add_question" href="question" class="btn btn-default btn-m" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
+            <!-- <h3>Add Question</h3><br>
+            <div class="form-group">
+                <label for="questionTitle">Title</label>
+                <input required = "true" class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="{#{{ game.title }}#}">
+            </div>
+            <p>Please choose ONE correct answer.</p>
+            <label for="album_image_1">Choice 1</label>
+            <div class="form-inline">
+                <input required = "true" class="form-control" id="album_image_1" type="file" name="image"/>
+                <label class="checkbox-inline">
+                    <input required = "true" name="correct_answer" type="checkbox" value="0"> Correct answer
+                </label>
+            </div>
+            <br>
+            <label for="album_image_2">Choice 2</label>
+            <div class="form-inline">
+                <input required = "true" class="form-control" id="album_image_2" type="file" name="image"/>
+                <label class="checkbox-inline">
+                    <input required = "true" name="correct_answer" type="checkbox" value="1"> Correct Answer
+                </label>
+            </div>
+            <br>
+            <label for="album_image_3">Choice 3</label>
+            <div class="form-inline">
+                <input required = "true" class="form-control" id="album_image_3" type="file" name="image"/>
+                <label class="checkbox-inline">
+                    <input required = "true" name="correct_answer" type="checkbox" value="2"> Correct Answer
+                </label>
+            </div>
+            <br>
+            <label for="album_image_4">Choice 4</label>
+            <div class="form-inline">
+                <input required = "true" class="form-control" id="album_image_4" type="file" name="image"/>
+                <label class="checkbox-inline">
+                    <input required = "true" name="correct_answer" type="checkbox" value="3"> Correct Answer
+                </label>
+            </div>
+            <br> -->
+                <hr>
+                <label for="game_list">Questions</label><br><br>
+                <!-- <div class="table"> -->
+                <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Date Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- TODO: A view question for the link when selecting a game -->
+                        {% if questions %}
+                            {% for question in questions %}
+                                <tr>
+                                    <td><a href="edit?id={{ game.key.urlsafe() }}">{{ question.title }}</a></td>
+                                    <td>{{ question.date }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+                <!-- </div> -->
+                <!-- <div class="container"> -->
+                <a id="add_question" href="question?id={{ game.key.urlsafe() }}" class="btn btn-default btn-m" type="submit" onclick="save();"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
             <!-- </div> -->
             <!-- <form method="post" action="/uploadq" id="save_game"> -->
-                <div id="submit" class="row">                    
+                <div id="submit" class="row">       
                     <button id="upload_image" type="submit" class="btn btn-success btn-lg" onsubmit="setFormSubmitting()">Save</button>
-                    <a id="cancel" href="match" class="btn btn-danger btn-m" type="submit">Cancel</a>
+                    <a id="cancel" 
+                    {% if game %}
+                        href= "match?cancel={{ game.key.urlsafe() }}"
+                    {% else %}
+                        href="match?cancel="
+                    {% endif %} class="btn btn-danger btn-m" type="submit">Cancel</a>
                 </div>
             </form>
             <!--
@@ -149,6 +218,14 @@
                         alert('You haven\'t filled out the form!'); // error message
                     }
                 }, false);
+        </script>
+        <script type="text/javascript">
+            function save(){
+                var text_to_save=document.getElementById('gameTitle').value;
+                localStorage.setItem('title_text', text_to_save); // save the item
+                text_to_save=document.getElementById('categoryTitle').value;
+                localStorage.setItem('category_text', text_to_save); // save the item
+            }
         </script>
         <!-- Nifty function to uncheck other checkboxes: 
             http://stackoverflow.com/questions/9709209/html-select-only-one-checkbox-in-a-group 

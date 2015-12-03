@@ -21,13 +21,15 @@ handlers:
   static_files: templates/index.html
   upload: templates/index\.html
   secure: always
-- url: /upload
+- url: /upload.*
   script: recognize.app
 - url: /match.*
   script: recognize.app
 - url: /create
   script: recognize.app
 - url: /question
+  script: recognize.app
+- url: /edit
   script: recognize.app
 - url: /admin
   static_files: templates/admin.html
