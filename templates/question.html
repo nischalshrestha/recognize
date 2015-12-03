@@ -36,10 +36,16 @@
             <output id="outputLog"></output>
             <!-- TODO: Vary this same page or create new pages according to what type of game is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
-            <form action="/uploadq" enctype="multipart/form-data" method="post" id="match_new_game">
+            <form 
+            {% if not edit %}
+                action="/uploadq"
+            {% else %}
+                action="/uploadq?edit=1"
+            {% endif %}
+            enctype="multipart/form-data" method="post" id="match_new_game">
             <!-- <form action="/upload" method="post" id="match_new_game"> -->
                 <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
-                <h3>New Question</h3>
+                <h3>New Question for {{ game.title }}</h3>
                 <hr>
                 <div class="form-group">
                     <label for="questionTitle">Title</label>
@@ -79,7 +85,12 @@
                 </div>
                 <div id="submit" class="row">
                     <button id="upload_image" type="submit" class="btn btn-success btn-lg" onsubmit="setFormSubmitting()">Save</button>
-                    <a id="cancel" href="create?cancel={{ game.key.urlsafe() }}" class="btn btn-danger btn-m" type="submit">Cancel</a>
+                    <a id="cancel" 
+                    {% if not edit %}
+                        href="create?cancel={{ game.key.urlsafe() }}"
+                    {% else %}
+                        href="edit?cancel={{ game.key.urlsafe() }}"
+                    {% endif %} class="btn btn-danger btn-m" type="submit">Cancel</a>
                 </div>
             </form>
             <!-- <div class="container"> -->

@@ -13,12 +13,6 @@ class GreetingCollection(messages.Message):
 	"""Collection of Greetings."""
 	items = messages.MessageField(Greeting, 1, repeated=True)
 
-# Game model which contains Level models
-# class Game(messages.Message):
-
-# Level model which has Image models
-# class Level(messages.Message):
-
 class ImageRequest(messages.Message):
 	search_exp = messages.StringField(1)
 

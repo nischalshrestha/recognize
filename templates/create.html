@@ -23,7 +23,7 @@
             }
         </script>
     </head>
-    {% if game and retrieve %}
+    {% if retrieve %}
         <body onload="retrieve();">
     {% else %}
         <body>
@@ -56,7 +56,7 @@
             <!-- Add a from with submit button to generate 4 distinct images -->
             <!-- <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game"> -->
             <h3>
-                {% if game and edit %}
+                {% if edit %}
                     Edit game
                 {% else %}
                     New game
@@ -82,46 +82,6 @@
                         {% endif %}/>
                     </div>
                  </div>
-            <!-- </form> -->
-            <!-- <div class="row"> -->
-            <!-- <h3>Add Question</h3><br>
-            <div class="form-group">
-                <label for="questionTitle">Title</label>
-                <input required = "true" class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="{#{{ game.title }}#}">
-            </div>
-            <p>Please choose ONE correct answer.</p>
-            <label for="album_image_1">Choice 1</label>
-            <div class="form-inline">
-                <input required = "true" class="form-control" id="album_image_1" type="file" name="image"/>
-                <label class="checkbox-inline">
-                    <input required = "true" name="correct_answer" type="checkbox" value="0"> Correct answer
-                </label>
-            </div>
-            <br>
-            <label for="album_image_2">Choice 2</label>
-            <div class="form-inline">
-                <input required = "true" class="form-control" id="album_image_2" type="file" name="image"/>
-                <label class="checkbox-inline">
-                    <input required = "true" name="correct_answer" type="checkbox" value="1"> Correct Answer
-                </label>
-            </div>
-            <br>
-            <label for="album_image_3">Choice 3</label>
-            <div class="form-inline">
-                <input required = "true" class="form-control" id="album_image_3" type="file" name="image"/>
-                <label class="checkbox-inline">
-                    <input required = "true" name="correct_answer" type="checkbox" value="2"> Correct Answer
-                </label>
-            </div>
-            <br>
-            <label for="album_image_4">Choice 4</label>
-            <div class="form-inline">
-                <input required = "true" class="form-control" id="album_image_4" type="file" name="image"/>
-                <label class="checkbox-inline">
-                    <input required = "true" name="correct_answer" type="checkbox" value="3"> Correct Answer
-                </label>
-            </div>
-            <br> -->
                 <hr>
                 <label for="game_list">Questions</label><br><br>
                 <!-- <div class="table"> -->
@@ -146,16 +106,22 @@
                 </table>
                 <!-- </div> -->
                 <!-- <div class="container"> -->
-                <a id="add_question" href="question?id={{ game.key.urlsafe() }}" class="btn btn-default btn-m" type="submit" onclick="save();"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
+                <a id="add_question" 
+                {% if not edit %}
+                    href="question?id={{ game.key.urlsafe() }}" 
+                {% else %}
+                    href="question?id={{ game.key.urlsafe() }}&amp;edit=1"
+                {% endif %} 
+                class="btn btn-default btn-m" type="submit" onclick="save();"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
             <!-- </div> -->
             <!-- <form method="post" action="/uploadq" id="save_game"> -->
                 <div id="submit" class="row">       
                     <button id="upload_image" type="submit" class="btn btn-success btn-lg" onsubmit="setFormSubmitting()">Save</button>
                     <a id="cancel" 
-                    {% if game and not edit %}
+                    {% if not edit %}
                         href= "match?cancel={{ game.key.urlsafe() }}"
                     {% else %}
-                        href="match?cancel="
+                        href="match"
                     {% endif %} class="btn btn-danger btn-m" type="submit">Cancel</a>
                 </div>
             </form>
