@@ -29,7 +29,6 @@ class MainPage(webapp2.RequestHandler):
 		template_values = {
 			'game_store': game
 		}
-
 		template = JINJA_ENVIRONMENT.get_template('match.html')
 		self.response.write(template.render(template_values))
 
@@ -107,17 +106,16 @@ class CreateQuestion(webapp2.RequestHandler):
 
 class StoreQuestion(webapp2.RequestHandler):
 	def post(self):
+		# Obtain Game from url
 		urlstring = self.request.POST['game']
 		game_key = ndb.Key(urlsafe=urlstring)
 		game = game_key.get()
-
+		# Create Question with the Game as parent for strong consistency
 		question = Question(title=self.request.get('question'), parent=game_key)
 		title = self.request.get('question')
 		answer = self.request.get('correct_answer')
 		images = self.request.get('image', allow_multiple=True)
 		image_list = []
-		# self.response.out.write("title: "+game.title+" question: "+question.title+"\nanswers: "+str(answer) 
-		#	+ " images: "+str(len(images)))
 		for i in range(4):
 			img = Image()
 			img.image = images[i]
@@ -128,7 +126,6 @@ class StoreQuestion(webapp2.RequestHandler):
 				img.title = "incorrect_answer_"+str(i)
 				img.correct = False
 			question.images.append(img)
-
 		question.put()
 
 		questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
@@ -149,12 +146,11 @@ class StoreQuestion(webapp2.RequestHandler):
 
 class StoreGame(webapp2.RequestHandler):
     def post(self):
-		""" TODO 
-
-		"""
+		# Grab Game from url
 		urlstring = self.request.POST['game']
 		game_key = ndb.Key(urlsafe=urlstring)
 		game = game_key.get()
+		# Set its title and category from form in /question
 		game.title = self.request.POST['gameTitle']
 		game.category = self.request.POST['categoryTitle']
 		game.put()

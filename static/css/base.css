@@ -100,11 +100,11 @@ a:link {
     text-decoration: none;
 }
 
-a:hover {
-    color: #20BB35;
-}
-
 /* Table */
+
+.table-hover.dataTable {
+  margin: 0 auto;
+}
 
 .table-hover {
   max-width: 100%;
@@ -114,7 +114,7 @@ a:hover {
 }
 
 .table-hover th {
-  background-color: green;
+  background-color: #197e1c;
   color: white;
 }
 
@@ -128,6 +128,10 @@ a:hover {
 
 .table-hover > tbody > tr:hover {
   background-color: #fbf8e9;
+}
+
+.table-hover.dataTable tbody tr.selected {
+  background-color: #ece6bd; 
 }
 
 /* Forms */
@@ -159,6 +163,11 @@ form label {
 #cancel {
   position: relative;
   left: 25px;
+}
+
+#delete {
+  position: relative;
+  left: 20px;
 }
 
 /* Rows */

@@ -6,7 +6,8 @@
         <title>Recognize: Match Games</title>
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
-        <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="css/select.dataTables.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
@@ -57,9 +58,10 @@
                 </tbody>
             </table>
             </div>
-            <a href="create" class="btn btn-default">
+            <a href="create" class="btn btn-success">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Add Game
             </a>
+            <a id="delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
             <!-- <form onsubmit="return false;">
                 <h2>New Name</h2>
                 <div><label for="id">Title:</label><input id="id" /></div>
@@ -91,16 +93,23 @@
         <script async src="/js/base.js"></script>
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/dataTables.select.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#game_list').DataTable( {
+                    "dom": '<lf<t>ip>',
                     "order": [[1, "desc"]],
                     "language": {
-                        "emptyTable": "No games created yet!",
-                        "infoEmpty": "Create a new game!"
-                    }
+                        "emptyTable": "No questions added yet!",
+                        "infoEmpty": "Add a new question!"
+                    },
+                    "select": true
                 });
+                // TODO: Use something like this to delete row and somehow delete corresponding object
+                // $('#text').click( function () {
+                //     table.row('.selected').remove().draw( false );
+                // } );
             });
         </script>
     </body>
