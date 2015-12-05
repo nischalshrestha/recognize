@@ -44,11 +44,11 @@
     </div>
     <br>
     <div class="container">
-        <p>Experiment with Custom Search Engine</p>
-        <form class=".form-search" onsubmit="return false;">
+        <form id="search_form" class="form-search" onsubmit="return false;">
             <h3>Search Image</h3>
-            <input  id="searchTerm" type="text" class="input-medium .search-query">
-            <button id="getGreeting" type="submit" class="btn btn-default">Go</button>
+            <input required="true" id="searchTerm" type="text" class="input-medium .search-query">
+            <button id="getGreeting" type="submit" class="btn btn-default" onsubmit="setFormSubmitting()">Go</button>
+            <a id="clear" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear</a>
         </form>
     </div>
     <!--
@@ -85,5 +85,21 @@
     <script type="text/javascript" src="/js/render.js"></script>
     <script type="text/javascript" src="/js/render.js"></script>
     <script async src="/js/base.js"></script>
+    <script type="text/javascript">
+        var form = document.getElementById('search_form'); // form has to have ID: <form id="formID">
+        form.noValidate = true;
+        form.addEventListener('submit', function(event) { // listen for form submitting
+                if (!event.target.checkValidity()) {
+                    event.preventDefault(); // dismiss the default functionality
+                    alert('Please enter a search term!'); // error message
+                }
+                return false;
+            }, false);
+    </script>
+    <script type="text/javascript">
+        $('#clear').click( function () {
+            $('img').remove();
+        });
+    </script>
 </body>
 </html>

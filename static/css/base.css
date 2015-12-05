@@ -170,6 +170,11 @@ form label {
   left: 20px;
 }
 
+#clear {
+  position: relative;
+  left: 20px;
+}
+
 /* Rows */
 
 .row {
