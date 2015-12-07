@@ -27,6 +27,7 @@ ANDROID_AUDIENCE = WEB_CLIENT_ID
 
 package = 'Recognize'
 
+
 # Performs a google image search given the search expression
 def query_image(exp):
   # Build a service object for interacting with the API. Visit
@@ -34,11 +35,11 @@ def query_image(exp):
   # to get an API key for your own application.
   service = build("customsearch", "v1",
             developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
-  # Doc on list(): https://developers.google.com/custom-search/json-api/v1/reference/
+  # https://developers.google.com/custom-search/json-api/v1/reference/cse/list
   res = service.cse().list(
         q=exp,
         cx='008947772147471846402:fdhywbjbitw',
-        num=4,
+        num=20,
         searchType="image",
         imgColorType='color',
         siteSearchFilter='e',
@@ -51,9 +52,8 @@ def query_image(exp):
       ).execute()
   parsed_res = json.dumps(res)
   json_res = json.loads(parsed_res)
-  # https://developers.google.com/custom-search/json-api/v1/reference/cse/list
   items = []
-  for i in range(4):
+  for i in range(20):
     items.append(ImageMessage(image_url=json_res['items'][i]['link']))
   return items
 

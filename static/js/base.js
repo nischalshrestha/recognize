@@ -91,6 +91,7 @@ google.appengine.samples.hello.print = function(greeting) {
   document.querySelector('#outputLog').appendChild(element);
 };
 
+
 /**
  * Gets a numbered greeting via the API.
  * @param {string} id ID of the greeting.
@@ -112,7 +113,7 @@ google.appengine.samples.hello.getGreeting = function(id) {
  * Gets a numbered greeting via the API.
  * @param {string} id ID of the greeting.
  */
-google.appengine.samples.hello.uploadImage = function(image) {
+google.appengine.samples.hello.nextImageSet = function(image) {
   gapi.client.recognize.greetings.uploadImages({'image': image}).execute(
       function(resp) {
         if (!resp.code) {

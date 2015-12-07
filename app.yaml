@@ -5,43 +5,54 @@ threadsafe: true
 api_version: 1
 
 handlers:
-# Endpoints handler
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
+
 - url: /images
   static_dir: static/images
+
 - url: /js
   static_dir: static/js
+
 - url: /css
   static_dir: static/css
+
 - url: /bootstrap
   static_dir: static/bootstrap
-- url: /
-  static_files: templates/index.html
-  upload: templates/index\.html
-  secure: always
-- url: /upload.*
-  script: recognize.app
-- url: /match.*
-  script: recognize.app
-- url: /create
-  script: recognize.app
-- url: /question
-  script: recognize.app
-- url: /edit
-  script: recognize.app
-- url: /admin
-  static_files: templates/admin.html
-  upload: templates/admin\.html
-- url: /correlate
-  static_files: templates/correlate.html
-  upload: templates/correlate\.html
-- url: /oddmanout
-  static_files: templates/oddmanout.html
-  upload: templates/oddmanout\.html
+
+# Endpoints handler
 - url: /_ah/spi/.*
   script: recognize_api.APPLICATION
+
+# Website Handlers
+- url: /.*
+  secure: always
+  script: recognize.app
+
+- url: /upload.*
+  script: recognize.app
+
+- url: /match.*
+  script: recognize.app
+
+- url: /create
+  script: recognize.app
+
+- url: /question
+  script: recognize.app
+
+- url: /edit
+  script: recognize.app
+
+- url: /admin
+  script: recognize.app
+
+- url: /correlate
+  script: recognize.app
+
+- url: /oddmanout
+  script: recognize.app
 
 libraries:
 - name: webapp2

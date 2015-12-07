@@ -16,10 +16,20 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-class MainPage(webapp2.RequestHandler):
-    def get(self):
-    	# TODO: Determine the content based on the page: match, correlate, or oddmanout
-    	# Currently: Determines the content based on just match
+class Home(webapp2.RequestHandler):
+	def get(self):
+		template_values = {}
+		template = JINJA_ENVIRONMENT.get_template('index.html')
+		self.response.write(template.render(template_values))
+
+class Admin(webapp2.RequestHandler):
+	def get(self):
+		template_values = {}
+		template = JINJA_ENVIRONMENT.get_template('admin.html')
+		self.response.write(template.render(template_values))
+
+class Match(webapp2.RequestHandler):
+	def get(self):
 		if len(self.request.GET) and self.request.GET['cancel']:
 			urlstring = self.request.GET['cancel']
 			game_key = ndb.Key(urlsafe=urlstring)
@@ -32,7 +42,35 @@ class MainPage(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('match.html')
 		self.response.write(template.render(template_values))
 
-class CreateGame(webapp2.RequestHandler):
+class Correlate(webapp2.RequestHandler):
+	def get(self):
+		if len(self.request.GET) and self.request.GET['cancel']:
+			urlstring = self.request.GET['cancel']
+			game_key = ndb.Key(urlsafe=urlstring)
+			game_key.delete()
+
+		game = Game.query().order(-Game.date) # Order by recently added
+		template_values = {
+			'game_store': game
+		}
+		template = JINJA_ENVIRONMENT.get_template('correlate.html')
+		self.response.write(template.render(template_values))
+
+class OddManOut(webapp2.RequestHandler):
+	def get(self):
+		if len(self.request.GET) and self.request.GET['cancel']:
+			urlstring = self.request.GET['cancel']
+			game_key = ndb.Key(urlsafe=urlstring)
+			game_key.delete()
+
+		game = Game.query().order(-Game.date) # Order by recently added
+		template_values = {
+			'game_store': game
+		}
+		template = JINJA_ENVIRONMENT.get_template('oddmanout.html')
+		self.response.write(template.render(template_values))
+
+class Create(webapp2.RequestHandler):
 	def get(self):
 		game = ""
 		questions = ""
@@ -59,9 +97,8 @@ class CreateGame(webapp2.RequestHandler):
 		time.sleep(0.2)
 		self.response.write(template.render(template_values))
 
-class EditGame(webapp2.RequestHandler):
-	def get(self):
-
+class Edit(webapp2.RequestHandler):
+	def get(self):	
 		retrieve = 0
 		urlstring = ""
 		if self.request.GET.get('cancel'):
@@ -142,9 +179,9 @@ class StoreQuestion(webapp2.RequestHandler):
 		}
 		template = JINJA_ENVIRONMENT.get_template('create.html')
 		self.response.write(template.render(template_values))
-		# self.redirect('/edit?id='+urlstring)
+		self.redirect('/edit?id='+urlstring)
 
-class StoreGame(webapp2.RequestHandler):
+class Store(webapp2.RequestHandler):
     def post(self):
 		# Grab Game from url
 		urlstring = self.request.POST['game']
@@ -154,24 +191,15 @@ class StoreGame(webapp2.RequestHandler):
 		game.title = self.request.POST['gameTitle']
 		game.category = self.request.POST['categoryTitle']
 		game.put()
-
 		time.sleep(0.1)
 		self.redirect('/match')
 
-app = webapp2.WSGIApplication([('/upload', StoreGame),
-							   ('/uploadq', StoreQuestion),
-							   ('/match', MainPage),
-							   ('/create', CreateGame),
-							   ('/edit', EditGame),
-							   ('/question', CreateQuestion)],
+app = webapp2.WSGIApplication([('/', Home),
+								('/admin', Admin),
+								('/match', Match),
+								('/correlate', Correlate),
+								('/oddmanout', OddManOut),
+								('/create', Create), # TODO Incorporate creating Question
+								('/edit', Edit),
+								('/upload', Store)], # TODO Incorporate storing Question
 								debug=False)
-
-# TODO: A tidier implementation once above is working for /match
-# app = webapp2.WSGIApplication([('/upload', StoreGame),
-# 							   ('/match', MainPage),
-#    						   ('/correlate', MainPage),
-# 							   ('/oddmanout', MainPage),
-# 							   ('/view', DisplayGame), # TODO: Combine Display and Create
-# 							   ('/create', CreateGame),
-# 							   ('/question', CreateQuestion)],
-# 								debug=True)
