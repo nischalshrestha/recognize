@@ -39,7 +39,7 @@ def query_image(exp):
   res = service.cse().list(
         q=exp,
         cx='008947772147471846402:fdhywbjbitw',
-        num=20,
+        num=4,
         searchType="image",
         imgColorType='color',
         siteSearchFilter='e',
@@ -53,7 +53,7 @@ def query_image(exp):
   parsed_res = json.dumps(res)
   json_res = json.loads(parsed_res)
   items = []
-  for i in range(20):
+  for i in range(4):
     items.append(ImageMessage(image_url=json_res['items'][i]['link']))
   return items
 

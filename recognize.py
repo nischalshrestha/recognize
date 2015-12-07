@@ -73,29 +73,42 @@ class OddManOut(webapp2.RequestHandler):
 class Create(webapp2.RequestHandler):
 	def get(self):
 		game = ""
-		questions = ""
-		retrieve = 0
 		edit = 0
+		if self.request.GET['game'] == '1':
+			questions = ""
+			retrieve = 0
+			if self.request.GET.get('cancel'):
+				urlstring = self.request.GET['cancel']
+				game_key = ndb.Key(urlsafe=urlstring)
+				game = game_key.get()
+				questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
+				retrieve = 1
+			else:
+				game = Game()
+				game.put()
+			template_values = {
+				'game': game,
+				'questions': questions,
+				'edit': edit,
+				'retrieve': retrieve
+			}
+			template = JINJA_ENVIRONMENT.get_template('create.html')
+			time.sleep(0.2)
+			self.response.write(template.render(template_values))
+		else:
+			urlstring = self.request.GET['id']
 
-		if self.request.GET.get('cancel'):
-			urlstring = self.request.GET['cancel']
+			if len(self.request.GET) and 'edit' in self.request.GET:
+				edit = self.request.GET['edit']
+				
 			game_key = ndb.Key(urlsafe=urlstring)
 			game = game_key.get()
-			questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
-			retrieve = 1
-		else:
-			game = Game()
-			game.put()
-
-		template_values = {
-			'game': game,
-			'questions': questions,
-			'edit': edit,
-			'retrieve': retrieve
-		}
-		template = JINJA_ENVIRONMENT.get_template('create.html')
-		time.sleep(0.2)
-		self.response.write(template.render(template_values))
+			template_values = {
+				'game': game,
+				'edit': edit
+			}
+			template = JINJA_ENVIRONMENT.get_template('question.html')
+			self.response.write(template.render(template_values))
 
 class Edit(webapp2.RequestHandler):
 	def get(self):	
@@ -122,77 +135,54 @@ class Edit(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('create.html')
 		self.response.write(template.render(template_values))
 
-class CreateQuestion(webapp2.RequestHandler):
-	def get(self):
-		edit = ""
-		urlstring = self.request.GET['id']
-		if len(self.request.GET) and 'edit' in self.request.GET:
-			edit = self.request.GET['edit']
-
-		# if urlstring:
-		game_key = ndb.Key(urlsafe=urlstring)
-		game = game_key.get()
-
-		template_values = {
-			'game': game,
-			'edit': edit
-		}
-
-		template = JINJA_ENVIRONMENT.get_template('question.html')
-		self.response.write(template.render(template_values))
-
-class StoreQuestion(webapp2.RequestHandler):
-	def post(self):
-		# Obtain Game from url
-		urlstring = self.request.POST['game']
-		game_key = ndb.Key(urlsafe=urlstring)
-		game = game_key.get()
-		# Create Question with the Game as parent for strong consistency
-		question = Question(title=self.request.get('question'), parent=game_key)
-		title = self.request.get('question')
-		answer = self.request.get('correct_answer')
-		images = self.request.get('image', allow_multiple=True)
-		image_list = []
-		for i in range(4):
-			img = Image()
-			img.image = images[i]
-			if int(answer) == i:
-				img.title = "correct_answer_"+str(i)
-				img.correct = True
-			else:
-				img.title = "incorrect_answer_"+str(i)
-				img.correct = False
-			question.images.append(img)
-		question.put()
-
-		questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
-		retrieve = 1
-		edit = 0
-		if len(self.request.GET) and 'edit' in self.request.GET:
-			edit = self.request.GET['edit']
-
-		template_values = {
-			'game': game,
-			'questions': questions,
-			'edit': edit,
-			'retrieve': retrieve
-		}
-		template = JINJA_ENVIRONMENT.get_template('create.html')
-		self.response.write(template.render(template_values))
-		self.redirect('/edit?id='+urlstring)
-
 class Store(webapp2.RequestHandler):
     def post(self):
 		# Grab Game from url
 		urlstring = self.request.POST['game']
 		game_key = ndb.Key(urlsafe=urlstring)
 		game = game_key.get()
-		# Set its title and category from form in /question
-		game.title = self.request.POST['gameTitle']
-		game.category = self.request.POST['categoryTitle']
-		game.put()
-		time.sleep(0.1)
-		self.redirect('/match')
+
+		if self.request.GET['game'] == '1':
+			# Set its title and category from form in /question
+			game.title = self.request.POST['gameTitle']
+			game.category = self.request.POST['categoryTitle']
+			game.put()
+			time.sleep(0.1)
+			self.redirect('/match')
+		else:
+			# Create Question with the Game as parent for strong consistency
+			question = Question(title=self.request.get('question'), parent=game_key)
+			title = self.request.get('question')
+			answer = self.request.get('correct_answer')
+			images = self.request.get('image', allow_multiple=True)
+			image_list = []
+			for i in range(4):
+				img = Image()
+				img.image = images[i]
+				if int(answer) == i:
+					img.title = "correct_answer_"+str(i)
+					img.correct = True
+				else:
+					img.title = "incorrect_answer_"+str(i)
+					img.correct = False
+				question.images.append(img)
+			question.put()
+
+			questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
+			retrieve = 1
+			edit = 0
+			if len(self.request.GET) and 'edit' in self.request.GET:
+				edit = self.request.GET['edit']
+
+			template_values = {
+				'game': game,
+				'questions': questions,
+				'edit': edit,
+				'retrieve': retrieve
+			}
+			template = JINJA_ENVIRONMENT.get_template('create.html')
+			self.response.write(template.render(template_values))
+			self.redirect('/edit?id='+urlstring)
 
 app = webapp2.WSGIApplication([('/', Home),
 								('/admin', Admin),

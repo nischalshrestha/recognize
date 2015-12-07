@@ -63,7 +63,7 @@
                     New game
                 {% endif %}</h3>
             <hr>
-            <form action="upload" method="post" id="match_new_game">
+            <form action="upload?game=1" method="post" id="match_new_game">
                 <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
                 <!-- <div class="form-group"> -->
                 <div class="form-inline">
@@ -109,59 +109,25 @@
                 <!-- <div class="container"> -->
                 <a id="add_question" 
                 {% if not edit %}
-                    href="question?id={{ game.key.urlsafe() }}" 
+                    href="create?game=0&amp;id={{ game.key.urlsafe() }}"
                 {% else %}
-                    href="question?id={{ game.key.urlsafe() }}&amp;edit=1"
+                    href="create?game=0&amp;id={{ game.key.urlsafe() }}&amp;edit=1"
                 {% endif %} 
-                class="btn btn-success btn-m" type="submit" onclick="save();"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
+                class="btn btn-success btn-md" type="submit" onclick="save();"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
                 <a id="delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
             <!-- </div> -->
             <!-- <form method="post" action="/uploadq" id="save_game"> -->
                 <div id="submit" class="row">       
-                    <button id="upload_image" type="submit" class="btn btn-success btn-lg" onsubmit="setFormSubmitting()">Save</button>
+                    <button id="upload_image" type="submit" class="btn btn-success btn-md" onsubmit="setFormSubmitting()">Save</button>
+                    <button id="continue_editing" type="submit" class="btn btn-default btn-md" onsubmit="setFormSubmitting()">Save and continue editing</button>
                     <a id="cancel" 
                     {% if not edit %}
                         href= "match?cancel={{ game.key.urlsafe() }}"
                     {% else %}
                         href="match"
-                    {% endif %} class="btn btn-default btn-lg" type="submit">Cancel</a>
+                    {% endif %} class="btn btn-default btn-md" type="submit">Cancel</a>
                 </div>
             </form>
-            <!--
-            <script type="text/javascript">
-                $('.bordered tr').mouseover(function(){
-                    $(this).addClass('highlight');
-                    }).mouseout(function(){
-                        $(this).removeClass('highlight');
-                    });
-            </script>-->
-            <!-- <form onsubmit="return false;">
-                <h2>New Name</h2>
-                <div><label for="id">Title:</label><input id="id" /></div>
-                <div><input id="getGreeting" type="submit" class="btn btn-small" value="Submit"></div>
-            </form> -->
-            
-            <!-- <form onsubmit="return false;">
-                <h2>List Greetings</h2>
-                <div><input id="listGreeting" type="submit" class="btn btn-small" value="Submit"></div>
-            </form>
-
-            <form onsubmit="return false;">
-                <h2>Multiply Greetings</h2>
-                <div><label for="greeting">Greeting:</label><input id="greeting" /></div>
-                <div><label for="count">Count:</label><input id="count" /></div>
-                <div><input id="multiplyGreetings" type="submit" class="btn btn-small" value="Submit"></div>
-            </form>
-            <form onsubmit="return false;">
-                <h2>Authenticated Greeting</h2>
-                <div><input id="authedGreeting" type="submit" class="btn btn-small" disabled value="Submit"></div>
-            </form> 
-            <script>
-            //     function init() {
-            //         google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
-            //     }
-            </script>-->
-            <!-- // <script src="https://apis.google.com/js/client.js?onload=init"></script> -->
         </div>
         <script async src="/js/base.js"></script>
         <script src="js/jquery-1.11.3.min.js"></script>
@@ -203,6 +169,12 @@
                 localStorage.setItem('title_text', text_to_save); // save the item
                 text_to_save=document.getElementById('categoryTitle').value;
                 localStorage.setItem('category_text', text_to_save); // save the item
+            }
+        </script>
+        <script type="text/javascript">
+            function getTitle(){
+                var title = document.getElementById('gameTitle').value;
+                return title;
             }
         </script>
         <!-- Nifty function to uncheck other checkboxes: 

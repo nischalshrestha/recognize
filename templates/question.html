@@ -8,6 +8,12 @@
         <link rel="stylesheet" href="/css/base.css">
         <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript">
+            function retrieve(){
+                var title=localStorage.getItem('title_text'); // retrieve
+                return title;
+            }
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -38,14 +44,20 @@
             <!-- Add a from with submit button to generate 4 distinct images -->
             <form 
             {% if not edit %}
-                action="/uploadq"
+                action="/upload?game=0"
             {% else %}
-                action="/uploadq?edit=1"
+                action="/upload?edit=1&amp;game=0"
             {% endif %}
             enctype="multipart/form-data" method="post" id="match_new_game">
             <!-- <form action="/upload" method="post" id="match_new_game"> -->
                 <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
-                <h3>New Question for {{ game.title }}</h3>
+                <h3>
+                {% if edit %}
+                    New Question for {{ game.title }}
+                {% else %}
+                    New Question
+                {% endif %}
+                </h3>
                 <hr>
                 <div class="form-group">
                     <label for="questionTitle">Title</label>
@@ -84,55 +96,15 @@
                     </label>
                 </div>
                 <div id="submit" class="row">
-                    <button id="upload_image" type="submit" class="btn btn-success btn-lg" onsubmit="setFormSubmitting()">Save</button>
+                    <button id="upload_image" type="submit" class="btn btn-success btn-md" onsubmit="setFormSubmitting()">Save</button>
                     <a id="cancel" 
                     {% if not edit %}
-                        href="create?cancel={{ game.key.urlsafe() }}"
+                        href="create?game=1&amp;cancel={{ game.key.urlsafe() }}"
                     {% else %}
                         href="edit?cancel={{ game.key.urlsafe() }}"
-                    {% endif %} class="btn btn-default btn-lg" type="submit">Cancel</a>
+                    {% endif %} class="btn btn-default btn-md" type="submit">Cancel</a>
                 </div>
             </form>
-            <!-- <div class="container"> -->
-               <!--  <button id="add_question" action="button" class="btn btn-default btn-sm" type="submit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</button> -->
-            <!-- </div> -->
-            <!-- <div class="container"> -->
-            <!-- </div> -->
-            <!--
-            <script type="text/javascript">
-                $('.bordered tr').mouseover(function(){
-                    $(this).addClass('highlight');
-                    }).mouseout(function(){
-                        $(this).removeClass('highlight');
-                    });
-            </script>-->
-            <!-- <form onsubmit="return false;">
-                <h2>New Name</h2>
-                <div><label for="id">Title:</label><input id="id" /></div>
-                <div><input id="getGreeting" type="submit" class="btn btn-small" value="Submit"></div>
-            </form> -->
-            
-            <!-- <form onsubmit="return false;">
-                <h2>List Greetings</h2>
-                <div><input id="listGreeting" type="submit" class="btn btn-small" value="Submit"></div>
-            </form>
-
-            <form onsubmit="return false;">
-                <h2>Multiply Greetings</h2>
-                <div><label for="greeting">Greeting:</label><input id="greeting" /></div>
-                <div><label for="count">Count:</label><input id="count" /></div>
-                <div><input id="multiplyGreetings" type="submit" class="btn btn-small" value="Submit"></div>
-            </form>
-            <form onsubmit="return false;">
-                <h2>Authenticated Greeting</h2>
-                <div><input id="authedGreeting" type="submit" class="btn btn-small" disabled value="Submit"></div>
-            </form> 
-            <script>
-            //     function init() {
-            //         google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
-            //     }
-            </script>-->
-            <!-- // <script src="https://apis.google.com/js/client.js?onload=init"></script> -->
         </div>
         <script async src="/js/base.js"></script>
         <script src="js/jquery-1.11.3.min.js"></script>
