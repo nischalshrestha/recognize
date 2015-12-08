@@ -188,7 +188,7 @@ class Store(webapp2.RequestHandler):
 
 class Delete(webapp2.RequestHandler):
 	def get(self):
-		# Delete the game by examining the selected row in table
+		# Delete the game/question by examining the selected row in table
 		# TODO Support multiple rows
 		if self.request.GET['game'] == '1':
 			games = Game.query().order(-Game.date).fetch()

@@ -58,7 +58,7 @@
                             {{ game.title }}
                         {% endif %}
                         </a></td>
-                        <td>{{ game.date }}</td>
+                        <td>{{ game.date.date() }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

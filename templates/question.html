@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
         <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
+        <link href="fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript">
             function retrieve(){
@@ -51,7 +52,7 @@
             enctype="multipart/form-data" method="post" id="match_new_game">
             <!-- <form action="/upload" method="post" id="match_new_game"> -->
                 <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
-                <h3>
+                <h3 align="center">
                 {% if edit %}
                     New Question for {{ game.title }}
                 {% else %}
@@ -59,47 +60,49 @@
                 {% endif %}
                 </h3>
                 <hr>
-                <div class="form-group">
-                    <label for="questionTitle">Title</label>
-                    <input class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="">
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label for="questionTitle">Title</label>
+                        <input class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="">
+                    </div>
+                    <div class="form-group col-lg-12">
+                      <label for="comment">Factoid</label>
+                      <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question"></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="comment">Factoid</label>
-                  <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question"></textarea>
+                <div class="row">
+                    <div class="form-group col-sm-5">
+                        <label for="album_image_1">Choice 1</label>
+                        <input class="form-control" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
+                        <br>
+                        <label for="checkbox_1">Correct Answer</label>
+                        <input id="checkbox_1" name="correct_answer" type="checkbox" value="0">
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label for="album_image_2">Choice 2</label>
+                        <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
+                        <br>
+                        <label for="checkbox_2">Correct Answer</label>
+                        <input id="checkbox_2" name="correct_answer" type="checkbox" value="0">
+                    </div>
                 </div>
-                <p>Please choose ONE correct answer.</p>
-                <label for="album_image_1">Choice 1</label>
-                <div class="form-inline">
-                    <input required="true" class="form-control" id="album_image_1" type="file" name="image"/>
-                    <label class="checkbox-inline">
-                        <input name="correct_answer" type="checkbox" value="0"> Correct answer
-                    </label>
+                <div class="row">
+                    <div class="form-group col-sm-5">
+                        <label for="album_image_3">Choice 3</label>
+                        <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
+                        <br>
+                        <label for="checkbox_3">Correct Answer</label>
+                        <input id="checkbox_3" name="correct_answer" type="checkbox" value="0">
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label for="album_image_4">Choice 4</label>
+                        <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
+                        <br>
+                        <label for="checkbox_4">Correct Answer</label>
+                        <input id="checkbox_4" name="correct_answer" type="checkbox" value="0">
+                    </div>
                 </div>
-                <br>
-                <label for="album_image_2">Choice 2</label>
-                <div class="form-inline">
-                    <input required="true" class="form-control" id="album_image_2" type="file" name="image"/>
-                    <label class="checkbox-inline">
-                        <input name="correct_answer" type="checkbox" value="1"> Correct Answer
-                    </label>
-                </div>
-                <br>
-                <label for="album_image_3">Choice 3</label>
-                <div class="form-inline">
-                    <input required="true" class="form-control" id="album_image_3" type="file" name="image"/>
-                    <label class="checkbox-inline">
-                        <input name="correct_answer" type="checkbox" value="2"> Correct Answer
-                    </label>
-                </div>
-                <br>
-                <label for="album_image_4">Choice 4</label>
-                <div class="form-inline">
-                    <input required="true" class="form-control" id="album_image_4" type="file" name="image"/>
-                    <label class="checkbox-inline">
-                        <input name="correct_answer" type="checkbox" value="3"> Correct Answer
-                    </label>
-                </div>
-                <div id="submit" class="row">
+                <div id="submit" class="col-md-10 row">
                     <button id="upload_image" type="submit" class="btn btn-success btn-md" onsubmit="setFormSubmitting()">Save</button>
                     <a id="cancel" 
                     {% if not edit %}
@@ -114,6 +117,8 @@
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery.dataTables.min.js"></script>
+        <script src="fileinput/js/plugins/canvas-to-blob.min.js" type="text/javascript"></script>
+        <script src="fileinput/js/fileinput.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#game_list').DataTable( {
@@ -123,6 +128,15 @@
                         "infoEmpty": "Add a new question!"
                     }
                 });
+                // Initialize fileinputs with preview enabled
+                $("#album_image_1").fileinput({
+                    "previewSettings": {
+                        "image": {width: "auto", height: "100px"}
+                    }
+                });
+                $("#album_image_2").fileinput();
+                $("#album_image_3").fileinput();
+                $("#album_image_4").fileinput();
             });
         </script>
         <script type="text/javascript">

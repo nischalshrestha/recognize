@@ -145,9 +145,13 @@ form label {
   /*display: inline-block;*/
 }
 
-.form-control {
+/*.file {
   max-width: 45%;
-}
+}*/
+
+/*.form-control {
+  max-width: 45%;
+}*/
 
 .form-signin input[type="text"] {
   font-size: 16px;

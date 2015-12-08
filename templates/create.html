@@ -98,7 +98,7 @@
                             {% for question in questions %}
                                 <tr>
                                     <td><a href="edit?id={{ game.key.urlsafe() }}">{{ question.title }}</a></td>
-                                    <td>{{ question.date }}</td>
+                                    <td>{{ question.date.date() }}</td>
                                 </tr>
                             {% endfor %}
                         {% endif %}
