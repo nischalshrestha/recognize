@@ -76,7 +76,7 @@
         <script type="text/javascript" src="js/dataTables.select.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#game_list').DataTable( {
+                var table = $('#game_list').DataTable( {
                     "dom": '<lf<t>ip>',
                     "order": [[1, "desc"]],
                     "language": {
@@ -85,24 +85,30 @@
                     },
                     "select": true
                 });
-            });
-        </script>
-        <script type="text/javascript">
-            // Delete function to remove rows and respective Game entities from Datastore 
-            $('#delete').click( function () {
-                var table = $('#game_list').DataTable();
                 $('#game_list tbody').on( 'click', 'tr', function () {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
+                    if ($(this).hasClass('selected')) {
+                        table.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
+                    } else {
+                                                $(this).removeClass('selected');
+
+                    }
                 });
-                // Grab the row index
-                var row_idx = table.row('.selected').index();
-                table.row('.selected').remove().draw( false );
-                // Call our Delete handler to remove Game from Datastore based on row_idx
-                $.ajax({url: "/delete?id="+row_idx, success: function(result){
-                    alert('Successfully removed!');
-                }});
-            } );
+                // Delete function to remove rows and respective Game entities from Datastore 
+                $('#delete').click( function () {
+                    // Grab the row index
+                    var row_idx = table.row('.selected').index();
+                    if(typeof row_idx === 'undefined'){
+                        alert('You didn\'t pick a game to delete!');
+                    } else if(confirm('Are you sure you want to delete this game?')){
+                        table.row('.selected').remove().draw( false );
+                        // Call our Delete handler to remove Game from Datastore based on row_idx
+                        $.ajax({url: "/delete?id="+row_idx, success: function(result){
+                            alert('Successfully removed!');
+                        }});
+                    }
+                });
+            });
         </script>
     </body>
 </html>
