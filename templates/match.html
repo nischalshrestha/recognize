@@ -90,8 +90,7 @@
                         table.$('tr.selected').removeClass('selected');
                         $(this).addClass('selected');
                     } else {
-                                                $(this).removeClass('selected');
-
+                        $(this).removeClass('selected');
                     }
                 });
                 // Delete function to remove rows and respective Game entities from Datastore 
@@ -103,7 +102,7 @@
                     } else if(confirm('Are you sure you want to delete this game?')){
                         table.row('.selected').remove().draw( false );
                         // Call our Delete handler to remove Game from Datastore based on row_idx
-                        $.ajax({url: "/delete?id="+row_idx, success: function(result){
+                        $.ajax({url: "/delete?game=1&amp;id="+row_idx, success: function(result){
                             alert('Successfully removed!');
                         }});
                     }

@@ -190,8 +190,14 @@ class Delete(webapp2.RequestHandler):
 	def get(self):
 		# Delete the game by examining the selected row in table
 		# TODO Support multiple rows
-		games = Game.query().order(-Game.date).fetch()
-		games[int(self.request.GET.get('id'))].key.delete()
+		if self.request.GET['game'] == '1':
+			games = Game.query().order(-Game.date).fetch()
+			games[int(self.request.GET.get('id'))].key.delete()
+		else:
+			urlstring = self.request.GET['id']
+			game_key = ndb.Key(urlsafe=urlstring)
+			questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
+			questions[int(self.request.GET.get('q'))].key.delete()
 
 app = webapp2.WSGIApplication([('/', Home),
 								('/admin', Admin),
