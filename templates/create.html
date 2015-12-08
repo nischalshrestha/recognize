@@ -55,7 +55,6 @@
             <output id="outputLog"></output>
             <!-- TODO: Vary this same page or create new pages according to what type of game is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
-            <!-- <form action="/upload" enctype="multipart/form-data" method="post" id="match_new_game"> -->
             <h3>
                 {% if edit %}
                     Edit game
@@ -63,8 +62,9 @@
                     New game
                 {% endif %}</h3>
             <hr>
-            <form action="upload?game=1" method="post" id="match_new_game">
+            <form action="upload?game=1" method="post" id="match_new_game" name="main_form">
                 <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
+                <input id="stay_here" type="hidden" name="stay" value="0" />
                 <!-- <div class="form-group"> -->
                 <div class="form-inline">
                     <div class="form-group">
@@ -84,9 +84,7 @@
                  </div>
                 <hr>
                 <h3>Questions</h3><br>
-                <!-- <div class="table"> -->
                 <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
-                <!-- <table id="game_list" class="display" cellspacing="0" width="100%"> -->
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -105,8 +103,7 @@
                         {% endif %}
                     </tbody>
                 </table>
-                <!-- </div> -->
-                <!-- <div class="container"> -->
+                <!-- Add a new question -->
                 <a id="add_question" 
                 {% if not edit %}
                     href="create?game=0&amp;id={{ game.key.urlsafe() }}"
@@ -115,11 +112,10 @@
                 {% endif %} 
                 class="btn btn-success btn-md" type="submit" onclick="save();"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Question</a>
                 <a id="delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-            <!-- </div> -->
-            <!-- <form method="post" action="/uploadq" id="save_game"> -->
+                <!-- Submit or cancel actions -->
                 <div id="submit" class="row">       
                     <button id="upload_image" type="submit" class="btn btn-success btn-md" onsubmit="setFormSubmitting()">Save</button>
-                    <button id="continue_editing" type="submit" class="btn btn-default btn-md" onsubmit="setFormSubmitting()">Save and continue editing</button>
+                    <button id="upload_continue" name="continue_editing" type="submit" class="btn btn-default btn-md" onsubmit="setFormSubmitting()" value="stay">Save and continue editing</button>
                     <a id="cancel" 
                     {% if not edit %}
                         href= "match?cancel={{ game.key.urlsafe() }}"
@@ -154,12 +150,20 @@
             });
         </script>
         <script type="text/javascript">
+            var which;
+            $('#upload_continue').click(function(){
+                which = $(this).attr('id');
+            });
             var form = document.getElementById('match_new_game'); // form has to have ID: <form id="formID">
             form.noValidate = true;
             form.addEventListener('submit', function(event) { // listen for form submitting
                     if (!event.target.checkValidity()) {
                         event.preventDefault(); // dismiss the default functionality
-                        alert('You haven\'t filled out the form!'); // error message
+                        alert('Please fill out the title and category first!'); // error message
+                    }
+                    // Set hidden input for the Store handler to redirect
+                    if(which == "upload_continue"){
+                        document.main_form.stay.value = 1;
                     }
                 }, false);
         </script>
@@ -171,15 +175,8 @@
                 localStorage.setItem('category_text', text_to_save); // save the item
             }
         </script>
-        <script type="text/javascript">
-            function getTitle(){
-                var title = document.getElementById('gameTitle').value;
-                return title;
-            }
-        </script>
         <!-- Nifty function to uncheck other checkboxes: 
-            http://stackoverflow.com/questions/9709209/html-select-only-one-checkbox-in-a-group 
-        -->
+            http://stackoverflow.com/questions/9709209/html-select-only-one-checkbox-in-a-group -->
         <script type="text/javascript">
             $('input[type="checkbox"]').on('change', function() {
                 $('input[name="' + this.name + '"]').not(this).prop('checked', false);
