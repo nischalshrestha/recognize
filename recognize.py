@@ -1,6 +1,5 @@
 import webapp2
 
-
 import os
 import time
 import jinja2
@@ -34,8 +33,8 @@ class Match(webapp2.RequestHandler):
 			urlstring = self.request.GET['cancel']
 			game_key = ndb.Key(urlsafe=urlstring)
 			game_key.delete()
-
-		game = Game.query().order(-Game.date) # Order by recently added
+		# Order by recently added
+		game = Game.query().order(-Game.date)
 		template_values = {
 			'game_store': game
 		}
@@ -48,8 +47,8 @@ class Correlate(webapp2.RequestHandler):
 			urlstring = self.request.GET['cancel']
 			game_key = ndb.Key(urlsafe=urlstring)
 			game_key.delete()
-
-		game = Game.query().order(-Game.date) # Order by recently added
+		# Order by recently added
+		game = Game.query().order(-Game.date) 
 		template_values = {
 			'game_store': game
 		}
@@ -62,8 +61,8 @@ class OddManOut(webapp2.RequestHandler):
 			urlstring = self.request.GET['cancel']
 			game_key = ndb.Key(urlsafe=urlstring)
 			game_key.delete()
-
-		game = Game.query().order(-Game.date) # Order by recently added
+		# Order by recently added
+		game = Game.query().order(-Game.date)
 		template_values = {
 			'game_store': game
 		}
@@ -186,7 +185,13 @@ class Store(webapp2.RequestHandler):
 			}
 			template = JINJA_ENVIRONMENT.get_template('create.html')
 			self.response.write(template.render(template_values))
-			self.redirect('/edit?id='+urlstring)
+
+class Delete(webapp2.RequestHandler):
+	def get(self):
+		# Delete the game by examining the selected row in table
+		# TODO Support multiple rows
+		games = Game.query().order(-Game.date).fetch()
+		games[int(self.request.GET.get('id'))].key.delete()
 
 app = webapp2.WSGIApplication([('/', Home),
 								('/admin', Admin),
@@ -195,5 +200,6 @@ app = webapp2.WSGIApplication([('/', Home),
 								('/oddmanout', OddManOut),
 								('/create', Create), # TODO Incorporate creating Question
 								('/edit', Edit),
-								('/upload', Store)], # TODO Incorporate storing Question
+								('/upload', Store),
+								('/delete', Delete)], # TODO Incorporate storing Question
 								debug=False)

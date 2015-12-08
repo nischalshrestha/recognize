@@ -85,11 +85,24 @@
                     },
                     "select": true
                 });
-                // TODO: Use something like this to delete row and somehow delete corresponding object
-                // $('#text').click( function () {
-                //     table.row('.selected').remove().draw( false );
-                // } );
             });
+        </script>
+        <script type="text/javascript">
+            // Delete function to remove rows and respective Game entities from Datastore 
+            $('#delete').click( function () {
+                var table = $('#game_list').DataTable();
+                $('#game_list tbody').on( 'click', 'tr', function () {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                });
+                // Grab the row index
+                var row_idx = table.row('.selected').index();
+                table.row('.selected').remove().draw( false );
+                // Call our Delete handler to remove Game from Datastore based on row_idx
+                $.ajax({url: "/delete?id="+row_idx, success: function(result){
+                    alert('Successfully removed!');
+                }});
+            } );
         </script>
     </body>
 </html>
