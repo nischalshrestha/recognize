@@ -3,7 +3,7 @@
 
 /* navbar */
 .navbar-default {
-    background-color: #F8F8F8;
+    background-color: white;
     border-color: #E7E7E7;
 }
 
@@ -193,9 +193,9 @@ form label {
 }
 
 /* Rows */
-
+/*
 .row {
   margin-left: 0px;
-  margin-top: 10px;
-  overflow: scroll;
-}
+  margin-top: 10px;*/
+  /*overflow: scroll;
+}*/

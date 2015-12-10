@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8" />
         <title>Recognize: Create Match Question</title>
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
         <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
         <link href="fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css"/>
@@ -53,10 +53,10 @@
             <!-- <form action="/upload" method="post" id="match_new_game"> -->
                 <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
                 <h3 align="center">
-                {% if edit %}
+                {% if edit and game.title %}
                     Edit Question for {{ game.title }}
                 {% else %}
-                    New Question for {{ game.title }}
+                    Edit Question
                 {% endif %}
                 </h3>
                 <hr>
@@ -72,7 +72,12 @@
                 </div>
                 <div class="row">   
                     <div class="form-group col-sm-5">
-                        <label id="choice_label" for="album_image_1">Choice 1</label>
+                        <label id="choice_label" for="album_image_1">Choice 1: 
+                        {% if question.images[0].correct %}
+                            Correct
+                        {% else %}
+                            Incorrect
+                        {% endif %}</label>
                         <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
                         <!-- <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
@@ -80,7 +85,12 @@
                         </div> -->
                     </div>
                     <div class="form-group col-sm-5">
-                        <label id="choice_label" for="album_image_2">Choice 2</label>
+                        <label id="choice_label" for="album_image_2">Choice 2: 
+                        {% if question.images[1].correct %}
+                            Correct
+                        {% else %}
+                            Incorrect
+                        {% endif %}</label>
                         <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
                         <!-- <img class="question_image" src="/images/blur_patterns.jpg"> -->
                         <!-- <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
@@ -92,7 +102,12 @@
                 <br>
                 <div class="row">
                     <div class="form-group col-sm-5">
-                        <label id="choice_label" for="album_image_3">Choice 3</label>
+                        <label id="choice_label" for="album_image_3">Choice 3: 
+                        {% if question.images[2].correct %}
+                            Correct
+                        {% else %}
+                            Incorrect
+                        {% endif %}</label>
                         <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
 <!--                         <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
@@ -103,7 +118,12 @@
                 <!-- </div> -->
                 <!-- <div class="row"> -->
                     <div class="form-group col-sm-5">
-                        <label id="choice_label" for="album_image_4">Choice 4</label>
+                        <label id="choice_label" for="album_image_4">Choice 4: 
+                        {% if question.images[3].correct %}
+                            Correct
+                        {% else %}
+                            Incorrect
+                        {% endif %}</label>
                         <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
  <!--                        <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">

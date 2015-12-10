@@ -114,9 +114,9 @@ class Create(webapp2.RequestHandler):
 
 class Edit(webapp2.RequestHandler):
 	def get(self):	
-		retrieve = 0 
 		urlstring = ""
 		edit = 1
+		retrieve = 0
 		if self.request.GET.get('game') == '1':
 			# If coming back from cancelling in /question
 			if self.request.GET.get('cancel'):
@@ -137,11 +137,10 @@ class Edit(webapp2.RequestHandler):
 			template = JINJA_ENVIRONMENT.get_template('create.html')
 			self.response.write(template.render(template_values))
 		else:
-			urlstring = self.request.GET['id']			
+			urlstring = self.request.GET['id']
 			question_key = ndb.Key(urlsafe=urlstring)
 			question = question_key.get()
 			game = question_key.parent().get()
-			edit = 1
 			template_values = {
 				'game': game,
 				'question': question,
@@ -182,24 +181,21 @@ class Store(webapp2.RequestHandler):
 			else:
 				self.redirect('/match')
 		else:
-			# TODO: Add logic to handle editing an existing game
-			
+			# TODO: Add logic to handle modifying an existing game
 			# Create Question with the Game as parent for strong consistency
 			question = Question(title=self.request.get('question'), fact=self.request.get('fact'), parent=game_key)
 			title = self.request.get('question')
 			answer = self.request.get('correct_answer')
 			images = self.request.get('image', allow_multiple=True)
-			image_list = []
 			for i in range(4):
 				img = Image()
 				img.image = images[i]
 				if int(answer) == i:
-					title = "correct_answer_"+str(i)
-					correct = True
+					img.title = "correct_answer_"+str(i)
+					img.correct = True
 				else:
-					title = "incorrect_answer_"+str(i)
-					correct = False
-				# self.response.write('ok: '+str(img))
+					img.title = "incorrect_answer_"+str(i)
+					img.correct = False
 				question.images.append(img)			
 			question.put()
 			# Query all Question(s) for the Game in recently added order for /create
@@ -238,3 +234,4 @@ app = webapp2.WSGIApplication([('/', Home),
 								('/delete', Delete),
 								('/getimage', ImageRequest)],
 								debug=False)
+
