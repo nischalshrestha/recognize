@@ -1,127 +1,109 @@
 <!DOCTYPE html>
+{% autoescape true %}
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>Recognize: Correlate Games</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <head>
+        <meta charset="utf-8" />
+        <title>Recognize: Correlate Games</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/base.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="css/select.dataTables.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Recognize</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                </div>
+                <div class="collapse navbar-collapse" id="main-navbar-collapse">
+                  <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/admin">Admin</a></li>
+                    <li><a href="/match">Match</a></li>
+                    <li class="active"><a href="/correlate">Correlate</a></li>
+                    <li><a href="/oddmanout">Odd Man Out</a></li>
+                  </ul>
+                </div>
+            </div>
+        </nav>
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Recognize</a>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            </div>
-            <div class="collapse navbar-collapse" id="main-navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="/admin">Admin</a></li>
-                <li><a href="/match">Match</a></li>
-                <li class="active"><a href="/correlate">Correlate</a></li>
-                <li><a href="/oddmanout">Odd Man Out</a></li>
-              </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container">
-        <output id="outputLog"></output>        
-        <!-- Insert a table displaying recently created games, perhaps with pagination to show more -->
-        <br>
+            <output id="outputLog"></output>
+            <!-- Insert a table displaying recently created games, perhaps with pagination to show more -->
+            <br>
             <h2>Games</h2>
             <br>
+            <div class="table">
             <table id="game_list" class="table table-hover table-striped table-bordered" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Date Added</th>
+                        <th>Edit/Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                 <!-- TODO: Use Jinja to iterate a list passed in by MainPage handler to populate table -->
-              <!--   {% for image in image_store %}
+                {% for game in game_store %}
                     <tr>
-                        <td><a href="/match">{{ image.title }}</a></td>
-                        <td>{{ image.category }}</td>
-                        <td>{{ image.date }}</td>
+                        <td>
+                        {% if game.title == None %}
+                            Untitled
+                        {% else %}
+                            {{ game.title }}
+                        {% endif %}
+                        </td>
+                        <td>{{ game.date.date() }}</td>
+                        <td><a id="edit" href="edit?game=1&amp;id={{game.key.urlsafe()}}" id="edit" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+                        <a id="delete" class="btn btn-danger btn-sm" value="{{game.key.urlsafe()}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a></td>
                     </tr>
-                {% endfor %} -->
+                {% endfor %}
                 </tbody>
-            </table> 
-        <hr>
-        <!-- Add a from with submit button to generate 4 distinct images -->
-        <form action="/upload" enctype="multipart/form-data" method="post" id="correlate_new_game">
-            <h2>Create a new game</h2>
-            <br>
-            <label for="gameTitle">Title</label>
-            <div class="form-group">
-                <input class="form-control" type="text" id="gameTitle" placeholder="Awesome Game">
+            </table>
             </div>
-            <br>
-            <h4>Level 1:</h4>
-            <br>
-            <label for="album_image_1">Main Image</label>
-            <div class="form-inline">
-                <input class="form-control" id="album_image_1" type="file" name="img_1"/>
-            </div>
-            <br>
-            <p>Please choose ONE correct answer</p>
-            <label for="album_image_2">Choice 1</label>
-            <div class="form-inline">
-                <input class="form-control" id="album_image_1" type="file" name="img_1"/>
-                <label class="checkbox-inline">
-                    <input id="correct_answer" type="checkbox"> Correct Answer
-                </label>
-            </div>
-            <br>
-            <label for="album_image_3">Choice 2</label>
-            <div class="form-inline">
-                <input class="form-control" id="album_image_2" type="file" name="img_2"/>
-                <label class="checkbox-inline">
-                    <input id="correct_answer" type="checkbox"> Correct Answer
-                </label>
-            </div>
-            <br>
-            <label for="album_image_4">Choice 3</label>
-            <div class="form-inline">
-                <input class="form-control" id="album_image_3" type="file" name="img_3"/>
-                <label class="checkbox-inline">
-                    <input id="correct_answer" type="checkbox"> Correct Answer
-                </label>
-            </div>
-            <br>
-            <label for="album_image_4">Choice 4</label>
-            <div class="form-inline">
-                <input class="form-control" id="album_image_4" type="file" name="img_4"/>
-                <label class="checkbox-inline">
-                    <input id="correct_answer" type="checkbox"> Correct Answer
-                </label>
-            </div>
-            <br>
-            <button id="upload_image" type="submit" class="btn btn-default">Upload</button>
-        </form>
+            <a href="create?game=1&amp;type=correlate" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Add Game
+            </a>
+            <!-- <a id="delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a> -->
+        </div>
         <script async src="/js/base.js"></script>
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="js/dataTables.select.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#game_list').DataTable( {
+                var table = $('#game_list').DataTable( {
+                    "dom": '<lf<t>ip>',
                     "order": [[1, "desc"]],
                     "language": {
                         "emptyTable": "No games created yet!",
                         "infoEmpty": "Create a new game!"
                     }
                 });
+                // Delete function to remove rows and respective Game entities from Datastore 
+                $('.table #delete').click( function () {
+                    var id = $(this).attr('id');
+                    if(id == 'delete'){
+                        var game_url = $(this).attr("value");
+                        if(confirm('Are you sure you want to delete this game?')){
+                            table.row($(this).closest("tr")).remove().draw( false );
+                            $.ajax({url: "/delete?id="+game_url, success: function(result){
+                                // alert('Successfully removed!');
+                            }});
+                        }
+                        return false;
+                    }
+                });
             });
         </script>
-    </div>
-</body>
+    </body>
 </html>
+{% endautoescape %}

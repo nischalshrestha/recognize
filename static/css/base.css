@@ -142,16 +142,12 @@ form {
 
 form label {
   width: 90px;
-  /*display: inline-block;*/
 }
 
-/*.file {
-  max-width: 45%;
-}*/
-
-/*.form-control {
-  max-width: 45%;
-}*/
+#main_image {
+  width: 60%;
+  margin: 0 auto;
+}
 
 #choice_label {
   position: relative;
