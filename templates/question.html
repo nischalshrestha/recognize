@@ -3,7 +3,15 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Recognize: Create Match Question</title>
+        <title>Recognize: 
+        {% if game_type == 'match' %}
+            Create Match Question
+        {% elif game_type == 'correlate' %}
+            Create Correlate Question
+        {% elif game_type == 'oddmanout' %}
+            Create Odd Man Out Question
+        {% endif %}
+        </title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
         <link rel="stylesheet" href="css/jquery.dataTables.min.css"></script>
@@ -32,9 +40,23 @@
                   <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li><a href="/admin">Admin</a></li>
-                    <li class="active"><a href="/match">Match</a></li>
-                    <li><a href="/correlate">Correlate</a></li>
-                    <li><a href="/oddmanout">Odd Man Out</a></li>
+                     {% if game_type == 'match' %}
+                        <li class="active"><a href="/match">Match</a></li>
+                    {% else %}
+                        <li><a href="/match">Match</a></li>
+                    {% endif %}
+
+                    {% if game_type == 'correlate' %}
+                        <li class="active"><a href="/correlate">Correlate</a></li>
+                    {% else %}
+                        <li><a href="/correlate">Correlate</a></li>
+                    {% endif %}
+
+                    {% if game_type == 'oddmanout' %}
+                        <li class="active"><a href="/oddmanout">Odd Man Out</a></li>
+                    {% else %}
+                        <li><a href="/oddmanout">Odd Man Out</a></li>
+                    {% endif %}
                   </ul>
                 </div>
             </div>
@@ -70,7 +92,7 @@
                       <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question"></textarea>
                     </div>
                 </div>
-                {#% if game.game_type and game.game_type == 'Correlate' %#}
+                {% if game_type == 'correlate' %}
                 <div id="main_image" class="row">
                     <div class="form-group col-md-10">
                         <label align="center" for="album_image_1">Main Image</label>
@@ -78,7 +100,7 @@
                     </div>
                 </div>
                 <br>
-                {#% endif %#}
+                {% endif %}
                 <div class="row">
                     <div class="form-group col-sm-5">
                         <label for="album_image_1">Choice 1</label>

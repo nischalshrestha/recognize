@@ -36,7 +36,7 @@ class Match(webapp2.RequestHandler):
 			game_key = ndb.Key(urlsafe=urlstring)
 			game_key.delete()
 		# Order by recently added
-		game = Game.query().order(-Game.date)
+		game = Game.query(Game.game_type == 'match').order(-Game.date)
 		template_values = {
 			'game_store': game
 		}
@@ -50,7 +50,7 @@ class Correlate(webapp2.RequestHandler):
 			game_key = ndb.Key(urlsafe=urlstring)
 			game_key.delete()
 		# Order by recently added
-		game = Game.query().order(-Game.date) 
+		game = Game.query(Game.game_type == 'correlate').order(-Game.date) 
 		template_values = {
 			'game_store': game
 		}
@@ -64,7 +64,7 @@ class OddManOut(webapp2.RequestHandler):
 			game_key = ndb.Key(urlsafe=urlstring)
 			game_key.delete()
 		# Order by recently added
-		game = Game.query().order(-Game.date)
+		game = Game.query(Game.game_type == 'oddmanout').order(-Game.date)
 		template_values = {
 			'game_store': game
 		}
@@ -87,10 +87,11 @@ class Create(webapp2.RequestHandler):
 				questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
 				retrieve = 1
 			else:
-				game = Game()
+				game = Game(game_type=self.request.GET.get('type'))
 				game.put()
 			template_values = {
 				'game': game,
+				'game_type': game.game_type,
 				'questions': questions,
 				'edit': edit,
 				'retrieve': retrieve
@@ -107,6 +108,7 @@ class Create(webapp2.RequestHandler):
 			game = game_key.get()
 			template_values = {
 				'game': game,
+				'game_type': game.game_type,
 				'edit': edit
 			}
 			template = JINJA_ENVIRONMENT.get_template('question.html')
@@ -130,6 +132,7 @@ class Edit(webapp2.RequestHandler):
 			questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
 			template_values = {
 				'game': game,
+				'game_type': game.game_type,
 				'questions': questions,
 				'edit': edit,
 				'retrieve': retrieve
@@ -143,6 +146,7 @@ class Edit(webapp2.RequestHandler):
 			game = question_key.parent().get()
 			template_values = {
 				'game': game,
+				'game_type': game.game_type,
 				'question': question,
 				'edit': edit,
 				'retrieve': retrieve
@@ -157,7 +161,7 @@ class ImageRequest(webapp2.RequestHandler):
 		question = question_key.get()
 		image_id = self.request.GET['image_id']
 		if question.images:
-			self.response.headers['Content-Type'] = "image/png"
+			self.response.headers['Content-Type'] = "image/jpg"
 			self.response.write(question.images[int(image_id)].image)
 		else:
 			self.error(404)
@@ -179,7 +183,12 @@ class Store(webapp2.RequestHandler):
 			if self.request.POST.get('stay') == '1':
 				self.redirect('/edit?game=1&amp;id='+urlstring)
 			else:
-				self.redirect('/match')
+				if game.game_type == 'match':
+					self.redirect('/match')
+				elif game.game_type == 'correlate':
+					self.redirect('/correlate')
+				else:
+					self.redirect('/oddmanout')
 		else:
 			# TODO: Add logic to handle modifying an existing game
 			# Create Question with the Game as parent for strong consistency
@@ -187,7 +196,10 @@ class Store(webapp2.RequestHandler):
 			title = self.request.get('question')
 			answer = self.request.get('correct_answer')
 			images = self.request.get('image', allow_multiple=True)
-			for i in range(4):
+			num_images = 4
+			if game.game_type == 'correlate':
+				num_images = 5
+			for i in range(num_images):
 				img = Image()
 				img.image = images[i]
 				if int(answer) == i:
@@ -196,7 +208,7 @@ class Store(webapp2.RequestHandler):
 				else:
 					img.title = "incorrect_answer_"+str(i)
 					img.correct = False
-				question.images.append(img)			
+				question.images.append(img)
 			question.put()
 			# Query all Question(s) for the Game in recently added order for /create
 			# Retrieve previously input values, and indicate whether this is a new game (edit)
@@ -207,6 +219,7 @@ class Store(webapp2.RequestHandler):
 				edit = self.request.GET['edit']
 			template_values = {
 				'game': game,
+				'game_type': game.game_type,
 				'questions': questions,
 				'edit': edit,
 				'retrieve': retrieve

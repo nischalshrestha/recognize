@@ -70,6 +70,15 @@
                       <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question">{{ question.fact }}</textarea>
                     </div>
                 </div>
+                {% if game_type == 'correlate' %}
+                    <div id="main_image" class="row">
+                        <div class="form-group col-md-10">
+                            <label id="choice_label" for="album_image_1">Main Image: </label>
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                        </div>
+                    </div>
+                    <br>
+                {% endif %}
                 <div class="row">   
                     <div class="form-group col-sm-5">
                         <label id="choice_label" for="album_image_1">Choice 1: 
@@ -78,7 +87,11 @@
                         {% else %}
                             Incorrect
                         {% endif %}</label>
-                        <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                        {% if game_type == 'correlate' %}
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                        {% else %}
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                        {% endif %}
                         <!-- <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
                         <label><input id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
@@ -91,7 +104,11 @@
                         {% else %}
                             Incorrect
                         {% endif %}</label>
-                        <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                        {% if game_type == 'correlate' %}
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                        {% else %}
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                        {% endif %}
                         <!-- <img class="question_image" src="/images/blur_patterns.jpg"> -->
                         <!-- <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
@@ -108,7 +125,11 @@
                         {% else %}
                             Incorrect
                         {% endif %}</label>
-                        <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                        {% if game_type == 'correlate' %}
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                        {% else %}
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                        {% endif %}
 <!--                         <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
                         <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label> -->
@@ -124,7 +145,11 @@
                         {% else %}
                             Incorrect
                         {% endif %}</label>
-                        <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                        {% if game_type == 'correlate' %}
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4" width="auto" height="200px">
+                        {% else %}
+                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                        {% endif %}
  <!--                        <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
                         <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>

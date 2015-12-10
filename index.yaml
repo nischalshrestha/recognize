@@ -10,6 +10,12 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Game
+  properties:
+  - name: game_type
+  - name: date
+    direction: desc
+
 - kind: Question
   ancestor: yes
   properties:

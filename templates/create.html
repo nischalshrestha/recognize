@@ -3,7 +3,15 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Recognize: Create Match Game</title>
+        <title>Recognize: 
+        {% if game_type == 'match' %}
+            Create Match Game
+        {% elif game_type == 'correlate' %}
+            Create Correlate Game
+        {% else %}
+            Create Odd Man Out Game
+        {% endif %}
+        </title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
@@ -45,9 +53,24 @@
                   <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li><a href="/admin">Admin</a></li>
-                    <li class="active"><a href="/match">Match</a></li>
-                    <li><a href="/correlate">Correlate</a></li>
-                    <li><a href="/oddmanout">Odd Man Out</a></li>
+
+                    {% if game_type == 'match' %}
+                        <li class="active"><a href="/match">Match</a></li>
+                    {% else %}
+                        <li><a href="/match">Match</a></li>
+                    {% endif %}
+
+                    {% if game_type == 'correlate' %}
+                        <li class="active"><a href="/correlate">Correlate</a></li>
+                    {% else %}
+                        <li><a href="/correlate">Correlate</a></li>
+                    {% endif %}
+
+                    {% if game_type == 'oddmanout' %}
+                        <li class="active"><a href="/oddmanout">Odd Man Out</a></li>
+                    {% else %}
+                        <li><a href="/oddmanout">Odd Man Out</a></li>
+                    {% endif %}
                   </ul>
                 </div>
             </div>
@@ -122,9 +145,21 @@
                     <button id="upload_continue" name="continue_editing" type="submit" class="btn btn-default btn-md" onsubmit="setFormSubmitting()" value="stay">Save and continue editing</button>
                     <a id="cancel" 
                     {% if not edit %}
-                        href= "match?cancel={{ game.key.urlsafe() }}"
+                        {% if game_type == 'match' %}
+                            href= "match?cancel={{ game.key.urlsafe() }}"
+                        {% elif game_type == 'correlate' %}
+                            href= "correlate?cancel={{ game.key.urlsafe() }}"
+                        {% else %}
+                            href= "oddmanout?cancel={{ game.key.urlsafe() }}"
+                        {% endif %}
                     {% else %}
-                        href="match"
+                        {% if game_type == 'match' %}
+                            href="match"
+                        {% elif game_type == 'correlate' %}
+                            href="correlate"
+                        {% else %}
+                            href="oddmanout"
+                        {% endif %}  
                     {% endif %} class="btn btn-default btn-md" type="submit">Cancel</a>
                 </div>
             </form>
