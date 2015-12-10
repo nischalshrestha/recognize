@@ -153,6 +153,19 @@ form label {
   max-width: 45%;
 }*/
 
+#choice_label {
+  position: relative;
+  display: block;
+}
+
+/* This is for the correct answer choice checkbox */
+.checkbox label {
+  position: relative;
+  display: inline;
+  top: 20px;
+  left: 0;
+}
+
 .form-signin input[type="text"] {
   font-size: 16px;
   height: auto;

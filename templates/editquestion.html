@@ -54,56 +54,61 @@
                 <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
                 <h3 align="center">
                 {% if edit %}
-                    New Question for {{ game.title }}
+                    Edit Question for {{ game.title }}
                 {% else %}
-                    New Question
+                    New Question for {{ game.title }}
                 {% endif %}
                 </h3>
                 <hr>
                 <div class="row">
                     <div class="form-group col-lg-12">
                         <label for="questionTitle">Title</label>
-                        <input class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="">
+                        <input class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="{{ question.title }}">
                     </div>
                     <div class="form-group col-lg-12">
                       <label for="comment">Fact</label>
-                      <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question"></textarea>
+                      <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question">{{ question.fact }}</textarea>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row">   
                     <div class="form-group col-sm-5">
-                        <label for="album_image_1">Choice 1</label>
-                        <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
+                        <label id="choice_label" for="album_image_1">Choice 1</label>
+                        <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                        <!-- <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
                         <label><input id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="form-group col-sm-5">
-                        <label for="album_image_2">Choice 2</label>
-                        <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
+                        <label id="choice_label" for="album_image_2">Choice 2</label>
+                        <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                        <!-- <img class="question_image" src="/images/blur_patterns.jpg"> -->
+                        <!-- <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
                         <label><input id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="form-group col-sm-5">
-                        <label for="album_image_3">Choice 3</label>
-                        <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
+                        <label id="choice_label" for="album_image_3">Choice 3</label>
+                        <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+<!--                         <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
-                    </div>
+                        <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label> -->
+                    <!-- </div> -->
                     </div>
                     
                 <!-- </div> -->
                 <!-- <div class="row"> -->
                     <div class="form-group col-sm-5">
-                        <label for="album_image_4">Choice 4</label>
-                        <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
+                        <label id="choice_label" for="album_image_4">Choice 4</label>
+                        <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+ <!--                        <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
                         <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div id="submit" class="col-md-10 row">
@@ -132,23 +137,23 @@
                         "infoEmpty": "Add a new question!"
                     }
                 });
+                // alert('{{game}}');
                 // $('.question_image').hide();
                 // Initialize fileinputs with preview enabled
-                $("#album_image_1").fileinput({
-                    "previewSettings": {
-                        'image': {width: "auto", height: "60px"}
-                    },
-                    'uploadAsync': false
-                });
-                $("#album_image_2").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_3").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_4").fileinput({
-                    'uploadAsync': false
-                });
+                // $("#album_image_1").fileinput({
+                //     "previewSettings": {
+                //         "image": {width: "auto", height: "60px"}
+                //     }
+                // });
+                // $("#album_image_2").fileinput();
+                // $("#album_image_3").fileinput();
+                // $("#album_image_4").fileinput();
+                // $("#album_image_1").click(function(){
+                //     $("#question_image").hide();
+                // });
+                // $("#album_image_2").click(function(){
+                //     $(".question_image").show();
+                // });
             });
         </script>
         <script type="text/javascript">

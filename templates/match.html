@@ -45,20 +45,23 @@
                     <tr>
                         <th>Title</th>
                         <th>Date Added</th>
+                        <th>Edit/Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                 <!-- TODO: Use Jinja to iterate a list passed in by MainPage handler to populate table -->
                 {% for game in game_store %}
                     <tr>
-                        <td><a href="edit?id={{game.key.urlsafe()}}">
+                        <td>
                         {% if game.title == None %}
                             Untitled
                         {% else %}
                             {{ game.title }}
                         {% endif %}
-                        </a></td>
+                        </td>
                         <td>{{ game.date.date() }}</td>
+                        <td><a id="edit" href="edit?game=1&amp;id={{game.key.urlsafe()}}" id="edit" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+                        <a id="delete" class="btn btn-danger btn-sm" value="{{game.key.urlsafe()}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -67,7 +70,7 @@
             <a href="create?game=1&amp;gameType=match" class="btn btn-success">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Add Game
             </a>
-            <a id="delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+            <!-- <a id="delete" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a> -->
         </div>
         <script async src="/js/base.js"></script>
         <script src="js/jquery-1.11.3.min.js"></script>
@@ -82,29 +85,20 @@
                     "language": {
                         "emptyTable": "No games created yet!",
                         "infoEmpty": "Create a new game!"
-                    },
-                    "select": true
-                });
-                $('#game_list tbody').on( 'click', 'tr', function () {
-                    if ($(this).hasClass('selected')) {
-                        table.$('tr.selected').removeClass('selected');
-                        $(this).addClass('selected');
-                    } else {
-                        $(this).removeClass('selected');
                     }
                 });
                 // Delete function to remove rows and respective Game entities from Datastore 
-                $('#delete').click( function () {
-                    // Grab the row index
-                    var row_idx = table.row('.selected').index();
-                    if(typeof row_idx === 'undefined'){
-                        alert('You didn\'t pick a game to delete!');
-                    } else if(confirm('Are you sure you want to delete this game?')){
-                        table.row('.selected').remove().draw( false );
-                        // Call our Delete handler to remove Game from Datastore based on row_idx
-                        $.ajax({url: "/delete?game=1&amp;id="+row_idx, success: function(result){
-                            alert('Successfully removed!');
-                        }});
+                $('.table #delete').click( function () {
+                    var id = $(this).attr('id');
+                    if(id == 'delete'){
+                        var game_url = $(this).attr("value");
+                        table.row($(this).closest("tr")).remove().draw( false );
+                        if(confirm('Are you sure you want to delete this game?')){
+                            $.ajax({url: "/delete?id="+game_url, success: function(result){
+                                // alert('Successfully removed!');
+                            }});
+                        }
+                        return false;
                     }
                 });
             });

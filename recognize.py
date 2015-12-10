@@ -5,6 +5,8 @@ import time
 import jinja2
 
 from google.appengine.ext import ndb
+# from google.appengine.api import images
+# from google.appengine.ext import blobstore
 
 from models import Game
 from models import Question
@@ -114,25 +116,52 @@ class Edit(webapp2.RequestHandler):
 	def get(self):	
 		retrieve = 0 
 		urlstring = ""
-		# If coming back from cancelling in /question
-		if self.request.GET.get('cancel'):
-			urlstring = self.request.GET['cancel']
-			retrieve = 1
-		else:
-			urlstring = self.request.GET['id']
-		# Load create but now as an edit page (edit = 1)
-		game_key = ndb.Key(urlsafe=urlstring)
-		game = game_key.get()
-		questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
 		edit = 1
-		template_values = {
-			'game': game,
-			'questions': questions,
-			'edit': edit,
-			'retrieve': retrieve
-		}
-		template = JINJA_ENVIRONMENT.get_template('create.html')
-		self.response.write(template.render(template_values))
+		if self.request.GET.get('game') == '1':
+			# If coming back from cancelling in /question
+			if self.request.GET.get('cancel'):
+				urlstring = self.request.GET['cancel']
+				retrieve = 1
+			else:
+				urlstring = self.request.GET['id']
+			# Load create but now as an edit page (edit = 1)
+			game_key = ndb.Key(urlsafe=urlstring)
+			game = game_key.get()
+			questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
+			template_values = {
+				'game': game,
+				'questions': questions,
+				'edit': edit,
+				'retrieve': retrieve
+			}
+			template = JINJA_ENVIRONMENT.get_template('create.html')
+			self.response.write(template.render(template_values))
+		else:
+			urlstring = self.request.GET['id']			
+			question_key = ndb.Key(urlsafe=urlstring)
+			question = question_key.get()
+			game = question_key.parent().get()
+			edit = 1
+			template_values = {
+				'game': game,
+				'question': question,
+				'edit': edit,
+				'retrieve': retrieve
+			}
+			template = JINJA_ENVIRONMENT.get_template('editquestion.html')
+			self.response.write(template.render(template_values))
+
+class ImageRequest(webapp2.RequestHandler):
+	def get(self):
+		question_url = self.request.GET['id']
+		question_key = ndb.Key(urlsafe=question_url)
+		question = question_key.get()
+		image_id = self.request.GET['image_id']
+		if question.images:
+			self.response.headers['Content-Type'] = "image/png"
+			self.response.write(question.images[int(image_id)].image)
+		else:
+			self.error(404)
 
 class Store(webapp2.RequestHandler):
     def post(self):
@@ -149,10 +178,12 @@ class Store(webapp2.RequestHandler):
 			# Save game and redirect to edit if the user clicks on 'Save and continue editing'
 			# Else, save game and go back to the main page which lists all Games
 			if self.request.POST.get('stay') == '1':
-				self.redirect('/edit?id='+urlstring)
+				self.redirect('/edit?game=1&amp;id='+urlstring)
 			else:
 				self.redirect('/match')
 		else:
+			# TODO: Add logic to handle editing an existing game
+			
 			# Create Question with the Game as parent for strong consistency
 			question = Question(title=self.request.get('question'), fact=self.request.get('fact'), parent=game_key)
 			title = self.request.get('question')
@@ -163,12 +194,13 @@ class Store(webapp2.RequestHandler):
 				img = Image()
 				img.image = images[i]
 				if int(answer) == i:
-					img.title = "correct_answer_"+str(i)
-					img.correct = True
+					title = "correct_answer_"+str(i)
+					correct = True
 				else:
-					img.title = "incorrect_answer_"+str(i)
-					img.correct = False
-				question.images.append(img)
+					title = "incorrect_answer_"+str(i)
+					correct = False
+				# self.response.write('ok: '+str(img))
+				question.images.append(img)			
 			question.put()
 			# Query all Question(s) for the Game in recently added order for /create
 			# Retrieve previously input values, and indicate whether this is a new game (edit)
@@ -188,24 +220,21 @@ class Store(webapp2.RequestHandler):
 
 class Delete(webapp2.RequestHandler):
 	def get(self):
-		# Delete the game/question by examining the selected row in table
-		# TODO Support multiple rows
-		if self.request.GET['game'] == '1':
-			games = Game.query().order(-Game.date).fetch()
-			games[int(self.request.GET.get('id'))].key.delete()
-		else:
+		# Delete the game/question by id
+		# TODO Support multiple row deletions
+		if 'id' in self.request.GET:
 			urlstring = self.request.GET['id']
-			game_key = ndb.Key(urlsafe=urlstring)
-			questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
-			questions[int(self.request.GET.get('q'))].key.delete()
+			entity_key = ndb.Key(urlsafe=urlstring)
+			entity_key.delete()
 
 app = webapp2.WSGIApplication([('/', Home),
 								('/admin', Admin),
 								('/match', Match),
 								('/correlate', Correlate),
 								('/oddmanout', OddManOut),
-								('/create', Create), # TODO Incorporate creating Question
+								('/create', Create),
 								('/edit', Edit),
 								('/upload', Store),
-								('/delete', Delete)], # TODO Incorporate storing Question
+								('/delete', Delete),
+								('/getimage', ImageRequest)],
 								debug=False)
