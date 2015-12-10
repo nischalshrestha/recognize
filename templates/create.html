@@ -3,15 +3,24 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Recognize: 
-        {% if game_type == 'match' %}
-            Create Match Game
-        {% elif game_type == 'correlate' %}
-            Create Correlate Game
+        <title>
+        {% if not edit %}
+            {% if game_type == 'match' %}
+                Recognize: Create Match Game
+            {% elif game_type == 'correlate' %}
+                Recognize: Create Correlate Game
+            {% else %}
+                Recognize: Create Odd Man Out Game
+            {% endif %}
         {% else %}
-            Create Odd Man Out Game
-        {% endif %}
-        </title>
+            {% if game_type == 'match' %}
+                Recognize: Edit Match Game
+            {% elif game_type == 'correlate' %}
+                Recognize: Edit Correlate Game
+            {% else %}
+                Recognize: Edit Odd Man Out Game
+            {% endif %}
+        {% endif %}</title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/base.css">
