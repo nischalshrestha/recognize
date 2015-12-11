@@ -4,11 +4,11 @@
     <head>
         <meta charset="utf-8" />
         <title>
-        {% if game_type == 'match' %}
+        {% if album_type == 'match' %}
             Recognize: Create Match Question
-        {% elif game_type == 'correlate' %}
+        {% elif album_type == 'correlate' %}
             Recognize: Create Correlate Question
-        {% elif game_type == 'oddmanout' %}
+        {% elif album_type == 'oddmanout' %}
             Recognize: Create Odd Man Out Question
         {% endif %}
         </title>
@@ -40,19 +40,19 @@
                   <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li><a href="/admin">Admin</a></li>
-                     {% if game_type == 'match' %}
+                     {% if album_type == 'match' %}
                         <li class="active"><a href="/match">Match</a></li>
                     {% else %}
                         <li><a href="/match">Match</a></li>
                     {% endif %}
 
-                    {% if game_type == 'correlate' %}
+                    {% if album_type == 'correlate' %}
                         <li class="active"><a href="/correlate">Correlate</a></li>
                     {% else %}
                         <li><a href="/correlate">Correlate</a></li>
                     {% endif %}
 
-                    {% if game_type == 'oddmanout' %}
+                    {% if album_type == 'oddmanout' %}
                         <li class="active"><a href="/oddmanout">Odd Man Out</a></li>
                     {% else %}
                         <li><a href="/oddmanout">Odd Man Out</a></li>
@@ -63,20 +63,20 @@
         </nav>
         <div class="container">
             <output id="outputLog"></output>
-            <!-- TODO: Vary this same page or create new pages according to what type of game is being created-->
+            <!-- TODO: Vary this same page or create new pages according to what type of album is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
             <form 
             {% if not edit %}
-                action="/upload?game=0"
+                action="/upload?album=0"
             {% else %}
-                action="/upload?edit=1&amp;game=0"
+                action="/upload?edit=1&amp;album=0"
             {% endif %}
-            enctype="multipart/form-data" method="post" id="match_new_game">
-            <!-- <form action="/upload" method="post" id="match_new_game"> -->
-                <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
+            enctype="multipart/form-data" method="post" id="match_new_album">
+            <!-- <form action="/upload" method="post" id="match_new_album"> -->
+                <input type="hidden" name="album" value="{{ album.key.urlsafe() }}" />
                 <h3 align="center">
-                {% if edit and game.title %}
-                    New Question for {{ game.title }}
+                {% if edit and album.title %}
+                    New Question for {{ album.title }}
                 {% else %}
                     New Question
                 {% endif %}
@@ -92,7 +92,7 @@
                       <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question"></textarea>
                     </div>
                 </div>
-                {% if game_type == 'correlate' %}
+                {% if album_type == 'correlate' %}
                 <div id="main_image" class="row">
                     <div class="form-group col-md-10">
                         <label align="center" for="album_image_1">Main Image</label>
@@ -141,9 +141,9 @@
                     <button id="upload_image" type="submit" class="btn btn-success btn-md" onsubmit="setFormSubmitting()">Save</button>
                     <a id="cancel" 
                     {% if not edit %}
-                        href="create?game=1&amp;cancel={{ game.key.urlsafe() }}"
+                        href="create?album=1&amp;cancel={{ album.key.urlsafe() }}"
                     {% else %}
-                        href="edit?game=1&amp;cancel={{ game.key.urlsafe() }}"
+                        href="edit?album=1&amp;cancel={{ album.key.urlsafe() }}"
                     {% endif %} class="btn btn-default btn-md" type="submit">Cancel</a>
                 </div>
             </form>
@@ -156,7 +156,7 @@
         <script src="fileinput/js/fileinput.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#game_list').DataTable( {
+                $('#album_list').DataTable( {
                     "order": [[1, "desc"]],
                     "language": {
                         "emptyTable": "No questions added yet!",
@@ -186,7 +186,7 @@
             });
         </script>
         <script type="text/javascript">
-            var form = document.getElementById('match_new_game'); // form has to have ID: <form id="formID">
+            var form = document.getElementById('match_new_album'); // form has to have ID: <form id="formID">
             form.noValidate = true;
             form.addEventListener('submit', function(event) { // listen for form submitting
                 if (!event.target.checkValidity()) {

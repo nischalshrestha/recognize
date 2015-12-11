@@ -16,9 +16,9 @@ class Question(ndb.Model):
 	images = ndb.StructuredProperty(Image, repeated=True)
 	date = ndb.DateTimeProperty(auto_now_add=True)
 
-class Game(ndb.Model):
+class Album(ndb.Model):
 	title = ndb.StringProperty()
 	category = ndb.StringProperty()
-	game_type = ndb.StringProperty()
+	album_type = ndb.StringProperty()
 	# questions = ndb.StructuredProperty(Question)
 	date = ndb.DateTimeProperty(auto_now_add=True)

@@ -8,7 +8,7 @@ from google.appengine.ext import ndb
 # from google.appengine.api import images
 # from google.appengine.ext import blobstore
 
-from models import Game
+from models import Album
 from models import Question
 from models import Image
 
@@ -33,12 +33,12 @@ class Match(webapp2.RequestHandler):
 	def get(self):
 		if len(self.request.GET) and self.request.GET['cancel']:
 			urlstring = self.request.GET['cancel']
-			game_key = ndb.Key(urlsafe=urlstring)
-			game_key.delete()
+			album_key = ndb.Key(urlsafe=urlstring)
+			album_key.delete()
 		# Order by recently added
-		game = Game.query(Game.game_type == 'match').order(-Game.date)
+		album = Album.query(Album.album_type == 'match').order(-Album.date)
 		template_values = {
-			'game_store': game
+			'album_store': album
 		}
 		template = JINJA_ENVIRONMENT.get_template('match.html')
 		self.response.write(template.render(template_values))
@@ -47,12 +47,12 @@ class Correlate(webapp2.RequestHandler):
 	def get(self):
 		if len(self.request.GET) and self.request.GET['cancel']:
 			urlstring = self.request.GET['cancel']
-			game_key = ndb.Key(urlsafe=urlstring)
-			game_key.delete()
+			album_key = ndb.Key(urlsafe=urlstring)
+			album_key.delete()
 		# Order by recently added
-		game = Game.query(Game.game_type == 'correlate').order(-Game.date) 
+		album = Album.query(Album.album_type == 'correlate').order(-Album.date) 
 		template_values = {
-			'game_store': game
+			'album_store': album
 		}
 		template = JINJA_ENVIRONMENT.get_template('correlate.html')
 		self.response.write(template.render(template_values))
@@ -61,37 +61,37 @@ class OddManOut(webapp2.RequestHandler):
 	def get(self):
 		if len(self.request.GET) and self.request.GET['cancel']:
 			urlstring = self.request.GET['cancel']
-			game_key = ndb.Key(urlsafe=urlstring)
-			game_key.delete()
+			album_key = ndb.Key(urlsafe=urlstring)
+			album_key.delete()
 		# Order by recently added
-		game = Game.query(Game.game_type == 'oddmanout').order(-Game.date)
+		album = Album.query(Album.album_type == 'oddmanout').order(-Album.date)
 		template_values = {
-			'game_store': game
+			'album_store': album
 		}
 		template = JINJA_ENVIRONMENT.get_template('oddmanout.html')
 		self.response.write(template.render(template_values))
 
 class Create(webapp2.RequestHandler):
 	def get(self):
-		game = ""
+		album = ""
 		edit = 0
-		# Check whether we're creating a Game or a Question
-		if self.request.GET['game'] == '1':
+		# Check whether we're creating a album or a Question
+		if self.request.GET['album'] == '1':
 			questions = ""
 			retrieve = 0
 			# If coming back from cancelling /question
 			if self.request.GET.get('cancel'):
 				urlstring = self.request.GET['cancel']
-				game_key = ndb.Key(urlsafe=urlstring)
-				game = game_key.get()
-				questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
+				album_key = ndb.Key(urlsafe=urlstring)
+				album = album_key.get()
+				questions = Question.query(ancestor=album_key).order(-Question.date).fetch()
 				retrieve = 1
 			else:
-				game = Game(game_type=self.request.GET.get('type'))
-				game.put()
+				album = Album(album_type=self.request.GET.get('type'))
+				album.put()
 			template_values = {
-				'game': game,
-				'game_type': game.game_type,
+				'album': album,
+				'album_type': album.album_type,
 				'questions': questions,
 				'edit': edit,
 				'retrieve': retrieve
@@ -104,11 +104,11 @@ class Create(webapp2.RequestHandler):
 			urlstring = self.request.GET['id']
 			if len(self.request.GET) and 'edit' in self.request.GET:
 				edit = self.request.GET['edit']
-			game_key = ndb.Key(urlsafe=urlstring)
-			game = game_key.get()
+			album_key = ndb.Key(urlsafe=urlstring)
+			album = album_key.get()
 			template_values = {
-				'game': game,
-				'game_type': game.game_type,
+				'album': album,
+				'album_type': album.album_type,
 				'edit': edit
 			}
 			template = JINJA_ENVIRONMENT.get_template('question.html')
@@ -119,7 +119,7 @@ class Edit(webapp2.RequestHandler):
 		urlstring = ""
 		edit = 1
 		retrieve = 0
-		if self.request.GET.get('game') == '1':
+		if self.request.GET.get('album') == '1':
 			# If coming back from cancelling in /question
 			if self.request.GET.get('cancel'):
 				urlstring = self.request.GET['cancel']
@@ -127,12 +127,12 @@ class Edit(webapp2.RequestHandler):
 			else:
 				urlstring = self.request.GET['id']
 			# Load create but now as an edit page (edit = 1)
-			game_key = ndb.Key(urlsafe=urlstring)
-			game = game_key.get()
-			questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
+			album_key = ndb.Key(urlsafe=urlstring)
+			album = album_key.get()
+			questions = Question.query(ancestor=album_key).order(-Question.date).fetch()
 			template_values = {
-				'game': game,
-				'game_type': game.game_type,
+				'album': album,
+				'album_type': album.album_type,
 				'questions': questions,
 				'edit': edit,
 				'retrieve': retrieve
@@ -143,10 +143,10 @@ class Edit(webapp2.RequestHandler):
 			urlstring = self.request.GET['id']
 			question_key = ndb.Key(urlsafe=urlstring)
 			question = question_key.get()
-			game = question_key.parent().get()
+			album = question_key.parent().get()
 			template_values = {
-				'game': game,
-				'game_type': game.game_type,
+				'album': album,
+				'album_type': album.album_type,
 				'question': question,
 				'edit': edit,
 				'retrieve': retrieve
@@ -168,36 +168,36 @@ class ImageRequest(webapp2.RequestHandler):
 
 class Store(webapp2.RequestHandler):
     def post(self):
-		# Grab Game from url
-		urlstring = self.request.POST['game']
-		game_key = ndb.Key(urlsafe=urlstring)
-		game = game_key.get()
-		# Check whether we're storing a Game or a Question
-		if self.request.GET['game'] == '1':
-			game.title = self.request.POST['gameTitle']
-			game.category = self.request.POST['categoryTitle']
-			game.put()
+		# Grab album from url
+		urlstring = self.request.POST['album']
+		album_key = ndb.Key(urlsafe=urlstring)
+		album = album_key.get()
+		# Check whether we're storing a album or a Question
+		if self.request.GET['album'] == '1':
+			album.title = self.request.POST['albumTitle']
+			album.category = self.request.POST['categoryTitle']
+			album.put()
 			time.sleep(0.1)
-			# Save game and redirect to edit if the user clicks on 'Save and continue editing'
-			# Else, save game and go back to the main page which lists all Games
+			# Save album and redirect to edit if the user clicks on 'Save and continue editing'
+			# Else, save album and go back to the main page which lists all albums
 			if self.request.POST.get('stay') == '1':
-				self.redirect('/edit?game=1&amp;id='+urlstring)
+				self.redirect('/edit?album=1&amp;id='+urlstring)
 			else:
-				if game.game_type == 'match':
+				if album.album_type == 'match':
 					self.redirect('/match')
-				elif game.game_type == 'correlate':
+				elif album.album_type == 'correlate':
 					self.redirect('/correlate')
 				else:
 					self.redirect('/oddmanout')
 		else:
-			# TODO: Add logic to handle modifying an existing game
-			# Create Question with the Game as parent for strong consistency
-			question = Question(title=self.request.get('question'), fact=self.request.get('fact'), parent=game_key)
+			# TODO: Add logic to handle modifying an existing album
+			# Create Question with the album as parent for strong consistency
+			question = Question(title=self.request.get('question'), fact=self.request.get('fact'), parent=album_key)
 			title = self.request.get('question')
 			answer = self.request.get('correct_answer')
 			images = self.request.get('image', allow_multiple=True)
 			num_images = 4
-			if game.game_type == 'correlate':
+			if album.album_type == 'correlate':
 				num_images = 5
 			for i in range(num_images):
 				img = Image()
@@ -210,16 +210,16 @@ class Store(webapp2.RequestHandler):
 					img.correct = False
 				question.images.append(img)
 			question.put()
-			# Query all Question(s) for the Game in recently added order for /create
-			# Retrieve previously input values, and indicate whether this is a new game (edit)
-			questions = Question.query(ancestor=game_key).order(-Question.date).fetch()
+			# Query all Question(s) for the album in recently added order for /create
+			# Retrieve previously input values, and indicate whether this is a new album (edit)
+			questions = Question.query(ancestor=album_key).order(-Question.date).fetch()
 			retrieve = 1
 			edit = 0
 			if len(self.request.GET) and 'edit' in self.request.GET:
 				edit = self.request.GET['edit']
 			template_values = {
-				'game': game,
-				'game_type': game.game_type,
+				'album': album,
+				'album_type': album.album_type,
 				'questions': questions,
 				'edit': edit,
 				'retrieve': retrieve
@@ -229,7 +229,7 @@ class Store(webapp2.RequestHandler):
 
 class Delete(webapp2.RequestHandler):
 	def get(self):
-		# Delete the game/question by id
+		# Delete the album/question by id
 		# TODO Support multiple row deletions
 		if 'id' in self.request.GET:
 			urlstring = self.request.GET['id']

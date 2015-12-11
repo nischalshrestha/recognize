@@ -4,9 +4,9 @@
     <head>
         <meta charset="utf-8" />
         <title>Recognize: Edit 
-        {% if game_type == 'match' %}
+        {% if album_type == 'match' %}
             Match Question
-        {% elif game_type == 'correlate' %}
+        {% elif album_type == 'correlate' %}
             Correlate Question
         {% else %}
             Odd Man Out Question
@@ -49,20 +49,20 @@
         </nav>
         <div class="container">
             <output id="outputLog"></output>
-            <!-- TODO: Vary this same page or create new pages according to what type of game is being created-->
+            <!-- TODO: Vary this same page or create new pages according to what type of album is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
             <form 
             {% if not edit %}
-                action="/upload?game=0"
+                action="/upload?album=0"
             {% else %}
-                action="/upload?edit=1&amp;game=0"
+                action="/upload?edit=1&amp;album=0"
             {% endif %}
-            enctype="multipart/form-data" method="post" id="match_new_game">
-            <!-- <form action="/upload" method="post" id="match_new_game"> -->
-                <input type="hidden" name="game" value="{{ game.key.urlsafe() }}" />
+            enctype="multipart/form-data" method="post" id="match_new_album">
+            <!-- <form action="/upload" method="post" id="match_new_album"> -->
+                <input type="hidden" name="album" value="{{ album.key.urlsafe() }}" />
                 <h3 align="center">
-                {% if edit and game.title %}
-                    Edit Question for {{ game.title }}
+                {% if edit and album.title %}
+                    Edit Question for {{ album.title }}
                 {% else %}
                     Edit Question
                 {% endif %}
@@ -78,99 +78,131 @@
                       <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question">{{ question.fact }}</textarea>
                     </div>
                 </div>
-                {% if game_type == 'correlate' %}
+                {% if album_type == 'correlate' %}
                     <div id="main_image" class="row">
-                        <div class="form-group col-md-10">
+                        <div class="form-group col-md-10 ">
                             <label id="choice_label" for="album_image_1">Main Image: </label>
                             <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                            <div class="container">
+                            <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
+                            </div>
+                            <div class="file">
+                                <input class="form-control input-sm" required="true" id="album_image_0" type="file" name="image" data-show-upload="false"/>
+                                <div class="checkbox">
+                                    <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br>
+                    <br>
                 {% endif %}
-                <div class="row">   
-                    <div class="form-group col-sm-5">
-                        <label id="choice_label" for="album_image_1">Choice 1: 
-                        {% if question.images[0].correct %}
-                            Correct
-                        {% else %}
-                            Incorrect
-                        {% endif %}</label>
-                        {% if game_type == 'correlate' %}
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
-                        {% else %}
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
-                        {% endif %}
-                        <!-- <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
-                        <div class="checkbox">
-                        <label><input id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
-                        </div> -->
+                <div id="image_grid" class="container">
+                    <div class="row">   
+                        <div class="form-group col-md-5">
+                            <label id="choice_label" for="album_image_1">Choice 1: 
+                            {% if question.images[0].correct %}
+                                Correct
+                            {% else %}
+                                Incorrect
+                            {% endif %}</label>
+                            {% if album_type == 'correlate' %}
+                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                            {% else %}
+                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                            {% endif %}
+                            <div class="container">
+                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
+                            </div>
+                            <div class="file">
+                                <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
+                                <div class="checkbox">
+                                <label><input id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label id="choice_label" for="album_image_2">Choice 2: 
+                            {% if question.images[1].correct %}
+                                Correct
+                            {% else %}
+                                Incorrect
+                            {% endif %}</label>
+                            {% if album_type == 'correlate' %}
+                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                            {% else %}
+                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                            {% endif %}
+                            <div class="container">
+                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
+                            </div>
+                            <!-- <img class="question_image" src="/images/blur_patterns.jpg"> -->
+                            <div class="file">
+                                <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
+                                <div class="checkbox">
+                                <label><input id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-5">
-                        <label id="choice_label" for="album_image_2">Choice 2: 
-                        {% if question.images[1].correct %}
-                            Correct
-                        {% else %}
-                            Incorrect
-                        {% endif %}</label>
-                        {% if game_type == 'correlate' %}
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
-                        {% else %}
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
-                        {% endif %}
-                        <!-- <img class="question_image" src="/images/blur_patterns.jpg"> -->
-                        <!-- <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
-                        <div class="checkbox">
-                        <label><input id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
-                        </div> -->
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="form-group col-sm-5">
-                        <label id="choice_label" for="album_image_3">Choice 3: 
-                        {% if question.images[2].correct %}
-                            Correct
-                        {% else %}
-                            Incorrect
-                        {% endif %}</label>
-                        {% if game_type == 'correlate' %}
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
-                        {% else %}
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
-                        {% endif %}
-<!--                         <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
-                        <div class="checkbox">
-                        <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label> -->
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-sm-5">
+                            <label id="choice_label" for="album_image_3">Choice 3: 
+                            {% if question.images[2].correct %}
+                                Correct
+                            {% else %}
+                                Incorrect
+                            {% endif %}</label>
+                            {% if album_type == 'correlate' %}
+                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                            {% else %}
+                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                            {% endif %}
+                            <div class="container">
+                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
+                            </div>
+                            <div class="file">
+                                <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
+                                <div class="checkbox">
+                                <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
+                                </div>
+                            </div>
+                        </div>
+                        
                     <!-- </div> -->
-                    </div>
-                    
-                <!-- </div> -->
-                <!-- <div class="row"> -->
-                    <div class="form-group col-sm-5">
-                        <label id="choice_label" for="album_image_4">Choice 4: 
-                        {% if question.images[3].correct %}
-                            Correct
-                        {% else %}
-                            Incorrect
-                        {% endif %}</label>
-                        {% if game_type == 'correlate' %}
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4" width="auto" height="200px">
-                        {% else %}
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
-                        {% endif %}
- <!--                        <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
-                        <div class="checkbox">
-                        <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
-                        </div> -->
+                    <!-- <div class="row"> -->
+                        <div class="form-group col-sm-5">
+                            <label id="choice_label" for="album_image_4">Choice 4: 
+                            {% if question.images[3].correct %}
+                                Correct
+                            {% else %}
+                                Incorrect
+                            {% endif %}</label>
+                            {% if album_type == 'correlate' %}
+                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4" width="auto" height="200px">
+                            {% else %}
+                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                            {% endif %}
+                            <div class="container">
+                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
+                            </div>
+                            <div class="file">
+                                <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
+                                <div class="checkbox">
+                                    <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="submit" class="col-md-10 row">
                     <button id="upload_image" type="submit" class="btn btn-success btn-md" onsubmit="setFormSubmitting()">Save</button>
                     <a id="cancel" 
                     {% if not edit %}
-                        href="create?game=1&amp;cancel={{ game.key.urlsafe() }}"
+                        href="create?album=1&amp;cancel={{ album.key.urlsafe() }}"
                     {% else %}
-                        href="edit?game=1&amp;cancel={{ game.key.urlsafe() }}"
+                        href="edit?album=1&amp;cancel={{ album.key.urlsafe() }}"
                     {% endif %} class="btn btn-default btn-md" type="submit">Cancel</a>
                 </div>
             </form>
@@ -183,14 +215,34 @@
         <script src="fileinput/js/fileinput.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#game_list').DataTable( {
+                $('#album_list').DataTable( {
                     "order": [[1, "desc"]],
                     "language": {
                         "emptyTable": "No questions added yet!",
                         "infoEmpty": "Add a new question!"
                     }
                 });
-                // alert('{{game}}');
+                $("#album_image_0").fileinput({
+                    'uploadAsync': false
+                });
+                $("#album_image_1").fileinput({
+                    'uploadAsync': false
+                });
+                $("#album_image_2").fileinput({
+                    'uploadAsync': false
+                });
+                $("#album_image_3").fileinput({
+                    'uploadAsync': false
+                });
+                $("#album_image_4").fileinput({
+                    'uploadAsync': false
+                });
+                $('.file').hide();
+                $('.row #replace').click(function(){
+                    $('.file').show(); 
+                    $(this).hide();
+                });
+                // alert('{{album}}');
                 // $('.question_image').hide();
                 // Initialize fileinputs with preview enabled
                 // $("#album_image_1").fileinput({
@@ -210,7 +262,7 @@
             });
         </script>
         <script type="text/javascript">
-            var form = document.getElementById('match_new_game'); // form has to have ID: <form id="formID">
+            var form = document.getElementById('match_new_album'); // form has to have ID: <form id="formID">
             form.noValidate = true;
             form.addEventListener('submit', function(event) { // listen for form submitting
                 if (!event.target.checkValidity()) {

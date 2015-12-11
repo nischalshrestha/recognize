@@ -145,13 +145,23 @@ form label {
 }
 
 #main_image {
-  width: 60%;
+  width: 30%;
   margin: 0 auto;
 }
 
 #choice_label {
   position: relative;
   display: block;
+}
+
+#image_grid {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.file {
+  position: relative;
+  top: 20px;
 }
 
 /* This is for the correct answer choice checkbox */
@@ -181,6 +191,12 @@ form label {
 #delete {
   position: relative;
   left: 20px;
+}
+
+#replace {
+  position: relative;
+  left: 50px;
+  top: 10px;
 }
 
 #clear {
