@@ -81,12 +81,13 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 var table = $('#album_list').DataTable( {
-                    "dom": '<lf<t>ip>',
-                    "order": [[1, "desc"]],
-                    "language": {
-                        "emptyTable": "No albums created yet!",
-                        "infoEmpty": "Create a new album!"
-                    }
+                    dom: '<lf<t>ip>',
+                    order: [[1, "desc"]],
+                    language: {
+                        emptyTable: "No albums created yet!",
+                        infoEmpty: "Create a new album!"
+                    },
+                    select: true
                 });
                 // Delete function to remove rows and respective album entities from Datastore 
                 $('.table #delete').click( function () {

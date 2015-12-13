@@ -89,7 +89,7 @@
             <!-- TODO: Vary this same page or create new pages according to what type of album is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
             <meta id="my-data" content="{{album.key.urlsafe()}}">
-            <h3>
+            <h3 align="center">
                 {% if edit %}
                     Edit album
                 {% else %}
@@ -99,26 +99,29 @@
             <form action="upload?album=1" method="post" id="match_new_album" name="main_form">
                 <input type="hidden" name="album" value="{{ album.key.urlsafe() }}" />
                 <input id="stay_here" type="hidden" name="stay" value="0" />
-                <!-- <div class="form-group"> -->
-                <div class="form-inline">
-                    <div class="form-group">
-                        <label for="albumTitle">Title</label>
+                <div class="form-inline row">
+                    <div class="form-group col-md-4">
+                        <label id="titleLabel" for="albumTitle">Title</label>
                         <input required="true" class="form-control" type="text" id="albumTitle" name="albumTitle" placeholder="Title"
                         {% if album and album.title %}
                             value = "{{ album.title }}"
                         {% endif %}/>
                     </div>
-                    <div class="form-group">
-                        <label for="categoryTitle">Category</label>
+                    <div class="form-group col-md-4">
+                        <label id="categoryLabel" for="categoryTitle">Category</label>
                         <input required="true" class="form-control" type="text" id="categoryTitle" name="categoryTitle" placeholder="Category"
                         {% if album and album.category %}
                             value = "{{ album.category }}"
                         {% endif %}/>
                     </div>
-                 </div>
-                <hr>
-                <h3>Questions</h3><br>
+                    <div class="form-group col-md-4">
+                        <label for="categoryTitle">Reveal Effect</label>
+                        <input class="form-control" type="text" id="revealEffect" name="revealEffect" placeholder="Effect"/> <!--TODO: Insert logic to fill previously entered Effect-->
+                    </div>
+                </div>
+                <hr>                
                 <table id="album_list" class="table table-hover table-striped table-bordered" cellspacing="0">
+                <h3 align="center">Questions</h3>
                     <thead>
                         <tr>
                             <th>Title</th>

@@ -143,9 +143,25 @@ form {
 form label {
   width: 90px;
 }
+/*
+label{
+    float: left;
+    height: 30px;
+    padding-right: 4px;
+    padding-top: 2px;
+    position: relative;
+    text-align: right;
+    vertical-align: middle;
+    width: 73px;
+}*/
+
+#choice_label:before{
+    content:"*" ;
+    color:red ;
+}
 
 #main_image {
-  width: 30%;
+  width: 50%;
   margin: 0 auto;
 }
 
@@ -155,7 +171,7 @@ form label {
 }
 
 #image_grid {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -170,6 +186,21 @@ form label {
   display: inline;
   top: 20px;
   left: 0;
+}
+
+#titleLabel:before{
+    content:"*" ;
+    color:red ;
+}
+
+#categoryLabel:before{
+    content:"*" ;
+    color:red ;
+}
+
+#factLabel:before{
+    content:"*" ;
+    color:red ;
 }
 
 .form-signin input[type="text"] {

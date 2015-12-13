@@ -40,9 +40,23 @@
                   <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li><a href="/admin">Admin</a></li>
-                    <li class="active"><a href="/match">Match</a></li>
-                    <li><a href="/correlate">Correlate</a></li>
-                    <li><a href="/oddmanout">Odd Man Out</a></li>
+                     {% if album_type == 'match' %}
+                        <li class="active"><a href="/match">Match</a></li>
+                    {% else %}
+                        <li><a href="/match">Match</a></li>
+                    {% endif %}
+
+                    {% if album_type == 'correlate' %}
+                        <li class="active"><a href="/correlate">Correlate</a></li>
+                    {% else %}
+                        <li><a href="/correlate">Correlate</a></li>
+                    {% endif %}
+
+                    {% if album_type == 'oddmanout' %}
+                        <li class="active"><a href="/oddmanout">Odd Man Out</a></li>
+                    {% else %}
+                        <li><a href="/oddmanout">Odd Man Out</a></li>
+                    {% endif %}
                   </ul>
                 </div>
             </div>
@@ -70,11 +84,11 @@
                 <hr>
                 <div class="row">
                     <div class="form-group col-lg-12">
-                        <label for="questionTitle">Title</label>
+                        <label id="titleLabel" for="questionTitle">Title</label>
                         <input class="form-control" type="text" id="questionTitle" name="question" placeholder="Question" value="{{ question.title }}">
                     </div>
                     <div class="form-group col-lg-12">
-                      <label for="comment">Fact</label>
+                      <label id="factLabel" for="comment">Fact</label>
                       <textarea class="form-control" rows="5" id="comment" name="fact" placeholder="A fact to accompany this question">{{ question.fact }}</textarea>
                     </div>
                 </div>
@@ -84,14 +98,15 @@
                             <label id="choice_label" for="album_image_1">Main Image: </label>
                             <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
                             <div class="container">
-                            <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
+                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
                             </div>
-                            <div class="file">
-                                <input class="form-control input-sm" required="true" id="album_image_0" type="file" name="image" data-show-upload="false"/>
-                                <div class="checkbox">
-                                    <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
-                                </div>
-                            </div>
+                                <!-- <div class="row"> -->
+                                    <input class="form-control input-sm" required="true" id="album_image_0" type="file" name="image" data-show-upload="false"/>
+                                    <div class="checkbox">
+                                        <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
+                                    </div>
+                                <!-- </div> -->
+                            <!-- </div> -->
                         </div>
                     </div>
                     <br>
@@ -114,12 +129,12 @@
                             <div class="container">
                                 <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
                             </div>
-                            <div class="file">
+                            <!-- <div class="row"> -->
                                 <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                                 <div class="checkbox">
                                 <label><input id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
                                 </div>
-                            </div>
+                            <!-- </div> -->
                         </div>
                         <div class="form-group col-md-5">
                             <label id="choice_label" for="album_image_2">Choice 2: 
@@ -137,17 +152,17 @@
                                 <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
                             </div>
                             <!-- <img class="question_image" src="/images/blur_patterns.jpg"> -->
-                            <div class="file">
+                            <!-- <div class="row"> -->
                                 <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
                                 <div class="checkbox">
-                                <label><input id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
+                                    <label><input id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
                                 </div>
-                            </div>
+                            <!-- </div> -->
                         </div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="form-group col-sm-5">
+                        <div class="form-group col-md-5">
                             <label id="choice_label" for="album_image_3">Choice 3: 
                             {% if question.images[2].correct %}
                                 Correct
@@ -162,17 +177,17 @@
                             <div class="container">
                                 <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
                             </div>
-                            <div class="file">
+                            <!-- <div class="row"> -->
                                 <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                                 <div class="checkbox">
-                                <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
+                                    <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
                                 </div>
-                            </div>
+                            <!-- </div> -->
                         </div>
-                        
+                            
                     <!-- </div> -->
                     <!-- <div class="row"> -->
-                        <div class="form-group col-sm-5">
+                        <div class="form-group col-md-5">
                             <label id="choice_label" for="album_image_4">Choice 4: 
                             {% if question.images[3].correct %}
                                 Correct
@@ -187,12 +202,12 @@
                             <div class="container">
                                 <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
                             </div>
-                            <div class="file">
+                            <!-- <div class="row"> -->
                                 <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                                 <div class="checkbox">
                                     <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
                                 </div>
-                            </div>
+                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -237,11 +252,11 @@
                 $("#album_image_4").fileinput({
                     'uploadAsync': false
                 });
-                $('.file').hide();
-                $('.row #replace').click(function(){
-                    $('.file').show(); 
-                    $(this).hide();
-                });
+                // $('.file').hide();
+                // $('.row #replace').click(function(){
+                //     $('.file').show(); 
+                //     $(this).hide();
+                // });
                 // alert('{{album}}');
                 // $('.question_image').hide();
                 // Initialize fileinputs with preview enabled
