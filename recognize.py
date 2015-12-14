@@ -192,26 +192,53 @@ class Store(webapp2.RequestHandler):
 		else:
 			# TODO: Add logic to handle modifying an existing album
 			# Create Question with the album as parent for strong consistency
-			question = Question(parent=album_key)
+			question = ""
+			new = "1"
+			if self.request.POST['question'] == "":
+				question = Question(parent=album_key)
+			else:
+				new = "0"
+				question_url = self.request.POST['question']
+				question_key = ndb.Key(urlsafe=question_url)
+				question = question_key.get()
 			question.title = self.request.get('title')
 			question.fact = self.request.get('fact')
 			question.effect = self.request.get('revealEffect')
 			# Create answer choices
-			answer = self.request.get('correct_answer')
+			answer = int(self.request.get('correct_answer'))
 			images = self.request.get('image', allow_multiple=True)
+			# self.response.write('image: '+str(len(images)))
 			num_images = 4
 			if album.album_type == 'correlate':
 				num_images = 5
+			image_list = []
+			# self.response.write(question.images[0].key)
 			for i in range(num_images):
-				img = Image()
-				img.image = images[i]
-				if int(answer) == i:
+				img = ""
+				if new == "0":
+					img = question.images[i]
+				else:
+					img = Image()
+
+				if images[i]:
+					img.image = images[i]
+
+				if answer == i:
 					img.title = "correct_answer_"+str(i)
 					img.correct = True
 				else:
 					img.title = "incorrect_answer_"+str(i)
 					img.correct = False
-				question.images.append(img)
+			 	# If old Question, free up the old Image and put in new Image 
+				if new == "0":
+					question.images.pop(i)
+					question.images.insert(i, img)
+				else:
+					question.images.append(img)
+
+			# if new == '0':
+				# self.response.write("length "+str(len(question.images)))
+			# else:
 			question.put()
 			# Query all Question(s) for the album in recently added order for /create
 			# Retrieve previously input values, and indicate whether this is a new album (edit)

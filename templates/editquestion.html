@@ -65,15 +65,10 @@
             <output id="outputLog"></output>
             <!-- TODO: Vary this same page or create new pages according to what type of album is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
-            <form 
-            {% if not edit %}
-                action="/upload?album=0"
-            {% else %}
-                action="/upload?edit=1&amp;album=0"
-            {% endif %}
-            enctype="multipart/form-data" method="post" id="match_new_album">
+            <form action="/upload?album=0" enctype="multipart/form-data" method="post" id="match_new_album">
             <!-- <form action="/upload" method="post" id="match_new_album"> -->
                 <input type="hidden" name="album" value="{{ album.key.urlsafe() }}" />
+                <input type="hidden" name="question" value="{{ question.key.urlsafe() }}" />
                 <h3 align="center">
                 {% if edit and album.title %}
                     Edit Question for {{ album.title }}
@@ -141,7 +136,7 @@
                                 <a id="replace" class="btn btn-danger btn-sm" value="0">Replace</a>
                             </div>
                             <div id="file_0" class="file">
-                                <input class="form-control input-sm" id="album_image_0" required="true" type="file" name="image" data-show-upload="false"/>
+                                <input class="form-control input-sm" id="album_image_0" type="file" name="image" data-show-upload="false"/>
                             </div>
                         </div>
                     </div>
@@ -158,7 +153,7 @@
                                     <a id="replace" class="btn btn-danger btn-sm" value="1">Replace</a>
                                 </div>
                                 <div id="file_1" class="file">
-                                    <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
+                                    <input class="form-control input-sm" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% else %}
                                 <img class="question_image_0" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
@@ -166,7 +161,7 @@
                                     <a id="replace" class="btn btn-danger btn-sm" value="0">Replace</a>
                                 </div>
                                 <div id="file_0" class="file">
-                                    <input class="form-control input-sm" required="true" id="album_image_0" type="file" name="image" data-show-upload="false"/>
+                                    <input class="form-control input-sm" id="album_image_0" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% endif %}
                             <br>
@@ -182,7 +177,7 @@
                                     <a id="replace" class="btn btn-danger btn-sm" value="2">Replace</a>
                                 </div>
                                 <div id="file_2" class="file">
-                                    <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
+                                    <input class="form-control input-sm" id="album_image_2" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% else %}
                                 <img class="question_image_1" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
@@ -190,7 +185,7 @@
                                     <a id="replace" class="btn btn-danger btn-sm" value="1">Replace</a>
                                 </div>
                                 <div id="file_1" class="file">
-                                    <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
+                                    <input class="form-control input-sm" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% endif %}
                             <br>
@@ -217,7 +212,7 @@
                                     <a id="replace" class="btn btn-danger btn-sm" value="2">Replace</a>
                                 </div>
                                 <div id="file_2" class="file">
-                                    <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
+                                    <input class="form-control input-sm" id="album_image_2" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% endif %}
                             <br>
@@ -233,7 +228,7 @@
                                     <a id="replace" class="btn btn-danger btn-sm" value="4">Replace</a>
                                 </div>
                                 <div id="file_4" class="file">
-                                    <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
+                                    <input class="form-control input-sm" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% else %}
                                 <img class="question_image_3" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
@@ -241,7 +236,7 @@
                                     <a id="replace" class="btn btn-danger btn-sm" value="3">Replace</a>
                                 </div>
                                 <div id="file_3" class="file">
-                                    <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
+                                    <input class="form-control input-sm" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% endif %}
                             <br>
@@ -270,13 +265,6 @@
         <script src="fileinput/js/fileinput.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $('#album_list').DataTable( {
-                    "order": [[1, "desc"]],
-                    "language": {
-                        "emptyTable": "No questions added yet!",
-                        "infoEmpty": "Add a new question!"
-                    }
-                });
                 $("#album_image_0").fileinput({
                     'uploadAsync': false
                 });

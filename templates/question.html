@@ -65,15 +65,10 @@
             <output id="outputLog"></output>
             <!-- TODO: Vary this same page or create new pages according to what type of album is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
-            <form 
-            {% if not edit %}
-                action="/upload?album=0"
-            {% else %}
-                action="/upload?edit=1&amp;album=0"
-            {% endif %}
-            enctype="multipart/form-data" method="post" id="match_new_album">
+            <form action="/upload?album=0" enctype="multipart/form-data" method="post" id="match_new_album">
             <!-- <form action="/upload" method="post" id="match_new_album"> -->
                 <input type="hidden" name="album" value="{{ album.key.urlsafe() }}" />
+                <input type="hidden" name="question" value="" />
                 <h3 align="center">
                 {% if edit and album.title %}
                     New Question for {{ album.title }}
@@ -101,7 +96,6 @@
                         </select>
                         <!--TODO: Insert logic to fill previously entered Effect--> 
                     </div>
-                    
                 </div>
                 <div class="row">
                     <div class="form-group col-md-10">
