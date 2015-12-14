@@ -87,11 +87,11 @@
                     language: {
                         emptyTable: "No albums created yet!",
                         infoEmpty: "Create a new album!"
-                    },
-                    select: true
+                    }
+                    // select: true
                 });
                 // $('#album_list tbody').on( 'click', 'tr', function () {
-                //     alert('row: '+table.$('tr.selected').index());
+                    // alert('row: '+$(this).$('tr.selected').val());
                 //     // if ( $(this).hasClass('selected') ) {
                 //     //      table.$('tr.selected').removeClass('selected');
                 //     //     $(this).addClass('selected');
@@ -103,16 +103,14 @@
                 // Delete function to remove rows and respective album entities from Datastore 
                 $('.table #delete').click( function () {
                     var id = $(this).attr('id');
-                    if(id == 'delete'){
-                        var album_url = $(this).attr("value");
-                        if(confirm('Are you sure you want to delete this album?')){
-                            table.row($(this).closest("tr")).remove().draw( false );
-                            $.ajax({url: "/delete?id="+album_url, success: function(result){
-                                // alert('Successfully removed!');
-                            }});
-                        }
-                        return false;
+                    var album_url = $(this).attr("value");
+                    if(confirm('Are you sure you want to delete this album?')){
+                        table.row($(this).closest("tr")).remove().draw( false );
+                        $.ajax({url: "/delete?id="+album_url, success: function(result){
+                            // alert('Successfully removed!');
+                        }});
                     }
+                    return false;
                 });
 
             });

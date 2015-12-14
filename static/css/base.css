@@ -181,12 +181,12 @@ label{
 }
 
 /* This is for the correct answer choice checkbox */
-.checkbox label {
+/*.checkbox label {
   position: relative;
   display: inline;
   top: 20px;
   left: 0;
-}
+}*/
 
 #titleLabel:before{
     content:"*" ;

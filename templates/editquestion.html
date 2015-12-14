@@ -125,7 +125,6 @@
                         </select>
                         <!--TODO: Insert logic to fill previously entered Effect--> 
                     </div>
-                    
                 </div>
                 <div class="row">
                     <div class="form-group col-md-10">
@@ -137,13 +136,12 @@
                     <div id="main_image" class="row">
                         <div class="form-group col-md-10 ">
                             <label id="choice_label" for="album_image_1">Main Image: </label>
-                            <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                            <img class="question_image_0" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
                             <div class="container">
-                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
+                                <a id="replace" class="btn btn-danger btn-sm" value="0">Replace</a>
                             </div>
-                            <input class="form-control input-sm" required="true" id="album_image_0" type="file" name="image" data-show-upload="false"/>
-                            <div class="checkbox">
-                                <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
+                            <div id="file_0" class="file">
+                                <input class="form-control input-sm" id="album_image_0" required="true" type="file" name="image" data-show-upload="false"/>
                             </div>
                         </div>
                     </div>
@@ -153,86 +151,102 @@
                 <div id="image_grid" class="container">
                     <div class="row">   
                         <div class="form-group col-md-5">
-                            <label id="choice_label" for="album_image_1">Choice 1: 
-                            {% if question.images[0].correct %}
-                                Correct
-                            {% else %}
-                                Incorrect
-                            {% endif %}</label>
+                            <label id="choice_label" for="album_image_1">Choice 1</label>
                             {% if album_type == 'correlate' %}
-                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                                <img class="question_image_1" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                                <div class="container">
+                                    <a id="replace" class="btn btn-danger btn-sm" value="1">Replace</a>
+                                </div>
+                                <div id="file_1" class="file">
+                                    <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
+                                </div>
                             {% else %}
-                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                                <img class="question_image_0" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                                <div class="container">
+                                    <a id="replace" class="btn btn-danger btn-sm" value="0">Replace</a>
+                                </div>
+                                <div id="file_0" class="file">
+                                    <input class="form-control input-sm" required="true" id="album_image_0" type="file" name="image" data-show-upload="false"/>
+                                </div>
                             {% endif %}
-                            <div class="container">
-                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
-                            </div>
-                            <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
+                            <br>
                             <div class="checkbox">
-                            <label><input id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
+                            <label><input {% if question.images[0].correct %} checked {% endif %} id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
                             </div>
                         </div>
                         <div class="form-group col-md-5">
-                            <label id="choice_label" for="album_image_2">Choice 2: 
-                            {% if question.images[1].correct %}
-                                Correct
-                            {% else %}
-                                Incorrect
-                            {% endif %}</label>
+                            <label id="choice_label" for="album_image_2">Choice 2</label>
                             {% if album_type == 'correlate' %}
-                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                                <img class="question_image_2" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                                <div class="container">
+                                    <a id="replace" class="btn btn-danger btn-sm" value="2">Replace</a>
+                                </div>
+                                <div id="file_2" class="file">
+                                    <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
+                                </div>
                             {% else %}
-                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                                <img class="question_image_1" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                                <div class="container">
+                                    <a id="replace" class="btn btn-danger btn-sm" value="1">Replace</a>
+                                </div>
+                                <div id="file_1" class="file">
+                                    <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
+                                </div>
                             {% endif %}
-                            <div class="container">
-                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
-                            </div>
-                            <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
+                            <br>
                             <div class="checkbox">
-                                <label><input id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
+                                <label><input id="checkbox_2" {% if question.images[1].correct %} checked {% endif %} name="correct_answer" type="checkbox" value="1">Correct Answer</label>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="form-group col-md-5">
-                            <label id="choice_label" for="album_image_3">Choice 3: 
-                            {% if question.images[2].correct %}
-                                Correct
-                            {% else %}
-                                Incorrect
-                            {% endif %}</label>
+                            <label id="choice_label" for="album_image_3">Choice 3</label>
                             {% if album_type == 'correlate' %}
-                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                                <img class="question_image_3" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                                <div class="container">
+                                    <a id="replace" class="btn btn-danger btn-sm" value="3">Replace</a>
+                                </div>
+                                <div id="file_3" class="file">
+                                    <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
+                                </div>
                             {% else %}
-                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                                <img class="question_image_2" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                                <div class="container">
+                                    <a id="replace" class="btn btn-danger btn-sm" value="2">Replace</a>
+                                </div>
+                                <div id="file_2" class="file">
+                                    <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
+                                </div>
                             {% endif %}
-                            <div class="container">
-                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
-                            </div>
-                            <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
+                            <br>
                             <div class="checkbox">
-                                <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
+                                <label><input id="checkbox_3" {% if question.images[2].correct %} checked {% endif %} name="correct_answer" type="checkbox" value="2">Correct Answer</label>
                             </div>
                         </div>
                         <div class="form-group col-md-5">
-                            <label id="choice_label" for="album_image_4">Choice 4: 
-                            {% if question.images[3].correct %}
-                                Correct
-                            {% else %}
-                                Incorrect
-                            {% endif %}</label>
+                            <label id="choice_label" for="album_image_4">Choice 4</label>
                             {% if album_type == 'correlate' %}
-                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4" width="auto" height="200px">
+                                <img class="question_image_4" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4" width="auto" height="200px">
+                                <div class="container">
+                                    <a id="replace" class="btn btn-danger btn-sm" value="4">Replace</a>
+                                </div>
+                                <div id="file_4" class="file">
+                                    <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
+                                </div>
                             {% else %}
-                                <img class="question_image" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                                <img class="question_image_3" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                                <div class="container">
+                                    <a id="replace" class="btn btn-danger btn-sm" value="3">Replace</a>
+                                </div>
+                                <div id="file_3" class="file">
+                                    <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
+                                </div>
                             {% endif %}
-                            <div class="container">
-                                <a id="replace" class="btn btn-danger btn-sm" value="{{question.key.urlsafe()}}">Replace</a>
-                            </div>
-                            <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
+                            <br>
                             <div class="checkbox">
-                                <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
+                                <label><input {% if question.images[3].correct %} checked {% endif %} id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
                             </div>
                         </div>
                     </div>
@@ -278,28 +292,17 @@
                 $("#album_image_4").fileinput({
                     'uploadAsync': false
                 });
-                // $('.file').hide();
-                // $('.row #replace').click(function(){
-                //     $('.file').show(); 
-                //     $(this).hide();
-                // });
-                // alert('{{album}}');
-                // $('.question_image').hide();
-                // Initialize fileinputs with preview enabled
-                // $("#album_image_1").fileinput({
-                //     "previewSettings": {
-                //         "image": {width: "auto", height: "60px"}
-                //     }
-                // });
-                // $("#album_image_2").fileinput();
-                // $("#album_image_3").fileinput();
-                // $("#album_image_4").fileinput();
-                // $("#album_image_1").click(function(){
-                //     $("#question_image").hide();
-                // });
-                // $("#album_image_2").click(function(){
-                //     $(".question_image").show();
-                // });
+                $("#file_0").hide();
+                $("#file_1").hide();
+                $("#file_2").hide();
+                $("#file_3").hide();
+                $("#file_4").hide();
+                $('.form-group #replace').click(function(){
+                    $(this).hide();
+                    var file_idx = $(this).attr("value");
+                    $('.question_image_'+file_idx).hide();
+                    $('#file_'+file_idx).show();
+                });
             });
         </script>
         <script type="text/javascript">
