@@ -192,8 +192,11 @@ class Store(webapp2.RequestHandler):
 		else:
 			# TODO: Add logic to handle modifying an existing album
 			# Create Question with the album as parent for strong consistency
-			question = Question(title=self.request.get('question'), fact=self.request.get('fact'), parent=album_key)
-			title = self.request.get('question')
+			question = Question(parent=album_key)
+			question.title = self.request.get('title')
+			question.fact = self.request.get('fact')
+			question.effect = self.request.get('revealEffect')
+			# Create answer choices
 			answer = self.request.get('correct_answer')
 			images = self.request.get('image', allow_multiple=True)
 			num_images = 4

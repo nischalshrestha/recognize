@@ -13,6 +13,7 @@ class Image(ndb.Model):
 class Question(ndb.Model):
 	title = ndb.StringProperty()
 	fact = ndb.StringProperty()
+	effect = ndb.StringProperty()
 	images = ndb.StructuredProperty(Image, repeated=True)
 	date = ndb.DateTimeProperty(auto_now_add=True)
 
@@ -20,5 +21,4 @@ class Album(ndb.Model):
 	title = ndb.StringProperty()
 	category = ndb.StringProperty()
 	album_type = ndb.StringProperty()
-	# questions = ndb.StructuredProperty(Question)
 	date = ndb.DateTimeProperty(auto_now_add=True)
