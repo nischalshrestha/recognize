@@ -274,26 +274,12 @@
         <script src="fileinput/js/fileinput.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("#album_image_0").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_1").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_2").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_3").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_4").fileinput({
-                    'uploadAsync': false
-                });
-                $("#file_0").hide();
-                $("#file_1").hide();
-                $("#file_2").hide();
-                $("#file_3").hide();
-                $("#file_4").hide();
+                for(var i = 0; i < 5; i++){
+                    $("#album_image_"+i).fileinput({
+                        'uploadAsync': false
+                    });
+                    $("#file_"+i).hide();
+                }
                 $('.form-group #replace').click(function(){
                     $(this).hide();
                     var file_idx = $(this).attr("value");

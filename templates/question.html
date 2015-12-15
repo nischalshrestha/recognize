@@ -150,16 +150,14 @@
                         <label id="choice_label" for="album_image_3">Choice 3</label>
                         <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input required="true" id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
+                            <label><input required="true" id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
+                        </div>
                     </div>
-                    </div>
-                <!-- </div> -->
-                <!-- <div class="row"> -->
                     <div class="form-group col-md-5">
                         <label id="choice_label" for="album_image_4">Choice 4</label>
-                        <input class="file form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
+                        <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input required="true" id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
+                            <label><input required="true" id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
                         </div>
                     </div>
                 </div>
@@ -182,26 +180,15 @@
         <script src="fileinput/js/fileinput.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                // $('.question_image').hide();
                 // Initialize fileinputs with preview enabled
-                $("#album_image_0").fileinput({
-                    "previewSettings": {
-                        'image': {width: "auto", height: "200px"}
-                    },
-                    'uploadAsync': false
-                });
-                $("#album_image_1").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_2").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_3").fileinput({
-                    'uploadAsync': false
-                });
-                $("#album_image_4").fileinput({
-                    'uploadAsync': false
-                });
+                for(var i = 0; i < 5; i++){
+                    $("#album_image_"+i).fileinput({
+                        "previewSettings": {
+                            'image': {width: "auto", height: "200px"}
+                        },
+                        'uploadAsync': false
+                    });
+                }
             });
         </script>
         <script type="text/javascript">
@@ -223,7 +210,7 @@
                         } else if(!$('#album_image_1').val()  || 
                                 !$('#album_image_2').val()  || 
                                 !$('#album_image_3').val()  || 
-                                !$('#album_image_3').val()){
+                                !$('#album_image_4').val()){
                             event.preventDefault();
                             alert('Please upload all answer choices!');
                         } else if(!cbs.size()){

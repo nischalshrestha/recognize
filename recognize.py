@@ -234,9 +234,6 @@ class Store(webapp2.RequestHandler):
 				else:
 					question.images.append(img)
 
-			# if new == '0':
-				# self.response.write("length "+str(len(question.images)))
-			# else:
 			question.put()
 			# Query all Question(s) for the album in recently added order for /create
 			# Retrieve previously input values, and indicate whether this is a new album (edit)
