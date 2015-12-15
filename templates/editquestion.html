@@ -63,10 +63,12 @@
         </nav>
         <div class="container">
             <output id="outputLog"></output>
-            <!-- TODO: Vary this same page or create new pages according to what type of album is being created-->
-            <!-- Add a from with submit button to generate 4 distinct images -->
-            <form action="/upload?album=0" enctype="multipart/form-data" method="post" id="match_new_album">
-            <!-- <form action="/upload" method="post" id="match_new_album"> -->
+            <form 
+            {% if not edit %}
+                action="/upload?edit=0&amp;album=0"
+            {% else %}
+                action="/upload?edit=1&amp;album=0"
+            {% endif %} enctype="multipart/form-data" method="post" id="match_new_question">
                 <input type="hidden" name="album" value="{{ album.key.urlsafe() }}" />
                 <input type="hidden" name="question" value="{{ question.key.urlsafe() }}" />
                 <h3 align="center">
@@ -118,7 +120,14 @@
                                 selected
                             {% endif %}>Vertical Scan Line</option>
                         </select>
-                        <!--TODO: Insert logic to fill previously entered Effect--> 
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="difficultyLevel">Difficulty</label>
+                        <select class="form-control" id="difficultyLevel" name="difficulty" >
+                            <option>Easy</option>
+                            <option>Normal</option>
+                            <option>Hard</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row">
@@ -166,7 +175,7 @@
                             {% endif %}
                             <br>
                             <div class="checkbox">
-                            <label><input {% if question.images[0].correct %} checked {% endif %} id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
+                            <label><input required="true" {% if question.images[0].correct %} checked {% endif %} id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
                             </div>
                         </div>
                         <div class="form-group col-md-5">
@@ -190,7 +199,7 @@
                             {% endif %}
                             <br>
                             <div class="checkbox">
-                                <label><input id="checkbox_2" {% if question.images[1].correct %} checked {% endif %} name="correct_answer" type="checkbox" value="1">Correct Answer</label>
+                                <label><input required="true" id="checkbox_2" {% if question.images[1].correct %} checked {% endif %} name="correct_answer" type="checkbox" value="1">Correct Answer</label>
                             </div>
                         </div>
                     </div>
@@ -204,7 +213,7 @@
                                     <a id="replace" class="btn btn-danger btn-sm" value="3">Replace</a>
                                 </div>
                                 <div id="file_3" class="file">
-                                    <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
+                                    <input class="form-control input-sm" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% else %}
                                 <img class="question_image_2" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
@@ -217,16 +226,16 @@
                             {% endif %}
                             <br>
                             <div class="checkbox">
-                                <label><input id="checkbox_3" {% if question.images[2].correct %} checked {% endif %} name="correct_answer" type="checkbox" value="2">Correct Answer</label>
+                                <label><input required="true" id="checkbox_3" {% if question.images[2].correct %} checked {% endif %} name="correct_answer" type="checkbox" value="2">Correct Answer</label>
                             </div>
                         </div>
                         <div class="form-group col-md-5">
                             <label id="choice_label" for="album_image_4">Choice 4</label>
                             {% if album_type == 'correlate' %}
-                                <img class="question_image_4" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4" width="auto" height="200px">
-                                <div class="container">
-                                    <a id="replace" class="btn btn-danger btn-sm" value="4">Replace</a>
-                                </div>
+                                    <img class="question_image_4" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4" width="auto" height="200px">
+                                    <div class="container">
+                                        <a id="replace" class="btn btn-danger btn-sm" value="4">Replace</a>
+                                    </div>
                                 <div id="file_4" class="file">
                                     <input class="form-control input-sm" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                                 </div>
@@ -241,7 +250,7 @@
                             {% endif %}
                             <br>
                             <div class="checkbox">
-                                <label><input {% if question.images[3].correct %} checked {% endif %} id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
+                                <label><input required="true" {% if question.images[3].correct %} checked {% endif %} id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
                             </div>
                         </div>
                     </div>
@@ -288,18 +297,31 @@
                 $('.form-group #replace').click(function(){
                     $(this).hide();
                     var file_idx = $(this).attr("value");
+                    $("#image_error_"+file_idx).hide();
                     $('.question_image_'+file_idx).hide();
                     $('#file_'+file_idx).show();
                 });
             });
         </script>
         <script type="text/javascript">
-            var form = document.getElementById('match_new_album'); // form has to have ID: <form id="formID">
+            var form = document.getElementById('match_new_question');
             form.noValidate = true;
             form.addEventListener('submit', function(event) { // listen for form submitting
                 if (!event.target.checkValidity()) {
-                        event.preventDefault(); // dismiss the default functionality
-                        alert('You haven\'t filled out the form!'); // error message
+                        var cbs = $("input[type=checkbox]:checked");
+                        if(!cbs.size()){
+                            event.preventDefault(); // dismiss the default functionality
+                            alert('Please choose the correct answer!');
+                        } else if(!$('#comment').val()){
+                            event.preventDefault(); // dismiss the default functionality
+                            alert('Please enter a fact!');
+                        } else if(!$('#questionTitle').val()){
+                            event.preventDefault(); // dismiss the default functionality
+                            alert('Please enter a title!');
+                        } else if(!cbs.size()){
+                            event.preventDefault(); // dismiss the default functionality
+                            alert('Please choose the correct answer!');
+                        } 
                     }
                 }, false);
         </script>

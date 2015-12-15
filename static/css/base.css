@@ -155,10 +155,10 @@ label{
     width: 73px;
 }*/
 
-#choice_label:before{
+/*#choice_label:before{
     content:"*" ;
     color:red ;
-}
+}*/
 
 #main_image {
   width: 50%;

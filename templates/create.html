@@ -144,7 +144,7 @@
                 <!-- Add a new question -->
                 <a id="add_question" 
                 {% if not edit %}
-                    href="create?album=0&amp;id={{ album.key.urlsafe() }}"
+                    href="create?album=0&amp;id={{ album.key.urlsafe() }}&amp;edit=0"
                 {% else %}
                     href="create?album=0&amp;id={{ album.key.urlsafe() }}&amp;edit=1"
                 {% endif %} 

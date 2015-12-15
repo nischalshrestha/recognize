@@ -74,7 +74,7 @@ class OddManOut(webapp2.RequestHandler):
 class Create(webapp2.RequestHandler):
 	def get(self):
 		album = ""
-		edit = 0
+		edit = self.request.GET['edit']
 		# Check whether we're creating a album or a Question
 		if self.request.GET['album'] == '1':
 			questions = ""
@@ -102,8 +102,6 @@ class Create(webapp2.RequestHandler):
 		else:
 			# Create a new Question with edit = 0 to indicate new entry
 			urlstring = self.request.GET['id']
-			if len(self.request.GET) and 'edit' in self.request.GET:
-				edit = self.request.GET['edit']
 			album_key = ndb.Key(urlsafe=urlstring)
 			album = album_key.get()
 			template_values = {
@@ -244,9 +242,7 @@ class Store(webapp2.RequestHandler):
 			# Retrieve previously input values, and indicate whether this is a new album (edit)
 			questions = Question.query(ancestor=album_key).order(-Question.date).fetch()
 			retrieve = 1
-			edit = 0
-			if len(self.request.GET) and 'edit' in self.request.GET:
-				edit = self.request.GET['edit']
+			edit = self.request.GET['edit']
 			template_values = {
 				'album': album,
 				'album_type': album.album_type,

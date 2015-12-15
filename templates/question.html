@@ -42,17 +42,20 @@
                     <li><a href="/admin">Admin</a></li>
                      {% if album_type == 'match' %}
                         <li class="active"><a href="/match">Match</a></li>
+                        <meta name="correlate" value="0">
                     {% else %}
                         <li><a href="/match">Match</a></li>
                     {% endif %}
 
                     {% if album_type == 'correlate' %}
                         <li class="active"><a href="/correlate">Correlate</a></li>
+                        <meta name="correlate" value="1">
                     {% else %}
                         <li><a href="/correlate">Correlate</a></li>
                     {% endif %}
 
                     {% if album_type == 'oddmanout' %}
+                        <meta name="correlate" value="0">
                         <li class="active"><a href="/oddmanout">Odd Man Out</a></li>
                     {% else %}
                         <li><a href="/oddmanout">Odd Man Out</a></li>
@@ -65,7 +68,12 @@
             <output id="outputLog"></output>
             <!-- TODO: Vary this same page or create new pages according to what type of album is being created-->
             <!-- Add a from with submit button to generate 4 distinct images -->
-            <form action="/upload?album=0" enctype="multipart/form-data" method="post" id="match_new_album">
+            <form 
+            {% if not edit %}
+                action="/upload?edit=0&amp;album=0"
+            {% else %}
+                action="/upload?edit=1&amp;album=0"
+            {% endif %} enctype="multipart/form-data" method="post" id="match_new_question">
             <!-- <form action="/upload" method="post" id="match_new_album"> -->
                 <input type="hidden" name="album" value="{{ album.key.urlsafe() }}" />
                 <input type="hidden" name="question" value="" />
@@ -94,7 +102,14 @@
                             <option>Horizontal Scan Line</option>
                             <option>Vertical Scan Line</option>
                         </select>
-                        <!--TODO: Insert logic to fill previously entered Effect--> 
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="difficultyLevel">Difficulty</label>
+                        <select class="form-control" id="difficultyLevel" name="difficulty" >
+                            <option>Easy</option>
+                            <option>Normal</option>
+                            <option>Hard</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row">
@@ -104,28 +119,28 @@
                     </div>
                 </div>
                 {% if album_type == 'correlate' %}
-                <br>
-                <div id="main_image" class="row">
-                    <div class="form-group col-md-10">
-                        <label id="choice_label" align="center" for="album_image_1">Main Image</label>
-                        <input class="form-control input-sm" required="true" id="album_image_0" type="file" name="image" data-show-upload="false"/>
+                    <br>
+                    <div id="main_image" class="row">
+                        <div class="form-group col-md-10">
+                            <label id="choice_label" align="center" for="album_image_1">Main Image</label>
+                            <input required="true" class="form-control input-sm" id="album_image_0" type="file" name="image" data-show-upload="false"/>
+                        </div>
                     </div>
-                </div>
-                <br>
+                    <br>
                 {% endif %}
                 <div class="row">
                     <div class="form-group col-md-5">
                         <label id="choice_label" for="album_image_1">Choice 1</label>
                         <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
+                        <label><input required="true" id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
                         </div>
                     </div>
                     <div class="form-group col-md-5">
                         <label id="choice_label" for="album_image_2">Choice 2</label>
                         <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
+                        <label><input required="true" id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
                         </div>
                     </div>
                 </div>
@@ -135,16 +150,16 @@
                         <label id="choice_label" for="album_image_3">Choice 3</label>
                         <input class="form-control input-sm" required="true" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
+                        <label><input required="true" id="checkbox_3" name="correct_answer" type="checkbox" value="2">Correct Answer</label>
                     </div>
                     </div>
                 <!-- </div> -->
                 <!-- <div class="row"> -->
                     <div class="form-group col-md-5">
                         <label id="choice_label" for="album_image_4">Choice 4</label>
-                        <input class="form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
+                        <input class="file form-control input-sm" required="true" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
+                        <label><input required="true" id="checkbox_4" name="correct_answer" type="checkbox" value="3">Correct Answer</label>
                         </div>
                     </div>
                 </div>
@@ -190,12 +205,32 @@
             });
         </script>
         <script type="text/javascript">
-            var form = document.getElementById('match_new_album'); // form has to have ID: <form id="formID">
+            var form = document.getElementById('match_new_question'); // form has to have ID: <form id="formID">
             form.noValidate = true;
             form.addEventListener('submit', function(event) { // listen for form submitting
                 if (!event.target.checkValidity()) {
-                        event.preventDefault(); // dismiss the default functionality
-                        alert('You haven\'t filled out the form!'); // error message
+                        var cbs = $("input[type=checkbox]:checked");
+                        var is_correlate = $('meta[name=correlate]').attr("value");
+                        if(!$('#questionTitle').val()){
+                            event.preventDefault(); // dismiss the default functionality
+                            alert('Please enter a title!');
+                        } else if(!$('#comment').val()){
+                            event.preventDefault(); // dismiss the default functionality
+                            alert('Please enter a fact!');
+                        } else if(is_correlate == "1" && !$('#album_image_0').val()){
+                            event.preventDefault();
+                            alert('Please upload the main image!');
+                        } else if(!$('#album_image_1').val()  || 
+                                !$('#album_image_2').val()  || 
+                                !$('#album_image_3').val()  || 
+                                !$('#album_image_3').val()){
+                            event.preventDefault();
+                            alert('Please upload all answer choices!');
+                        } else if(!cbs.size()){
+                            event.preventDefault(); // dismiss the default functionality
+                            alert('Please choose the correct answer!');
+                        } 
+                        // Add more as needed!
                     }
                 }, false);
         </script>
