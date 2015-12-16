@@ -24,6 +24,7 @@ __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 
 import pprint
 import json
+import urllib2
 
 from apiclient.discovery import build
 
@@ -33,25 +34,33 @@ def main():
   # to get an API key for your own application.
   service = build("customsearch", "v1",
             developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
+
+  num = 4
   res = service.cse().list(
-      q='bat',
+      q='cat',
       cx='008947772147471846402:fdhywbjbitw',
-      num=4,
+      num=num,
       searchType="image",
       imgColorType='color',
       siteSearchFilter='e',
-      siteSearch='https://pixabay.com',
-      # imgSize='medium', #Let's not restrict size; we can resize later.
+      siteSearch='https://pixabay.com', # Sites like these don't allow URLs on external sites
+      # imgSize='medium', #Let's not restrict size for now
       imgType='photo',
       safe='high',
       rights='cc_publicdomain',
       filter='1'
-    ).execute()
+      ).execute()
   parsed_res = json.dumps(res)
   json_res = json.loads(parsed_res)
   # image_url = json_res['items'][0]['pagemap']['cse_image'][0]['src']
-  image_url = json_res['items'][1]['link']
-  pprint.pprint(image_url)
+  # for i in range(num):
+  image_url = json_res['items'][0]['link']
+  try:
+    img_file = urllib2.urlopen(image_url)
+    pprint.pprint(result.read())
+  except urllib2.URLError, e:
+    handleError(e)
+    # pprint.pprint(image_url)
 
 if __name__ == '__main__':
   main()

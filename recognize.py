@@ -3,9 +3,10 @@ import webapp2
 import os
 import time
 import jinja2
+import Image
 
 from google.appengine.ext import ndb
-# from google.appengine.api import images
+from google.appengine.api import images
 # from google.appengine.ext import blobstore
 
 from models import Album
@@ -74,7 +75,7 @@ class OddManOut(webapp2.RequestHandler):
 class Create(webapp2.RequestHandler):
 	def get(self):
 		album = ""
-		edit = self.request.GET['edit']
+		edit = 0
 		# Check whether we're creating a album or a Question
 		if self.request.GET['album'] == '1':
 			questions = ""
@@ -160,7 +161,24 @@ class ImageRequest(webapp2.RequestHandler):
 		image_id = self.request.GET['image_id']
 		if question.images:
 			self.response.headers['Content-Type'] = "image/jpg"
-			self.response.write(question.images[int(image_id)].image)
+			image = question.images[int(image_id)]
+			op_img = images.Image(image.image)
+			op_img.resize(height=256)
+			# op_img.im_feeling_lucky()
+			small_img = op_img.execute_transforms(output_encoding=images.JPEG)
+			self.response.write(small_img)
+		else:
+			self.error(404)
+
+class GoogleImage(webapp2.RequestHandler):
+	def get(self):
+		# Grab Image object from datastore
+		image_url = self.request.GET['id']
+		image_key = ndb.Key(urlsafe=image_url)
+		image = image_key.get()
+		if image:
+			self.response.headers['Content-Type'] = "image/jpg"
+			self.response.write(image.image)
 		else:
 			self.error(404)
 
@@ -202,9 +220,10 @@ class Store(webapp2.RequestHandler):
 			question.title = self.request.get('title')
 			question.fact = self.request.get('fact')
 			question.effect = self.request.get('revealEffect')
+			question.difficulty = self.request.get('difficulty')
 			# Create answer choices
 			answer = int(self.request.get('correct_answer'))
-			images = self.request.get('image', allow_multiple=True)
+			input_images = self.request.get('image', allow_multiple=True)
 			# self.response.write('image: '+str(len(images)))
 			num_images = 4
 			if album.album_type == 'correlate':
@@ -213,13 +232,17 @@ class Store(webapp2.RequestHandler):
 			# self.response.write(question.images[0].key)
 			for i in range(num_images):
 				img = ""
+				input_img = input_images[i]
 				if new == "0":
 					img = question.images[i]
 				else:
 					img = Image()
 
-				if images[i]:
-					img.image = images[i]
+				if input_img:
+					op_img = images.Image(input_img)
+					op_img.resize(width=256, height=256, crop_to_fit=True)
+					result_img = op_img.execute_transforms(output_encoding=images.JPEG)
+					img.image = result_img
 
 				if answer == i:
 					img.title = "correct_answer_"+str(i)
@@ -254,10 +277,17 @@ class Delete(webapp2.RequestHandler):
 	def get(self):
 		# Delete the album/question by id
 		# TODO Support multiple row deletions
-		if 'id' in self.request.GET:
-			urlstring = self.request.GET['id']
-			entity_key = ndb.Key(urlsafe=urlstring)
-			entity_key.delete()
+		if self.request.GET['album'] == '0':
+			question_url = self.request.GET['id']
+			question_key = ndb.Key(urlsafe=question_url)
+			question_key.delete()
+		else:
+			album_url = self.request.GET['id']
+			album_key = ndb.Key(urlsafe=album_url)
+			questions = Question.query(ancestor=album_key).order(-Question.date).fetch()
+			for question in questions:
+				question.key.delete()
+			album_key.delete()
 
 app = webapp2.WSGIApplication([('/', Home),
 								('/admin', Admin),
@@ -268,6 +298,7 @@ app = webapp2.WSGIApplication([('/', Home),
 								('/edit', Edit),
 								('/upload', Store),
 								('/delete', Delete),
-								('/getimage', ImageRequest)],
+								('/getimage', ImageRequest),
+								('/getgimage', GoogleImage)],
 								debug=False)
 

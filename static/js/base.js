@@ -91,19 +91,32 @@ google.appengine.samples.hello.print = function(greeting) {
   document.querySelector('#outputLog').appendChild(element);
 };
 
+/**
+* Displays an image
+*/
+google.appengine.samples.hello.showImage = function(idx, src, alt) {
+    // var img = document.getElementById("album_image_"+idx);
+    // var img = document.createElement("img");
+    document.getElementById("album_image_"+idx).src = src;
+    // img.width = width;
+    // img.height = height;
+    document.getElementById("album_image_"+idx).alt = alt;
+    // img.setAttribute("style","margin: 20px 20px 20px 20px");
+    // document.body.appendChild(img);
+};
 
 /**
  * Gets a numbered greeting via the API.
  * @param {string} id ID of the greeting.
  */
-google.appengine.samples.hello.getGreeting = function(id) {
+google.appengine.samples.hello.getImages = function(id) {
   gapi.client.recognize.greetings.getImages({'id': id}).execute(
       function(resp) {
         if (!resp.code) {
           // google.appengine.samples.hello.print(resp);
           resp.items = resp.items || [];
           for (var i = 0; i < resp.items.length; i++) {
-            google.appengine.samples.hello.showImage(resp.items[i].image_url, 250, 250, "test query");
+            google.appengine.samples.hello.showImage(i, resp.items[i].image_url, "test query");
           }
         }
       });
@@ -122,19 +135,6 @@ google.appengine.samples.hello.nextImageSet = function(image) {
           // console.log("Inside getGreeting in base.js!");
         }
       });
-};
-
-/**
-* Displays an image
-*/
-google.appengine.samples.hello.showImage = function(src, width, height, alt) {
-    var img = document.createElement("img");
-    img.src = src;
-    img.width = width;
-    img.height = height;
-    img.alt = alt;
-    img.setAttribute("style","margin: 20px 20px 20px 20px");
-    document.body.appendChild(img);
 };
 
 /**
@@ -182,10 +182,9 @@ google.appengine.samples.hello.authedGreeting = function(id) {
  */
 google.appengine.samples.hello.enableButtons = function() {
 
-  var getGreeting = document.querySelector('#getGreeting');
+  var getGreeting = document.querySelector('#getImages');
   getGreeting.addEventListener('click', function(e) {
-    google.appengine.samples.hello.getGreeting(
-        document.querySelector('#searchTerm').value);
+    google.appengine.samples.hello.getImages(document.querySelector('#searchTerm').value);
   });
 
   // var getImage = document.querySelector('#upload_image');

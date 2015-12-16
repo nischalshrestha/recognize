@@ -4,6 +4,9 @@ Defined here are the ProtoRPC messages needed to define Schemas for methods
 as well as those methods defined in an API.
 """
 
+import Image
+import urllib2
+
 import endpoints
 from protorpc import messages
 from protorpc import message_types
@@ -15,10 +18,12 @@ from recognize_api_messages import ImageMessage
 
 from protorpc import remote
 from google.appengine.ext import ndb
+from google.appengine.api import images
+
+from models import Image
 
 import json
 from apiclient.discovery import build
-
 
 WEB_CLIENT_ID = '141815902829-9brrjl3uhogcqhnl111uvm9u556op701.apps.googleusercontent.com'
 ANDROID_CLIENT_ID = '141815902829-g950g3rrmjef0v5op1ggj5aq9oauuoj2.apps.googleusercontent.com'
@@ -26,7 +31,6 @@ IOS_CLIENT_ID = 'replace this with your iOS client ID'
 ANDROID_AUDIENCE = WEB_CLIENT_ID
 
 package = 'Recognize'
-
 
 # Performs a google image search given the search expression
 def query_image(exp):
@@ -42,7 +46,7 @@ def query_image(exp):
         num=4,
         searchType="image",
         imgColorType='color',
-        siteSearchFilter='e',
+        siteSearchFilter="e",
         siteSearch='https://pixabay.com', # Sites like these don't allow URLs on external sites
         # imgSize='medium', #Let's not restrict size for now
         imgType='photo',
@@ -54,7 +58,16 @@ def query_image(exp):
   json_res = json.loads(parsed_res)
   items = []
   for i in range(4):
-    items.append(ImageMessage(image_url=json_res['items'][i]['link']))
+    img_url = json_res['items'][i]['link']
+    img = Image()
+    f = urllib2.urlopen(img_url).read() # Opens the url as an image file so we can store it!
+    # TODO: Figure out how to best preserve quality while resizing
+    op_img = images.Image(f)
+    op_img.resize(width=256, height=256, crop_to_fit=True)
+    small_img = op_img.execute_transforms(output_encoding=images.JPEG)
+    img.image = small_img
+    img_id = img.put()
+    items.append(ImageMessage(image_url="getgimage?id="+img_id.urlsafe()))
   return items
 
 STORED_GREETINGS = GreetingCollection(items=[

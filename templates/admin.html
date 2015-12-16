@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% autoescape true %}
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -47,9 +48,31 @@
         <form id="search_form" class="form-search" onsubmit="return false;">
             <h3>Search Image</h3>
             <input required="true" id="searchTerm" type="text" class="input-medium .search-query">
-            <button id="getGreeting" type="submit" class="btn btn-default" onsubmit="setFormSubmitting()">Go</button>
+            <button id="getImages" type="submit" class="btn btn-default" onsubmit="setFormSubmitting()">Go</button>
             <a id="clear" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Clear</a>
         </form>
+        <br>
+        <div class="row">
+            <div class="col-md-5">
+                <label id="choice_label" for="album_image_1">Choice 1</label>
+                <img id="album_image_0" class="question_image_1" src="">
+            </div>
+            <div class="col-md-5">
+                <label id="choice_label" for="album_image_2">Choice 2</label>
+                <img id="album_image_1" class="question_image_2" src="">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-5">
+                <label id="choice_label" for="album_image_3">Choice 3</label>
+                <img id="album_image_2" class="question_image_3" src="">
+            </div>
+            <div class="col-md-5">
+                <label id="choice_label" for="album_image_4">Choice 4</label>
+                <img id="album_image_3" class="question_image_4" src="">
+            </div>
+        </div>
     </div>
     <!--
     <form onsubmit="return false;">
@@ -73,13 +96,7 @@
         <h2>Authenticated Greeting</h2>
         <div><input id="authedGreeting" type="submit" class="btn btn-small" disabled value="Submit"></div>
     </form> 
-    <script>
-        function init() {
-            google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
-        }
-    </script>
-    <script src="https://apis.google.com/js/client.js?onload=init"></script>-->
-<!-- </div> -->
+    </div> -->
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/render.js"></script>
@@ -102,3 +119,4 @@
     </script>
 </body>
 </html>
+{% endautoescape %}

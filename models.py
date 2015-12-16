@@ -14,6 +14,7 @@ class Question(ndb.Model):
 	title = ndb.StringProperty()
 	fact = ndb.StringProperty()
 	effect = ndb.StringProperty()
+	difficulty = ndb.StringProperty()
 	images = ndb.StructuredProperty(Image, repeated=True)
 	date = ndb.DateTimeProperty(auto_now_add=True)
 

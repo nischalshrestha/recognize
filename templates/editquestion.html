@@ -124,9 +124,19 @@
                     <div class="form-group col-md-2">
                         <label for="difficultyLevel">Difficulty</label>
                         <select class="form-control" id="difficultyLevel" name="difficulty" >
-                            <option>Easy</option>
-                            <option>Normal</option>
-                            <option>Hard</option>
+                            <option 
+                            {% if question.difficulty == 'Easy' %}
+                                selected
+                            {% endif %}
+                            >Easy</option>
+                            <option
+                            {% if question.difficulty == 'Medium' %}
+                                selected
+                            {% endif %}>Medium</option>
+                            <option
+                            {% if question.difficulty == 'Hard' %}
+                                selected
+                            {% endif %}>Hard</option>
                         </select>
                     </div>
                 </div>
@@ -140,7 +150,8 @@
                     <div id="main_image" class="row">
                         <div class="form-group col-md-10 ">
                             <label id="choice_label" for="album_image_1">Main Image: </label>
-                            <img class="question_image_0" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                            <img class="question_image_0" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0">
+                            <br>
                             <div class="container">
                                 <a id="replace" class="btn btn-danger btn-sm" value="0">Replace</a>
                             </div>
@@ -157,7 +168,8 @@
                         <div class="form-group col-md-5">
                             <label id="choice_label" for="album_image_1">Choice 1</label>
                             {% if album_type == 'correlate' %}
-                                <img class="question_image_1" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                                <img class="question_image_1" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1">
+                                <br>
                                 <div class="container">
                                     <a id="replace" class="btn btn-danger btn-sm" value="1">Replace</a>
                                 </div>
@@ -165,7 +177,8 @@
                                     <input class="form-control input-sm" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% else %}
-                                <img class="question_image_0" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0" width="auto" height="200px">
+                                <img class="question_image_0" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=0">
+                                <br>
                                 <div class="container">
                                     <a id="replace" class="btn btn-danger btn-sm" value="0">Replace</a>
                                 </div>
@@ -181,7 +194,8 @@
                         <div class="form-group col-md-5">
                             <label id="choice_label" for="album_image_2">Choice 2</label>
                             {% if album_type == 'correlate' %}
-                                <img class="question_image_2" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                                <img class="question_image_2" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2">
+                                <br>
                                 <div class="container">
                                     <a id="replace" class="btn btn-danger btn-sm" value="2">Replace</a>
                                 </div>
@@ -189,7 +203,8 @@
                                     <input class="form-control input-sm" id="album_image_2" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% else %}
-                                <img class="question_image_1" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1" width="auto" height="200px">
+                                <img class="question_image_1" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=1">
+                                <br>
                                 <div class="container">
                                     <a id="replace" class="btn btn-danger btn-sm" value="1">Replace</a>
                                 </div>
@@ -208,7 +223,8 @@
                         <div class="form-group col-md-5">
                             <label id="choice_label" for="album_image_3">Choice 3</label>
                             {% if album_type == 'correlate' %}
-                                <img class="question_image_3" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                                <img class="question_image_3" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3">
+                                <br>
                                 <div class="container">
                                     <a id="replace" class="btn btn-danger btn-sm" value="3">Replace</a>
                                 </div>
@@ -216,7 +232,8 @@
                                     <input class="form-control input-sm" id="album_image_3" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% else %}
-                                <img class="question_image_2" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2" width="auto" height="200px">
+                                <img class="question_image_2" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=2">
+                                <br>
                                 <div class="container">
                                     <a id="replace" class="btn btn-danger btn-sm" value="2">Replace</a>
                                 </div>
@@ -232,7 +249,8 @@
                         <div class="form-group col-md-5">
                             <label id="choice_label" for="album_image_4">Choice 4</label>
                             {% if album_type == 'correlate' %}
-                                    <img class="question_image_4" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4" width="auto" height="200px">
+                                    <img class="question_image_4" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=4">
+                                    <br>
                                     <div class="container">
                                         <a id="replace" class="btn btn-danger btn-sm" value="4">Replace</a>
                                     </div>
@@ -240,7 +258,8 @@
                                     <input class="form-control input-sm" id="album_image_4" type="file" name="image" data-show-upload="false"/>
                                 </div>
                             {% else %}
-                                <img class="question_image_3" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3" width="auto" height="200px">
+                                <img class="question_image_3" src="getimage?id={{question.key.urlsafe()}}&amp;image_id=3">
+                                <br>
                                 <div class="container">
                                     <a id="replace" class="btn btn-danger btn-sm" value="3">Replace</a>
                                 </div>

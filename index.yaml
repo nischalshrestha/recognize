@@ -16,18 +16,6 @@ indexes:
   - name: date
     direction: desc
 
-- kind: Album
-  properties:
-  - name: game_type
-  - name: date
-    direction: desc
-
-- kind: Game
-  properties:
-  - name: game_type
-  - name: date
-    direction: desc
-
 - kind: Question
   ancestor: yes
   properties:
