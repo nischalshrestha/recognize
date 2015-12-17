@@ -21,6 +21,7 @@ handlers:
   static_dir: static/fileinput
 # Endpoints handler
 - url: /_ah/spi/.*
+  secure: always
   script: recognize_api.APPLICATION
 # Website Handlers
 - url: /.*

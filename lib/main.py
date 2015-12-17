@@ -39,7 +39,7 @@ def main():
   res = service.cse().list(
       q='cat',
       cx='008947772147471846402:fdhywbjbitw',
-      num=num,
+      # num=num,
       searchType="image",
       imgColorType='color',
       siteSearchFilter='e',
@@ -54,12 +54,14 @@ def main():
   json_res = json.loads(parsed_res)
   # image_url = json_res['items'][0]['pagemap']['cse_image'][0]['src']
   # for i in range(num):
-  image_url = json_res['items'][0]['link']
-  try:
-    img_file = urllib2.urlopen(image_url)
-    pprint.pprint(result.read())
-  except urllib2.URLError, e:
-    handleError(e)
+  # image_url = json_res['items'][0]['link']
+  pprint.pprint(json_res['items'])
+
+  # try:
+  #   img_file = urllib2.urlopen(image_url)
+  #   pprint.pprint(result.read())
+  # except urllib2.URLError, e:
+  #   handleError(e)
     # pprint.pprint(image_url)
 
 if __name__ == '__main__':

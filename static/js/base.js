@@ -95,14 +95,13 @@ google.appengine.samples.hello.print = function(greeting) {
 * Displays an image
 */
 google.appengine.samples.hello.showImage = function(idx, src, alt) {
-    // var img = document.getElementById("album_image_"+idx);
-    // var img = document.createElement("img");
-    document.getElementById("album_image_"+idx).src = src;
-    // img.width = width;
-    // img.height = height;
-    document.getElementById("album_image_"+idx).alt = alt;
-    // img.setAttribute("style","margin: 20px 20px 20px 20px");
-    // document.body.appendChild(img);
+    var image = document.getElementById("album_image_"+idx);
+    var downloadingImage = new Image();
+    downloadingImage.onload = function(){
+        image.src = this.src;
+    };
+    downloadingImage.src = src;
+    downloadingImage.alt = alt;
 };
 
 /**
@@ -113,7 +112,6 @@ google.appengine.samples.hello.getImages = function(id) {
   gapi.client.recognize.greetings.getImages({'id': id}).execute(
       function(resp) {
         if (!resp.code) {
-          // google.appengine.samples.hello.print(resp);
           resp.items = resp.items || [];
           for (var i = 0; i < resp.items.length; i++) {
             google.appengine.samples.hello.showImage(i, resp.items[i].image_url, "test query");

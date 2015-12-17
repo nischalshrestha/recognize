@@ -46,9 +46,6 @@ def query_image(exp):
         num=4,
         searchType="image",
         imgColorType='color',
-        siteSearchFilter="e",
-        siteSearch='https://pixabay.com', # Sites like these don't allow URLs on external sites
-        # imgSize='medium', #Let's not restrict size for now
         imgType='photo',
         safe='high',
         rights='cc_publicdomain',
@@ -60,12 +57,18 @@ def query_image(exp):
   for i in range(4):
     img_url = json_res['items'][i]['link']
     img = Image()
-    f = urllib2.urlopen(img_url).read() # Opens the url as an image file so we can store it!
+    f = ""
+    try: 
+      f = urllib2.urlopen(img_url).read() # Opens the url as an image file so we can store it!
+    except urllib2.HTTPError, e:
+      print "There was an http error with url: "+img_url
+      print e
     # TODO: Figure out how to best preserve quality while resizing
-    op_img = images.Image(f)
-    op_img.resize(width=256, height=256, crop_to_fit=True)
-    small_img = op_img.execute_transforms(output_encoding=images.JPEG)
-    img.image = small_img
+    if f:
+      op_img = images.Image(f)
+      op_img.resize(width=256, height=256, crop_to_fit=False)
+      small_img = op_img.execute_transforms(output_encoding=images.JPEG)
+      img.image = small_img
     img_id = img.put()
     items.append(ImageMessage(image_url="getgimage?id="+img_id.urlsafe()))
   return items

@@ -4,10 +4,10 @@ import os
 import time
 import jinja2
 import Image
+import urllib2
 
 from google.appengine.ext import ndb
 from google.appengine.api import images
-# from google.appengine.ext import blobstore
 
 from models import Album
 from models import Question
@@ -161,12 +161,7 @@ class ImageRequest(webapp2.RequestHandler):
 		image_id = self.request.GET['image_id']
 		if question.images:
 			self.response.headers['Content-Type'] = "image/jpg"
-			image = question.images[int(image_id)]
-			op_img = images.Image(image.image)
-			op_img.resize(height=256)
-			# op_img.im_feeling_lucky()
-			small_img = op_img.execute_transforms(output_encoding=images.JPEG)
-			self.response.write(small_img)
+			self.response.write(question.images[int(image_id)].image)
 		else:
 			self.error(404)
 
@@ -206,7 +201,6 @@ class Store(webapp2.RequestHandler):
 				else:
 					self.redirect('/oddmanout')
 		else:
-			# TODO: Add logic to handle modifying an existing album
 			# Create Question with the album as parent for strong consistency
 			question = ""
 			new = "1"
@@ -224,26 +218,25 @@ class Store(webapp2.RequestHandler):
 			# Create answer choices
 			answer = int(self.request.get('correct_answer'))
 			input_images = self.request.get('image', allow_multiple=True)
-			# self.response.write('image: '+str(len(images)))
 			num_images = 4
 			if album.album_type == 'correlate':
 				num_images = 5
 			image_list = []
-			# self.response.write(question.images[0].key)
 			for i in range(num_images):
 				img = ""
 				input_img = input_images[i]
+				# If old retrieve the Image
 				if new == "0":
 					img = question.images[i]
 				else:
 					img = Image()
-
+				# Resize image
 				if input_img:
 					op_img = images.Image(input_img)
 					op_img.resize(width=256, height=256, crop_to_fit=True)
 					result_img = op_img.execute_transforms(output_encoding=images.JPEG)
 					img.image = result_img
-
+				# Set the title and correct fields
 				if answer == i:
 					img.title = "correct_answer_"+str(i)
 					img.correct = True
