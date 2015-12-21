@@ -180,7 +180,7 @@ google.appengine.samples.hello.authedGreeting = function(id) {
  * Gets a numbered greeting via the API.
  * @param {string} id ID of the greeting.
  */
-google.appengine.samples.hello.getAlbums = function() {
+google.appengine.samples.hello.getAlbums = function() { 
   gapi.client.recognize.albums.get().execute(
       function(resp) {
         if (!resp.code) {
@@ -192,9 +192,7 @@ google.appengine.samples.hello.getAlbums = function() {
               +" album_type: "+album.album_type
               +" date: "+album.date);
             questions = album.questions;
-            google.appengine.samples.hello.print(questions.length);
             for (var k = 0; k < questions.length; k++){ //List of questions
-              google.appengine.samples.hello.print(questions.length);
               images = questions[k].images;
               google.appengine.samples.hello.print("question "+k+" title: "+questions[k].title+" question "+k+" fact: "+questions[k].fact);
               for (var j = 0; j < images.length; j++){ //List of question's images

@@ -9,7 +9,6 @@ class Image(ndb.Model):
 	title = ndb.StringProperty()
 	correct = ndb.BooleanProperty()
 	image = ndb.BlobProperty()
-	# blob_key = ndb.BlobKeyProperty()
 
 class Question(ndb.Model):
 	title = ndb.StringProperty()

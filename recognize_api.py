@@ -10,14 +10,6 @@ import urllib2
 import endpoints
 from protorpc import messages
 from protorpc import message_types
-from recognize_api_messages import *
-# from recognize_api_messages import Greeting
-# from recognize_api_messages import GreetingCollection
-# from recognize_api_messages import ImageRequest
-# from recognize_api_messages import ImageCollection
-# from recognize_api_messages import ImageMessage
-# from recognize_api_messages import AlbumMessage
-# from recognize_api_messages import AlbumCollection
 
 from protorpc import remote
 from google.appengine.ext import ndb
@@ -36,6 +28,41 @@ IOS_CLIENT_ID = 'replace this with your iOS client ID'
 ANDROID_AUDIENCE = WEB_CLIENT_ID
 
 package = 'Recognize'
+
+# Message Classes
+class Greeting(messages.Message):
+  """Greeting that stores a message"""
+  message = messages.StringField(1)
+
+class GreetingCollection(messages.Message):
+  """Collection of Greetings."""
+  items = messages.MessageField(Greeting, 1, repeated=True)
+
+class ImageRequest(messages.Message):
+  search_exp = messages.StringField(1)
+
+# Image model which has a title, whether it is the correct answer or not, and the image
+class ImageMessage(messages.Message):
+    image_url = messages.BytesField(1)
+
+# Collection of ImageMessages (i.e. collection of image urls)
+class ImageCollection(messages.Message):
+  items = messages.MessageField(ImageMessage, 1, repeated=True)
+
+class QuestionMessage(messages.Message):
+  title = messages.StringField(1)
+  fact = messages.StringField(2)
+  images = messages.MessageField(ImageMessage, 3, repeated=True)
+
+class AlbumMessage(messages.Message):
+  title = messages.StringField(1)
+  category = messages.StringField(2)
+  album_type = messages.StringField(3)
+  date = messages.StringField(4)
+  questions = messages.MessageField(QuestionMessage, 5, repeated=True)
+
+class AlbumCollection(messages.Message):
+  albums = messages.MessageField(AlbumMessage, 1, repeated=True)
 
 # Performs a google image search given the search expression
 def query_image(exp):
@@ -83,14 +110,14 @@ STORED_GREETINGS = GreetingCollection(items=[
 	Greeting(message='goodbye world!'),
 ])
 
+"""Recognize API v1."""
 @endpoints.api(name='recognize', version='v1',
                allowed_client_ids=[WEB_CLIENT_ID, ANDROID_CLIENT_ID,
                                    IOS_CLIENT_ID, endpoints.API_EXPLORER_CLIENT_ID],
                audiences=[ANDROID_AUDIENCE],
                scopes=[endpoints.EMAIL_SCOPE])
 class Recognize(remote.Service):
-  """Recognize API v1."""
-
+  
   # Return all Greetings
   @endpoints.method(message_types.VoidMessage, GreetingCollection,
                     path='recognizegreeting', http_method='GET',
@@ -117,7 +144,6 @@ class Recognize(remote.Service):
   # ID_RESOURCE = endpoints.ResourceContainer(
   #     ImageRequest,
   #     id=messages.StringField(1, required=True))
-
   # @endpoints.method(ID_RESOURCE, ImageCollection,
   #                   path='hellogreeting/{id}', http_method='GET',
   #                   name='greetings.getImages')
@@ -148,15 +174,12 @@ class Recognize(remote.Service):
     for album in albums:
       a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
       questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
-      # qs = []
       for q in questions:
-        # imgs = []
         q_msg = QuestionMessage(title=q.title, fact=q.fact)
         q_images = q.images
         for image in q_images:
           q_msg.images.append(ImageMessage(image_url=image.image))
         a.questions.append(q_msg)
-      # a.questions = q_msg
       items.append(a)
     return AlbumCollection(albums=items)
 
