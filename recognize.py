@@ -3,7 +3,6 @@ import webapp2
 import os
 import time
 import jinja2
-import Image
 import urllib2
 
 from google.appengine.ext import ndb
@@ -236,6 +235,7 @@ class Store(webapp2.RequestHandler):
 					op_img.resize(width=256, height=256, crop_to_fit=True)
 					result_img = op_img.execute_transforms(output_encoding=images.JPEG)
 					img.image = result_img
+					# img.blob_key = img.image.key()
 				# Set the title and correct fields
 				if answer == i:
 					img.title = "correct_answer_"+str(i)

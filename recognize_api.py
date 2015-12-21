@@ -4,26 +4,31 @@ Defined here are the ProtoRPC messages needed to define Schemas for methods
 as well as those methods defined in an API.
 """
 
-import Image
+# import Image
 import urllib2
 
 import endpoints
 from protorpc import messages
 from protorpc import message_types
-from recognize_api_messages import Greeting
-from recognize_api_messages import GreetingCollection
-from recognize_api_messages import ImageRequest
-from recognize_api_messages import ImageCollection
-from recognize_api_messages import ImageMessage
+from recognize_api_messages import *
+# from recognize_api_messages import Greeting
+# from recognize_api_messages import GreetingCollection
+# from recognize_api_messages import ImageRequest
+# from recognize_api_messages import ImageCollection
+# from recognize_api_messages import ImageMessage
+# from recognize_api_messages import AlbumMessage
+# from recognize_api_messages import AlbumCollection
 
 from protorpc import remote
 from google.appengine.ext import ndb
 from google.appengine.api import images
 
+from models import Album
+from models import Question
 from models import Image
 
 import json
-from apiclient.discovery import build
+# from apiclient.discovery import build
 
 WEB_CLIENT_ID = '141815902829-9brrjl3uhogcqhnl111uvm9u556op701.apps.googleusercontent.com'
 ANDROID_CLIENT_ID = '141815902829-g950g3rrmjef0v5op1ggj5aq9oauuoj2.apps.googleusercontent.com'
@@ -83,52 +88,77 @@ STORED_GREETINGS = GreetingCollection(items=[
                                    IOS_CLIENT_ID, endpoints.API_EXPLORER_CLIENT_ID],
                audiences=[ANDROID_AUDIENCE],
                scopes=[endpoints.EMAIL_SCOPE])
-class RecognizeApi(remote.Service):
+class Recognize(remote.Service):
   """Recognize API v1."""
 
+  # Return all Greetings
   @endpoints.method(message_types.VoidMessage, GreetingCollection,
-                    path='hellogreeting', http_method='GET',
-                    name='greetings.listGreeting')
+                    path='recognizegreeting', http_method='GET',
+                    name='recognize.listGreeting')
   def greetings_list(self, unused_request):
     return STORED_GREETINGS
 
+  # Multiply message
   MULTIPLY_METHOD_RESOURCE = endpoints.ResourceContainer(
       Greeting,
       times=messages.IntegerField(2, variant=messages.Variant.INT32,
                                 required=True))
 
   @endpoints.method(MULTIPLY_METHOD_RESOURCE, Greeting,
-                    path='hellogreeting/{times}', http_method='POST',
-                    name='greetings.multiply')
+                    path='recognizegreeting/{times}', http_method='POST',
+                    name='recognize.multiply')
   def greetings_multiply(self, request):
     return Greeting(message=request.message * request.times)
-
+    
   # ID_RESOURCE = endpoints.ResourceContainer(
   #     message_types.VoidMessage,
   #     id=messages.IntegerField(1, variant=messages.Variant.INT32))
 
-  ID_RESOURCE = endpoints.ResourceContainer(
-      ImageRequest,
-      id=messages.StringField(1, required=True))
+  # ID_RESOURCE = endpoints.ResourceContainer(
+  #     ImageRequest,
+  #     id=messages.StringField(1, required=True))
 
-  @endpoints.method(ID_RESOURCE, ImageCollection,
-                    path='hellogreeting/{id}', http_method='GET',
-                    name='greetings.getImages')
-  def greeting_get(self, request):
-    return ImageCollection(items=query_image(request.id))
-    # try:
-    #   return STORED_GREETINGS.items[request.id]
-    # except (IndexError, TypeError):
-    #   raise endpoints.NotFoundException('Greeting %s not found.' %
-    #                                     (request.id,))
+  # @endpoints.method(ID_RESOURCE, ImageCollection,
+  #                   path='hellogreeting/{id}', http_method='GET',
+  #                   name='greetings.getImages')
+  # def greeting_get(self, request):
+  #   # return ImageCollection(items=query_image(request.id))
+  #   try:
+  #     return STORED_GREETINGS.items[request.id]
+  #   except (IndexError, TypeError):
+  #     raise endpoints.NotFoundException('Greeting %s not found.' %
+  #                                       (request.id,))
 
-  @endpoints.method(message_types.VoidMessage, Greeting,
-                  path='authed', http_method='POST',
-                  name='greetings.authed')
-  def greeting_authed(self, request):
-    current_user = endpoints.get_current_user()
-    email = (current_user.email() if current_user is not None
-             else 'Anonymous')
-    return Greeting(message='hello %s' % (email,))
+  # @endpoints.method(message_types.VoidMessage, Greeting,
+  #                 path='authed', http_method='POST',
+  #                 name='greetings.authed')
+  # def greeting_authed(self, request):
+  #   current_user = endpoints.get_current_user()
+  #   email = (current_user.email() if current_user is not None
+  #            else 'Anonymous')
+  #   return Greeting(message='hello %s' % (email,))
 
-APPLICATION = endpoints.api_server([RecognizeApi])
+  # Return all created Album(s) on website
+  @endpoints.method(message_types.VoidMessage, AlbumCollection,
+                    path='recognize/albums', http_method='GET',
+                    name='albums.get')
+  def albums_list(self, unused_request):
+    albums = Album.query().order(-Album.date)
+    items = []
+    for album in albums:
+      a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
+      questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
+      # qs = []
+      for q in questions:
+        # imgs = []
+        q_msg = QuestionMessage(title=q.title, fact=q.fact)
+        q_images = q.images
+        for image in q_images:
+          q_msg.images.append(ImageMessage(image_url=image.image))
+        a.questions.append(q_msg)
+      # a.questions = q_msg
+      items.append(a)
+    return AlbumCollection(albums=items)
+
+
+APPLICATION = endpoints.api_server([Recognize])

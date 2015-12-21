@@ -18,10 +18,24 @@ class ImageRequest(messages.Message):
 
 # Image model which has a title, whether it is the correct answer or not, and the image
 class ImageMessage(messages.Message):
-    """Sub model for representing an author."""
     # correct = messages.BooleanField()
-    image_url = messages.StringField(1)
+    image_url = messages.BytesField(1)
 
 # Collection of ImageMessages (i.e. collection of image urls)
 class ImageCollection(messages.Message):
 	items = messages.MessageField(ImageMessage, 1, repeated=True)
+
+class QuestionMessage(messages.Message):
+	title = messages.StringField(1)
+	fact = messages.StringField(2)
+	images = messages.MessageField(ImageMessage, 3, repeated=True)
+
+class AlbumMessage(messages.Message):
+	title = messages.StringField(1)
+	category = messages.StringField(2)
+	album_type = messages.StringField(3)
+	date = messages.StringField(4)
+	questions = messages.MessageField(QuestionMessage, 5, repeated=True)
+
+class AlbumCollection(messages.Message):
+	albums = messages.MessageField(AlbumMessage, 1, repeated=True)

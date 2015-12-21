@@ -87,7 +87,7 @@ google.appengine.samples.hello.signout = function() {
 google.appengine.samples.hello.print = function(greeting) {
   var element = document.createElement('div');
   element.classList.add('row');
-  element.innerHTML = greeting.message;
+  element.innerHTML = greeting;
   document.querySelector('#outputLog').appendChild(element);
 };
 
@@ -120,20 +120,20 @@ google.appengine.samples.hello.getImages = function(id) {
       });
 };
 
-/**
- * Gets a numbered greeting via the API.
- * @param {string} id ID of the greeting.
- */
-google.appengine.samples.hello.nextImageSet = function(image) {
-  gapi.client.recognize.greetings.uploadImages({'image': image}).execute(
-      function(resp) {
-        if (!resp.code) {
-          google.appengine.samples.hello.print(image);
-          // google.appengine.samples.hello.showImage(resp.image_url, 250, 250, "Test Image");
-          // console.log("Inside getGreeting in base.js!");
-        }
-      });
-};
+// /**
+//  * Gets a numbered greeting via the API.
+//  * @param {string} id ID of the greeting.
+//  */
+// google.appengine.samples.hello.nextImageSet = function(image) {
+//   gapi.client.recognize.greetings.uploadImages({'image': image}).execute(
+//       function(resp) {
+//         if (!resp.code) {
+//           google.appengine.samples.hello.print(image);
+//           // google.appengine.samples.hello.showImage(resp.image_url, 250, 250, "Test Image");
+//           // console.log("Inside getGreeting in base.js!");
+//         }
+//       });
+// };
 
 /**
  * Lists greetings via the API.
@@ -175,6 +175,37 @@ google.appengine.samples.hello.authedGreeting = function(id) {
         google.appengine.samples.hello.print(resp);
       });
 };
+
+/**
+ * Gets a numbered greeting via the API.
+ * @param {string} id ID of the greeting.
+ */
+google.appengine.samples.hello.getAlbums = function() {
+  gapi.client.recognize.albums.get().execute(
+      function(resp) {
+        if (!resp.code) {
+          albums = resp.albums || [];
+          for (var i = 0; i < albums.length; i++) {  
+            album = albums[i];
+            google.appengine.samples.hello.print("title: "+album.title
+              +" category: "+album.category
+              +" album_type: "+album.album_type
+              +" date: "+album.date);
+            questions = album.questions;
+            google.appengine.samples.hello.print(questions.length);
+            for (var k = 0; k < questions.length; k++){ //List of questions
+              google.appengine.samples.hello.print(questions.length);
+              images = questions[k].images;
+              google.appengine.samples.hello.print("question "+k+" title: "+questions[k].title+" question "+k+" fact: "+questions[k].fact);
+              for (var j = 0; j < images.length; j++){ //List of question's images
+                document.getElementById("album_image_"+j).src = "data:image/png;base64,"+images[j].image_url;
+              }
+            }
+          }
+        }
+      });
+};
+
 /**
  * Enables the button callbacks in the UI.
  */
@@ -183,6 +214,11 @@ google.appengine.samples.hello.enableButtons = function() {
   var getGreeting = document.querySelector('#getImages');
   getGreeting.addEventListener('click', function(e) {
     google.appengine.samples.hello.getImages(document.querySelector('#searchTerm').value);
+  });
+
+  var getAlbums = document.querySelector('#getAlbums');
+  getAlbums.addEventListener('click', function(e) {
+    google.appengine.samples.hello.getAlbums();
   });
 
   // var getImage = document.querySelector('#upload_image');
@@ -210,6 +246,7 @@ google.appengine.samples.hello.enableButtons = function() {
   // var signinButton = document.querySelector('#signinButton');
   // signinButton.addEventListener('click', google.appengine.samples.hello.auth);
 };
+
 /**
  * Initializes the application.
  * @param {string} apiRoot Root of the API's path.
