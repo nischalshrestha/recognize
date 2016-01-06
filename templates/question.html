@@ -2,7 +2,7 @@
 {% autoescape true %}
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8"/>
         <title>
         {% if album_type == 'match' %}
             Recognize: Create Match Question
@@ -123,7 +123,14 @@
                     <div id="main_image" class="row">
                         <div class="form-group col-md-10">
                             <label id="choice_label" align="center" for="album_image_1">Main Image</label>
-                            <input required="true" class="form-control input-sm" id="album_image_0" type="file" name="image" data-show-upload="false"/>
+                            <img class="question_image_0" src="/images/placeholder_img.png">
+                            <br>
+                            <div class="container">
+                                <a id="replace" class="btn btn-danger btn-sm" value="0">Replace</a>
+                            </div>
+                            <div id="file_0" class="file">
+                                <input required="true" class="form-control input-sm" id="album_image_0" type="file" name="image" data-show-upload="false"/>
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -133,14 +140,14 @@
                         <label id="choice_label" for="album_image_1">Choice 1</label>
                         <input class="form-control input-sm" required="true" id="album_image_1" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input required="true" id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
+                            <label><input required="true" id="checkbox_1" name="correct_answer" type="checkbox" value="0">Correct Answer</label>
                         </div>
                     </div>
                     <div class="form-group col-md-5">
                         <label id="choice_label" for="album_image_2">Choice 2</label>
                         <input class="form-control input-sm" required="true" id="album_image_2" type="file" name="image" data-show-upload="false"/>
                         <div class="checkbox">
-                        <label><input required="true" id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
+                            <label><input required="true" id="checkbox_2" name="correct_answer" type="checkbox" value="1">Correct Answer</label>
                         </div>
                     </div>
                 </div>

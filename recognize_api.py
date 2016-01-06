@@ -43,7 +43,7 @@ class ImageRequest(messages.Message):
 
 # Image model which has a title, whether it is the correct answer or not, and the image
 class ImageMessage(messages.Message):
-    image_url = messages.BytesField(1)
+  image_url = messages.BytesField(1)
 
 # Collection of ImageMessages (i.e. collection of image urls)
 class ImageCollection(messages.Message):
@@ -169,6 +169,28 @@ class Recognize(remote.Service):
                     path='recognize/albums', http_method='GET',
                     name='albums.get')
   def albums_list(self, unused_request):
+    albums = Album.query().order(-Album.date)
+    items = []
+    for album in albums:
+      a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
+      questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
+      for q in questions:
+        q_msg = QuestionMessage(title=q.title, fact=q.fact)
+        q_images = q.images
+        for image in q_images:
+          q_msg.images.append(ImageMessage(image_url=image.image))
+        a.questions.append(q_msg)
+      items.append(a)
+    return AlbumCollection(albums=items)
+  
+  # Upload Album(s) from app
+  ID_RESOURCE = endpoints.ResourceContainer(
+      AlbumCollection,
+      type=messages.StringField(1, required=True))
+  @endpoints.method(ID_RESOURCE, message_types.VoidMessage,
+                    path='recognize/albums_upload/{type}', http_method='POST',
+                    name='albums.post')
+  def albums_list(self, request):
     albums = Album.query().order(-Album.date)
     items = []
     for album in albums:
