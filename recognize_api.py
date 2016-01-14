@@ -119,23 +119,23 @@ STORED_GREETINGS = GreetingCollection(items=[
 class Recognize(remote.Service):
   
   # Return all Greetings
-  @endpoints.method(message_types.VoidMessage, GreetingCollection,
-                    path='recognizegreeting', http_method='GET',
-                    name='recognize.listGreeting')
-  def greetings_list(self, unused_request):
-    return STORED_GREETINGS
+  # @endpoints.method(message_types.VoidMessage, GreetingCollection,
+  #                   path='recognizegreeting', http_method='GET',
+  #                   name='recognize.listGreeting')
+  # def greetings_list(self, unused_request):
+  #   return STORED_GREETINGS
 
   # Multiply message
-  MULTIPLY_METHOD_RESOURCE = endpoints.ResourceContainer(
-      Greeting,
-      times=messages.IntegerField(2, variant=messages.Variant.INT32,
-                                required=True))
+  # MULTIPLY_METHOD_RESOURCE = endpoints.ResourceContainer(
+  #     Greeting,
+  #     times=messages.IntegerField(2, variant=messages.Variant.INT32,
+  #                               required=True))
 
-  @endpoints.method(MULTIPLY_METHOD_RESOURCE, Greeting,
-                    path='recognizegreeting/{times}', http_method='POST',
-                    name='recognize.multiply')
-  def greetings_multiply(self, request):
-    return Greeting(message=request.message * request.times)
+  # @endpoints.method(MULTIPLY_METHOD_RESOURCE, Greeting,
+  #                   path='recognizegreeting/{times}', http_method='POST',
+  #                   name='recognize.multiply')
+  # def greetings_multiply(self, request):
+  #   return Greeting(message=request.message * request.times)
     
   # ID_RESOURCE = endpoints.ResourceContainer(
   #     message_types.VoidMessage,
@@ -169,41 +169,23 @@ class Recognize(remote.Service):
                     path='recognize/albums', http_method='GET',
                     name='albums.get')
   def albums_list(self, unused_request):
-    albums = Album.query().order(-Album.date)
-    items = []
-    for album in albums:
-      a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
-      questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
-      for q in questions:
-        q_msg = QuestionMessage(title=q.title, fact=q.fact)
-        q_images = q.images
-        for image in q_images:
-          q_msg.images.append(ImageMessage(image_url=image.image))
-        a.questions.append(q_msg)
-      items.append(a)
-    return AlbumCollection(albums=items)
-  
-  # Upload Album(s) from app
-  ID_RESOURCE = endpoints.ResourceContainer(
-      AlbumCollection,
-      type=messages.StringField(1, required=True))
-  @endpoints.method(ID_RESOURCE, message_types.VoidMessage,
-                    path='recognize/albums_upload/{type}', http_method='POST',
-                    name='albums.post')
-  def albums_list(self, request):
-    albums = Album.query().order(-Album.date)
-    items = []
-    for album in albums:
-      a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
-      questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
-      for q in questions:
-        q_msg = QuestionMessage(title=q.title, fact=q.fact)
-        q_images = q.images
-        for image in q_images:
-          q_msg.images.append(ImageMessage(image_url=image.image))
-        a.questions.append(q_msg)
-      items.append(a)
-    return AlbumCollection(albums=items)
+    current_user = endpoints.get_current_user()
+    if raise_unauthorized and current_user is None:
+      raise endpoints.UnauthorizedException('Invalid token.')
+    else:
+      albums = Album.query().order(-Album.date)
+      items = []
+      for album in albums:
+        a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
+        questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
+        for q in questions:
+          q_msg = QuestionMessage(title=q.title, fact=q.fact)
+          q_images = q.images
+          for image in q_images:
+            q_msg.images.append(ImageMessage(image_url=image.image))
+          a.questions.append(q_msg)
+        items.append(a)
+      return AlbumCollection(albums=items)
 
 
 APPLICATION = endpoints.api_server([Recognize])

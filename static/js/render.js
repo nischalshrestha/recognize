@@ -75,7 +75,7 @@ google.appengine.samples.hello.getEmailFromIDToken = function(idToken) {
 /**
  * Handles the Google+ Sign In response.
  *
- * Success calls google.devrel.samples.ttt.init. Failure makes the Sign-In
+ * Success calls google.appengine.samples.hello.init. Failure makes the Sign-In
  * button visible.
  *
  * @param {Object} authResult The contents returned from the Google+
@@ -119,6 +119,7 @@ google.appengine.samples.hello.render = function() {
     'scope': google.appengine.samples.hello.SCOPES
   });
 };
+
 // A quirk of the JSONP callback of the plusone client makes it so
 // our callback must exist as an element in window.
 window['google.appengine.samples.hello.render'] = google.appengine.samples.hello.render;
