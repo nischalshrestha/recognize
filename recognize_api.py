@@ -170,22 +170,21 @@ class Recognize(remote.Service):
                     name='albums.get')
   def albums_list(self, unused_request):
     current_user = endpoints.get_current_user()
-    if raise_unauthorized and current_user is None:
-      raise endpoints.UnauthorizedException('Invalid token.')
-    else:
-      albums = Album.query().order(-Album.date)
-      items = []
-      for album in albums:
-        a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
-        questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
-        for q in questions:
-          q_msg = QuestionMessage(title=q.title, fact=q.fact)
-          q_images = q.images
-          for image in q_images:
-            q_msg.images.append(ImageMessage(image_url=image.image))
-          a.questions.append(q_msg)
-        items.append(a)
-      return AlbumCollection(albums=items)
+    email = (current_user.email() if current_user is not None
+           else 'Anonymous')
+    albums = Album.query().order(-Album.date)
+    items = []
+    for album in albums:
+      a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
+      questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
+      for q in questions:
+        q_msg = QuestionMessage(title=q.title, fact=q.fact)
+        q_images = q.images
+        for image in q_images:
+          q_msg.images.append(ImageMessage(image_url=image.image))
+        a.questions.append(q_msg)
+      items.append(a)
+    return AlbumCollection(albums=items)
 
 
 APPLICATION = endpoints.api_server([Recognize])
