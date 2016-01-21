@@ -35,15 +35,18 @@ google.appengine.samples.hello = google.appengine.samples.hello || {};
  */
 google.appengine.samples.hello.signedIn = false;
 
-/**
- * Loads the application UI after the user has completed auth.
- */
+var auth2;
+
+// /**
+//  * Loads the application UI after the user has completed auth.
+//  */
 // google.appengine.samples.hello.userAuthed = function() {
 //   var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
 //     if (!resp.code) {
-//       google.appengine.samples.hello.signedIn = true;
-//       document.querySelector('#signinButton').textContent = 'Sign out';
-//       document.querySelector('#authedGreeting').disabled = false;
+//       console.log("Here in userAuthed!");
+//       // google.appengine.samples.hello.signedIn = true;
+//       // document.querySelector('#signinButton').textContent = 'Sign out';
+//       // document.querySelector('#authedGreeting').disabled = false;
 //     }
 //   });
 // };
@@ -78,6 +81,7 @@ google.appengine.samples.hello.signout = function() {
   document.getElementById('signinButtonContainer').classList.add('visible');
   document.getElementById('signedInStatus').classList.remove('visible');
   google.appengine.samples.hello.signedIn = false;
+  
 }
 
 /**
@@ -262,14 +266,16 @@ google.appengine.samples.hello.init = function(apiRoot, tokenEmail) {
   //   }
   // }
   var callback = function() {
-    google.appengine.samples.hello.enableButtons();
-    google.appengine.samples.hello.signedIn = true;
-    if(tokenEmail != ""){
-      document.getElementById('userLabel').innerHTML = tokenEmail;
-    }
+    // if (--apisToLoad == 0) {
+      google.appengine.samples.hello.enableButtons();
+      google.appengine.samples.hello.signedIn = true;
+      if(tokenEmail != ""){
+        document.getElementById('userLabel').innerHTML = tokenEmail;
+      }
+    // }
   }
 
-  // apisToLoad = 1; // must match number of calls to gapi.client.load()
+  // apisToLoad = 2; // must match number of calls to gapi.client.load()
   gapi.client.load('recognize', 'v1', callback, apiRoot);
-  // gapi.client.load('oauth2', 'v2', callback);
+  auth2 = gapi.client.load('oauth2', 'v2', callback);
 };

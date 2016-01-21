@@ -10,7 +10,8 @@
     <style type="text/css">
         .pull-right {
             position: absolute;
-            right: 0;
+            top:10px;
+            right: 10px;
             /*float:right;*/
         }
     </style>
@@ -34,32 +35,20 @@
                 <li><a href="/match">Match</a></li>
                 <li><a href="/correlate">Correlate</a></li>
                 <li><a href="/oddmanout">Odd Man Out</a></li>
-              </ul>
-              <div class="pull-right" id="signin">
-                    <div id="signinStatusContainer">
-                      <!-- Need an extra container since G+ overrides CSS on the actual button -->
-                      <div id="signinButtonContainer" class="visible">
+                <div class="pull-right" id="signinStatusContainer">
+                     <!-- Need an extra container since G+ overrides CSS on the actual button -->
+                    <div id="signinButtonContainer" class="visible">
                         <div id="signinButton"></div>
-                      </div>
-                      <a href="#" onclick="google.appengine.samples.hello.signout();" id="signedInStatus">Sign Out </a>
                     </div>
+                    <a href="#" onclick="google.appengine.samples.hello.signout();" id="signedInStatus">Sign Out</a>
                     <span id="userLabel">(not signed in)</span>
-                </div>
+                 </div> 
+              </ul>
             </div>
         </div>
     </nav>
 <!--     <a href="javascript:void(0);" class="btn" id="signinButton">Sign in</a> -->
     <div class="container">
-        <!--<div class="row" id="signin">
-            <div id="signinStatusContainer">
-              Need an extra container since G+ overrides CSS on the actual button
-              <div id="signinButtonContainer" class="visible">
-                <div id="signinButton"></div>
-              </div>
-              <a href="#" onclick="google.appengine.samples.hello.signout();" id="signedInStatus">Sign Out</a>
-            </div>
-            <span id="userLabel">(not signed in)</span>
-        </div>-->
         <br>
         <div class="row">
         <form id="search_form" class="form-search" onsubmit="return false;">

@@ -32,7 +32,7 @@ google.appengine.samples.hello.CLIENT_ID =
  * @type {string}
  */
 google.appengine.samples.hello.SCOPES =
-    'https://www.googleapis.com/auth/userinfo.email ' +
+    // 'https://www.googleapis.com/auth/userinfo.email ' +
     'https://www.googleapis.com/auth/plus.login';
 
 /**
@@ -86,6 +86,7 @@ google.appengine.samples.hello.signinCallback = function(authResult) {
   var tokenEmail = google.appengine.samples.hello.getEmailFromIDToken(
       authResult.id_token);
   if (authResult.access_token && tokenEmail) {
+    console.log(tokenEmail);
     google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api',
                                    tokenEmail);
 
@@ -95,7 +96,6 @@ google.appengine.samples.hello.signinCallback = function(authResult) {
   } else {
     document.getElementById('signinButtonContainer').classList.add('visible');
     document.getElementById('signedInStatus').classList.remove('visible');
-
     if (!authResult.error) {
       console.log('Unexpected result');
       console.log(authResult);
@@ -126,12 +126,14 @@ window['google.appengine.samples.hello.render'] = google.appengine.samples.hello
 
 // Recommended code to load Google+ JS library.
 (function() {
-  var newScriptElement = document.createElement('script');
-  newScriptElement.type = 'text/javascript';
-  newScriptElement.async = true;
-  newScriptElement.src = 'https://apis.google.com/js/client:plusone.js' +
-                         '?onload=google.appengine.samples.hello.render';
-  var firstScriptElement = document.getElementsByTagName('script')[0];
-  firstScriptElement.parentNode.insertBefore(newScriptElement,
-                                             firstScriptElement);
+    // console.log("here!");
+    var newScriptElement = document.createElement('script');
+    newScriptElement.type = 'text/javascript';
+    newScriptElement.async = true;
+    newScriptElement.src = 'https://apis.google.com/js/client:plusone.js' +
+                           '?onload=google.appengine.samples.hello.render';
+    var firstScriptElement = document.getElementsByTagName('script')[0];
+    firstScriptElement.parentNode.insertBefore(newScriptElement,
+                                               firstScriptElement);
+ 
 })();

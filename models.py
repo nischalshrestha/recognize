@@ -11,6 +11,8 @@ class Image(ndb.Model):
 	image = ndb.BlobProperty()
 
 class Question(ndb.Model):
+	question_id = ndb.IntegerProperty()
+	album = ndb.StringProperty()
 	title = ndb.StringProperty()
 	fact = ndb.StringProperty()
 	effect = ndb.StringProperty()
@@ -19,6 +21,7 @@ class Question(ndb.Model):
 	date = ndb.DateTimeProperty(auto_now_add=True)
 
 class Album(ndb.Model):
+	album_id = ndb.IntegerProperty()
 	title = ndb.StringProperty()
 	category = ndb.StringProperty()
 	album_type = ndb.StringProperty()

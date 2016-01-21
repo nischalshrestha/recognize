@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Recognize: A Visual Recognition Game</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/base.css">
+        <link rel="stylesheet" href="/css/opensans.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style type="text/css">
+        .center {
+            margin: auto;
+            width: 60%;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="center" id="signinStatusContainer">
+            <!-- Need an extra container since G+ overrides CSS on the actual button -->
+            <div id="signinButtonContainer" class="visible">
+                <div id="signinButton"></div>
+            </div>
+            <a href="#" onclick="google.appengine.samples.hello.signout();" id="signedInStatus">Sign Out</a>
+            <span id="userLabel">(not signed in)</span>
+         </div>
+        <script type="text/javascript" src="js/base.js"></script>
+        <script src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/js/render.js"></script>
+        <script src="/js/base.js"></script>
+    </body>
+</html>
