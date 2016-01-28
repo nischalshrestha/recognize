@@ -43,7 +43,9 @@ class ImageRequest(messages.Message):
 
 # Image model which has a title, whether it is the correct answer or not, and the image
 class ImageMessage(messages.Message):
-  image_url = messages.BytesField(1)
+  title = messages.StringField(1)
+  correct = messages.BooleanField(2)
+  image_url = messages.BytesField(3)
 
 # Collection of ImageMessages (i.e. collection of image urls)
 class ImageCollection(messages.Message):
@@ -188,7 +190,7 @@ class Recognize(remote.Service):
         q_msg = QuestionMessage(title=q.title, fact=q.fact)
         q_images = q.images
         for image in q_images:
-          q_msg.images.append(ImageMessage(image_url=image.image))
+          q_msg.images.append(ImageMessage(title=image.title, correct=image.correct, image_url=image.image))
         a.questions.append(q_msg)
       items.append(a)
     return AlbumCollection(albums=items)

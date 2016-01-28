@@ -11,12 +11,11 @@ class Image(ndb.Model):
 	image = ndb.BlobProperty()
 
 class Question(ndb.Model):
-	question_id = ndb.IntegerProperty()
 	album = ndb.StringProperty()
 	title = ndb.StringProperty()
 	fact = ndb.StringProperty()
-	effect = ndb.StringProperty()
-	difficulty = ndb.StringProperty()
+	effect = ndb.StringProperty() # Optional for client
+	difficulty = ndb.StringProperty() # Optional for client
 	images = ndb.StructuredProperty(Image, repeated=True)
 	date = ndb.DateTimeProperty(auto_now_add=True)
 
