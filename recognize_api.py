@@ -165,17 +165,24 @@ class Recognize(remote.Service):
   #   return Greeting(message='hello %s' % (email,))
 
   # Return all created Album(s) on website
-  @endpoints.method(message_types.VoidMessage, AlbumCollection,
-                    path='recognize/albums', http_method='GET',
+  ALBUM_TYPE_RESOURCE = endpoints.ResourceContainer(
+    message_types.VoidMessage,
+    type=messages.StringField(1, required=True))
+  @endpoints.method(ALBUM_TYPE_RESOURCE, AlbumCollection,
+                    path='recognize/albums/{type}', http_method='GET',
                     name='albums.get')
-  def albums_list(self, unused_request):
+  def albums_list(self, request):
     current_user = endpoints.get_current_user()
+    album_type = request.type
     email = (current_user.email() if current_user is not None
            else 'Anonymous')
-    albums = Album.query().order(-Album.date)
+    albums = Album.query(Album.album_type == album_type).order(-Album.date)
     items = []
     for album in albums:
-      a = AlbumMessage(title=album.title, category=album.category, album_type=album.album_type, date=str(album.date.date()))
+      a = AlbumMessage(title=album.title, 
+                        category=album.category, 
+                        album_type=album.album_type, 
+                        date=str(album.date.date()))
       questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
       for q in questions:
         q_msg = QuestionMessage(title=q.title, fact=q.fact)

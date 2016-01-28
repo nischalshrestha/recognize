@@ -23,11 +23,11 @@ class Home(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('index.html')
 		self.response.write(template.render(template_values))
 
-class Auth(webapp2.RequestHandler):
-	def get(self):
-		template_values = {}
-		template = JINJA_ENVIRONMENT.get_template('auth.html')
-		self.response.write(template.render(template_values))
+# class Auth(webapp2.RequestHandler):
+# 	def get(self):
+# 		template_values = {}
+# 		template = JINJA_ENVIRONMENT.get_template('auth.html')
+# 		self.response.write(template.render(template_values))
 
 class Admin(webapp2.RequestHandler):
 	def get(self):
@@ -96,7 +96,7 @@ class Create(webapp2.RequestHandler):
 				album = Album(album_type=self.request.GET.get('type'))
 				album.album_id = album.put().id()
 				album.put()
-				self.response.write(str(album.album_id))
+				# self.response.write(str(album.album_id))
 			template_values = {
 				'album': album,
 				'album_type': album.album_type,
@@ -291,7 +291,7 @@ class Delete(webapp2.RequestHandler):
 			album_key.delete()
 
 app = webapp2.WSGIApplication([('/', Home),
-								('/auth', Auth),
+								# ('/auth', Auth),
 								('/admin', Admin),
 								('/match', Match),
 								('/correlate', Correlate),
