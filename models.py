@@ -11,7 +11,7 @@ class Image(ndb.Model):
 	image = ndb.BlobProperty()
 
 class Question(ndb.Model):
-	album = ndb.StringProperty()
+	question_id = ndb.IntegerProperty()
 	title = ndb.StringProperty()
 	fact = ndb.StringProperty()
 	effect = ndb.StringProperty() # Optional for client

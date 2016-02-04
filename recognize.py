@@ -17,6 +17,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+""" Displays Home page with necessary template values """
 class Home(webapp2.RequestHandler):
 	def get(self):
 		template_values = {}
@@ -29,12 +30,14 @@ class Home(webapp2.RequestHandler):
 # 		template = JINJA_ENVIRONMENT.get_template('auth.html')
 # 		self.response.write(template.render(template_values))
 
+""" Displays Admin page with necessary template values """
 class Admin(webapp2.RequestHandler):
 	def get(self):
 		template_values = {}
 		template = JINJA_ENVIRONMENT.get_template('admin.html')
 		self.response.write(template.render(template_values))
 
+""" Displays Match page with necessary template values """
 class Match(webapp2.RequestHandler):
 	def get(self):
 		if len(self.request.GET) and self.request.GET['cancel']:
@@ -49,6 +52,7 @@ class Match(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('match.html')
 		self.response.write(template.render(template_values))
 
+""" Displays Correlate page with necessary template values """
 class Correlate(webapp2.RequestHandler):
 	def get(self):
 		if len(self.request.GET) and self.request.GET['cancel']:
@@ -63,6 +67,7 @@ class Correlate(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('correlate.html')
 		self.response.write(template.render(template_values))
 
+""" Displays OMO page with necessary template values """
 class OddManOut(webapp2.RequestHandler):
 	def get(self):
 		if len(self.request.GET) and self.request.GET['cancel']:
@@ -77,6 +82,7 @@ class OddManOut(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('oddmanout.html')
 		self.response.write(template.render(template_values))
 
+""" Creates an album/question """
 class Create(webapp2.RequestHandler):
 	def get(self):
 		album = ""
@@ -120,6 +126,7 @@ class Create(webapp2.RequestHandler):
 			template = JINJA_ENVIRONMENT.get_template('question.html')
 			self.response.write(template.render(template_values))
 
+""" Modifies the album/question to edit """
 class Edit(webapp2.RequestHandler):
 	def get(self):	
 		urlstring = ""
@@ -160,6 +167,7 @@ class Edit(webapp2.RequestHandler):
 			template = JINJA_ENVIRONMENT.get_template('editquestion.html')
 			self.response.write(template.render(template_values))
 
+""" Used to display an image on the website """
 class ImageRequest(webapp2.RequestHandler):
 	def get(self):
 		question_url = self.request.GET['id']
@@ -172,6 +180,7 @@ class ImageRequest(webapp2.RequestHandler):
 		else:
 			self.error(404)
 
+""" Retrieves a Google image and displays it on the website """
 class GoogleImage(webapp2.RequestHandler):
 	def get(self):
 		# Grab Image object from datastore
@@ -184,6 +193,7 @@ class GoogleImage(webapp2.RequestHandler):
 		else:
 			self.error(404)
 
+""" Stores Questions and associated Images """
 class Store(webapp2.RequestHandler):
     def post(self):
 		# Grab album from url
@@ -248,6 +258,9 @@ class Store(webapp2.RequestHandler):
 				if answer == i:
 					img.title = "correct_answer_"+str(i)
 					img.correct = True
+				elif num_images == 5 and i == 0: # This is if the album is of type Correlate
+					img.title = "main_image_"+str(i)
+					img.correct = False
 				else:
 					img.title = "incorrect_answer_"+str(i)
 					img.correct = False
@@ -274,6 +287,7 @@ class Store(webapp2.RequestHandler):
 			template = JINJA_ENVIRONMENT.get_template('create.html')
 			self.response.write(template.render(template_values))
 
+""" Deletes the album or question from Datastore """
 class Delete(webapp2.RequestHandler):
 	def get(self):
 		# Delete the album/question by id

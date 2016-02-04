@@ -22,8 +22,10 @@ from models import Image
 import json
 # from apiclient.discovery import build
 
-WEB_CLIENT_ID = '141815902829-9brrjl3uhogcqhnl111uvm9u556op701.apps.googleusercontent.com'
-ANDROID_CLIENT_ID = '141815902829-g950g3rrmjef0v5op1ggj5aq9oauuoj2.apps.googleusercontent.com'
+WEB_CLIENT_ID = '1176089533-lbhj1m9vbukaqtn0p55lg35coaova4hc.apps.googleusercontent.com'
+ANDROID_CLIENT_ID_MATCH = '1176089533-5sr4tddkr5u73tooputmbo3fehjir6jf.apps.googleusercontent.com'
+ANDROID_CLIENT_ID_CORRELATE = '1176089533-6tn0ki7p4toaokh390qifd78d8uqmpkq.apps.googleusercontent.com'
+ANDROID_CLIENT_ID_OMO = '1176089533-3kdvj1438qmr38cvku8f9nl5f5uf6ct1.apps.googleusercontent.com'
 IOS_CLIENT_ID = 'replace this with your iOS client ID'
 ANDROID_AUDIENCE = WEB_CLIENT_ID
 
@@ -52,16 +54,18 @@ class ImageCollection(messages.Message):
   items = messages.MessageField(ImageMessage, 1, repeated=True)
 
 class QuestionMessage(messages.Message):
-  title = messages.StringField(1)
-  fact = messages.StringField(2)
-  images = messages.MessageField(ImageMessage, 3, repeated=True)
+  question_id = messages.IntegerField(1)
+  title = messages.StringField(2)
+  fact = messages.StringField(3)
+  images = messages.MessageField(ImageMessage, 4, repeated=True)
 
 class AlbumMessage(messages.Message):
-  title = messages.StringField(1)
-  category = messages.StringField(2)
-  album_type = messages.StringField(3)
-  date = messages.StringField(4)
-  questions = messages.MessageField(QuestionMessage, 5, repeated=True)
+  album_id = messages.IntegerField(1)
+  title = messages.StringField(2)
+  category = messages.StringField(3)
+  album_type = messages.StringField(4)
+  date = messages.StringField(5)
+  questions = messages.MessageField(QuestionMessage, 6, repeated=True)
 
 class AlbumCollection(messages.Message):
   albums = messages.MessageField(AlbumMessage, 1, repeated=True)
@@ -114,7 +118,10 @@ STORED_GREETINGS = GreetingCollection(items=[
 
 """Recognize API v1."""
 @endpoints.api(name='recognize', version='v1',
-               allowed_client_ids=[WEB_CLIENT_ID, ANDROID_CLIENT_ID,
+               allowed_client_ids=[WEB_CLIENT_ID, 
+                                   ANDROID_CLIENT_ID_MATCH, 
+                                   ANDROID_CLIENT_ID_CORRELATE,
+                                   ANDROID_CLIENT_ID_OMO,
                                    IOS_CLIENT_ID, endpoints.API_EXPLORER_CLIENT_ID],
                audiences=[ANDROID_AUDIENCE],
                scopes=[endpoints.EMAIL_SCOPE])
@@ -181,13 +188,14 @@ class Recognize(remote.Service):
     albums = Album.query(Album.album_type == album_type).order(-Album.date)
     items = []
     for album in albums:
-      a = AlbumMessage(title=album.title, 
+      a = AlbumMessage(album_id=album.album_id,
+                        title=album.title, 
                         category=album.category, 
                         album_type=album.album_type, 
                         date=str(album.date.date()))
       questions = Question.query(ancestor=album.key).order(-Question.date).fetch()
       for q in questions:
-        q_msg = QuestionMessage(title=q.title, fact=q.fact)
+        q_msg = QuestionMessage(question_id=q.question_id, title=q.title, fact=q.fact)
         q_images = q.images
         for image in q_images:
           q_msg.images.append(ImageMessage(title=image.title, correct=image.correct, image_url=image.image))
