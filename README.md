@@ -11,3 +11,7 @@ The purpose of the web app is to manage and curate content in the easiest way po
 - Google Account (For project creation and restricted methods in backend)
 - DataTable: https://datatables.net
 - Bootstrap: http://getbootstrap.com
+
+## Website
+
+https://recognize-1210.appspot.com (managed by thevxlab@gmail.com account)
