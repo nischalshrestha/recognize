@@ -15,64 +15,13 @@ google.appengine.samples = google.appengine.samples || {};
 
 /** hello namespace for this sample. */
 google.appengine.samples.hello = google.appengine.samples.hello || {};
-/**
- * Client ID of the application (from the APIs Console).
- * @type {string}
- */
-// google.appengine.samples.hello.CLIENT_ID =
-    // '141815902829-9brrjl3uhogcqhnl111uvm9u556op701.apps.googleusercontent.com';
 
-/**
- * Scopes used by the application.
- * @type {string}
- */
-// google.appengine.samples.hello.SCOPES =
-//     'https://www.googleapis.com/auth/userinfo.email ' +
-//     'https://www.googleapis.com/auth/plus.login';
 /**
  * Whether or not the user is signed in.
  * @type {boolean}
  */
 google.appengine.samples.hello.signedIn = false;
 
-var auth2;
-
-// /**
-//  * Loads the application UI after the user has completed auth.
-//  */
-// google.appengine.samples.hello.userAuthed = function() {
-//   var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
-//     if (!resp.code) {
-//       console.log("Here in userAuthed!");
-//       // google.appengine.samples.hello.signedIn = true;
-//       // document.querySelector('#signinButton').textContent = 'Sign out';
-//       // document.querySelector('#authedGreeting').disabled = false;
-//     }
-//   });
-// };
-/**
- * Handles the auth flow, with the given value for immediate mode.
- * @param {boolean} mode Whether or not to use immediate mode.
- * @param {Function} callback Callback to call on completion.
- */
-// google.appengine.samples.hello.signin = function(mode, callback) {
-//   gapi.auth.authorize({client_id: google.appengine.samples.hello.CLIENT_ID,
-//       scope: google.appengine.samples.hello.SCOPES, immediate: mode},
-//       callback);
-// };
-/**
- * Presents the user with the authorization popup.
- */
-// google.appengine.samples.hello.auth = function() {
-//   if (!google.appengine.samples.hello.signedIn) {
-//     google.appengine.samples.hello.signin(false,
-//         google.appengine.samples.hello.userAuthed);
-//   } else {
-//     google.appengine.samples.hello.signedIn = false;
-//     document.querySelector('#signinButton').textContent = 'Sign in';
-//     document.querySelector('#authedGreeting').disabled = true;
-//   }
-// };
 
 /**
  * Signs the user out.
@@ -123,21 +72,6 @@ google.appengine.samples.hello.getImages = function(id) {
         }
       });
 };
-
-// /**
-//  * Gets a numbered greeting via the API.
-//  * @param {string} id ID of the greeting.
-//  */
-// google.appengine.samples.hello.nextImageSet = function(image) {
-//   gapi.client.recognize.greetings.uploadImages({'image': image}).execute(
-//       function(resp) {
-//         if (!resp.code) {
-//           google.appengine.samples.hello.print(image);
-//           // google.appengine.samples.hello.showImage(resp.image_url, 250, 250, "Test Image");
-//           // console.log("Inside getGreeting in base.js!");
-//         }
-//       });
-// };
 
 /**
  * Lists greetings via the API.
@@ -223,6 +157,8 @@ google.appengine.samples.hello.enableButtons = function() {
     google.appengine.samples.hello.getAlbums();
   });
 
+  // Tutorial stuff below
+
   // var getImage = document.querySelector('#upload_image');
   // getImage.addEventListener('click', function(e){
   //   google.appengine.samples.hello.uploadImage(
@@ -254,8 +190,12 @@ google.appengine.samples.hello.enableButtons = function() {
  * @param {string} apiRoot Root of the API's path.
  */
 google.appengine.samples.hello.init = function(apiRoot, tokenEmail) {
+
   // Loads the OAuth and helloworld APIs asynchronously, and triggers login
   // when they have completed.
+
+  // Tutorial code
+
   // var apisToLoad;
   // var callback = function() {
   //   if (--apisToLoad == 0) {
@@ -265,14 +205,13 @@ google.appengine.samples.hello.init = function(apiRoot, tokenEmail) {
       //     google.appengine.samples.hello.userAuthed);
   //   }
   // }
+
   var callback = function() {
-    // if (--apisToLoad == 0) {
       google.appengine.samples.hello.enableButtons();
       google.appengine.samples.hello.signedIn = true;
       if(tokenEmail != ""){
         document.getElementById('userLabel').innerHTML = tokenEmail;
       }
-    // }
   }
 
   // apisToLoad = 2; // must match number of calls to gapi.client.load()

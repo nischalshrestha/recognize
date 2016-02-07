@@ -70,13 +70,26 @@ class AlbumMessage(messages.Message):
 class AlbumCollection(messages.Message):
   albums = messages.MessageField(AlbumMessage, 1, repeated=True)
 
-# Performs a google image search given the search expression
+""" 
+Performs a google image search given the search expression and returns 
+a collection of images. 
+
+Note: This is a experimental function written to experiment with the
+possibility of using Google Search Engine (GSE) to generate content
+in an automated fashion.
+
+Future work may include: 
+
+- Figure out how to traverse the next set of results, if possible.
+- Add in a way to have users crop images
+- Perhaps, add more on the front-end (see: admin.html)
+"""
 def query_image(exp):
   # Build a service object for interacting with the API. Visit
   # the Google APIs Console <http://code.google.com/apis/console>
   # to get an API key for your own application.
   service = build("customsearch", "v1",
-            developerKey="AIzaSyAN3l_irEsAG2kT3isRzL8R-baMkOcZgZs")
+            developerKey="AIzaSyCDlCGXWMJa4JPsbT1r0gJQPbCMo-RpwE4")
   # https://developers.google.com/custom-search/json-api/v1/reference/cse/list
   res = service.cse().list(
         q=exp,
@@ -126,6 +139,8 @@ STORED_GREETINGS = GreetingCollection(items=[
                audiences=[ANDROID_AUDIENCE],
                scopes=[endpoints.EMAIL_SCOPE])
 class Recognize(remote.Service):
+
+  # Tutorial stuff to understand how to write endpoints methods
   
   # Return all Greetings
   # @endpoints.method(message_types.VoidMessage, GreetingCollection,

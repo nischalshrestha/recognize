@@ -25,14 +25,14 @@ google.appengine.samples.hello = google.appengine.samples.hello || {};
  * @type {string}
  */
 google.appengine.samples.hello.CLIENT_ID =
-    '141815902829-9brrjl3uhogcqhnl111uvm9u556op701.apps.googleusercontent.com';
+    '1176089533-lbhj1m9vbukaqtn0p55lg35coaova4hc.apps.googleusercontent.com';
 
 /**
  * Scopes used by the application.
  * @type {string}
  */
 google.appengine.samples.hello.SCOPES =
-    // 'https://www.googleapis.com/auth/userinfo.email ' +
+    'https://www.googleapis.com/auth/userinfo.email ' +
     'https://www.googleapis.com/auth/plus.login';
 
 /**
